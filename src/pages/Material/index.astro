@@ -1,0 +1,64 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.tsx';
+import Footer from '../../components/Footer.tsx';
+import ContentDisplay from '../../components/ContentDisplay.tsx';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import Banner from '../../components/banner.astro';
+import ContentItem from '../../types/ContentItem';
+import { readdirSync } from "fs";
+
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const subpath = pathname.match(/[^\/]+/g);
+
+// Server-side function to get content items
+async function getItemsFromFile(): Promise<Array<ContentItem>> {
+    const items: Array<ContentItem> = [];
+    const folder = "./public/images/sharepics";
+    const topicDirs = readdirSync(folder, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+    for (const topic of topicDirs) {
+		console.log(topic);
+        const topicPath = folder + "/" + topic;
+        const files = readdirSync(topicPath);
+        for (const file of files) {
+            if (file.endsWith(".png")) {
+                const verified = file.includes(".OFFIZIELL");
+                items.push(
+                    new ContentItem(
+                        [topic], // Topic name
+                        file.replace(".png", ""), // File name without extension
+                        "image", // Type
+                        verified, // Some property, likely visibility
+                        "/images/sharepics/"+ topic + "/" + file, // Path to the image
+                    ))}
+            }
+        }
+
+
+    return items;
+}
+
+// Get the content items during build/server-side render
+
+const contentItems = await getItemsFromFile();
+
+---
+
+
+
+<doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body >
+        <Header client:load pathname={pathname} subpath={subpath} />
+		<main class="bg-gray-100">
+			<Banner />
+			<ContentDisplay client:load contentItems={contentItems}/>
+			<Footer />
+		</main>
+	</body>
+</html>

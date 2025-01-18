@@ -1,0 +1,15 @@
+[
+    {"topics": ["wirtschaft"], "title": "Sharepic", "content": "/images/sharepics/DDL_Brücken_Bauen.png", "type": "image", "verified": true},
+    {"topics": ["gesundheit"], "title": "Sharepic", "content": "/images/sharepics/DDL_Gesundheit_1.png", "type": "image", "verified": true},
+    {"topics": ["gesundheit"], "title": "Sharepic", "content": "/images/sharepics/DDL_Gesundheit_2.png", "type": "image", "verified": true},
+    {"topics": ["lebensmittel"], "title": "Sharepic", "content": "/images/sharepics/DDL_Lebensmittel_1.png", "type": "image", "verified": true},
+    {"topics": ["frieden"], "title": "Sharepic", "content": "/images/sharepics/DDL_Frieden_1.png", "type": "image", "verified": true},
+    {"topics": ["sonstige"], "title": "Sharepic", "content": "/images/sharepics/DDL_Sonstiges_1.png", "type": "image", "verified": true},
+    {"topics": ["sonstige"], "title": "Sharepic", "content": "/images/sharepics/DDL_Sonstiges_2.png", "type": "image", "verified": true},
+    {"topics": ["miete"], "title": "Sharepic", "content": "/images/sharepics/DDL_Miete_1.png", "type": "image", "verified": true},
+    {"topics": ["rente"], "title": "Sharepic", "content": "/images/sharepics/DDL_Rente_1.png", "type": "image", "verified": true},
+    {"topics": ["familie"], "title": "Sharepic", "content": "/images/sharepics/DDL_Familie_1.png", "type": "image", "verified": true},
+    {"topics": ["sozial"], "title": "Sharepic", "content": "/images/sharepics/DDL_Sozial_1.png", "type": "image", "verified": true},
+    {"topics": ["sozial"], "title": "Sharepic", "content": "/images/sharepics/DDL_Sozial_2.png", "type": "image", "verified": true}
+]
+

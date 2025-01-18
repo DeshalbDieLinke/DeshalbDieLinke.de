@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import banner from '../Images/banner.jpg';
+---
+<div class="banner w-full flex flex-wrap xl:flex-nowrap" >
+    <div class="banner ">
+        <Image src={banner} alt="Banner"  />
+        <div class="absolute quelle text-sm text-black font-light float-end">
+            Bildquelle: Olaf Krostitz
+        </div>
+     
+    </div>
+    <div class="intro bg-primary p-10">
+        <h5  class="text-3xl ">
+            Willkommen auf der Kampagnen-Seite <a class="no-underline text-white" href="https://x.com/search?q=%23deshalbdielinke"><strong>#DeshalbDieLinke</strong></a>.
+        </h5> 
+        <p>Organisiert durch ehrenamtliche Basis-Mitglieder. Hier findet ihr eine breite Auswahl zu verschiedenen Themen, die begr&uuml;nden, weshalb man inmitten dieser politischen Krise im Land Die Linke w&auml;hlen sollte.  Ab jetzt hei&szlig;t es, &uuml;berall zu verschiedensten Themen mit dem Hashtag #DeshalbDieLinke Werbung f&uuml;r eine starke linke Partei zu machen.</p> 
+        <p> Am 23. Februar: <strong>#DeshalbDieLinke</strong></p>
+        <a download href="/public/images/logos/Logos_DDL.zip" class="btn my-4">Logos herunterladen</a>
+      
+    </div>
+</div>
+
+<style>
+.banner {
+    height: 100%;
+    z-index: 0;
+    flex: 1 1 100%;
+    overflow: hidden;
+}
+.into {
+    flex: 1 1 100%;
+    background-color: #FF0000;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+img {
+    top: 0;
+    border-radius: 0;
+    min-height: 25rem;
+    aspect-ratio: 4/3;
+    z-index: 0;
+    object-fit: cover;
+}
+p {
+    color: white;
+    font-family: inter;
+    font-size: 1rem;
+}
+h5 {
+    margin-bottom: 1.5rem;
+    width: 100%;
+    color: white;
+    font-family: work sans;
+    
+}
+
+</style>

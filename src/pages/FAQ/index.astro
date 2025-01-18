@@ -1,0 +1,31 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.tsx';
+import Footer from '../../components/Footer.tsx';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import QuestionAndAnswer from '../../components/QuestionAndAnswer';
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const subpath = pathname.match(/[^\/]+/g);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+        <Header client:load pathname={pathname} subpath={subpath} />
+		<main class="w-full h-full text-center p-10 font-bold text-2xl">
+            <p>Diese Seite ist noch im Aufbau. Sendet uns Gr&uuml;nde Die Linke zuw&auml;hlen!</p>
+			<p>Sendet uns gern was zu.Ideen, Anregungen, Fragen an eric.stehr@dielinke-lsa.de</p>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h5 {
+		font-family: ;
+	}
+</style>
+
