@@ -53,12 +53,13 @@ const contentItems = await getItemsFromFile();
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body >
+	<body class="min-h-screen flex flex-col">
         <Header client:load pathname={pathname} subpath={subpath} />
 		<main class="bg-gray-100">
 			<Banner />
 			<ContentDisplay client:load contentItems={contentItems}/>
-			<Footer />
+		
 		</main>
+        <Footer />
 	</body>
 </html>
