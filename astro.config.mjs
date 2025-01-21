@@ -10,7 +10,11 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
     site: 'https://deshalbdielinke.de',
-    integrations: [mdx(), sitemap(), tailwind(), react()],
+    integrations: [mdx(), sitemap(), react(),
+        tailwind({
+            applyBaseStyles: false,
+        }),
+    ],
     vite: {
         ssr: {
             external: ['prismjs', 'image-size', 'tiny-glob', 'require'],
