@@ -1,8 +1,8 @@
 export default function Card(props: {title: string, description: string, image: string, tag? : string,  action?: string, link: string}) {
     return <>
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-base-100 w-96 shadow-xl m-4">
             <figure>
-            <img
+            <img className="object-cover"
                 src={props.image}
                 alt="" />
             </figure>
@@ -14,7 +14,7 @@ export default function Card(props: {title: string, description: string, image: 
             </h2>
             <p>{props.description}</p>
             <div className="card-actions justify-end">
-             {(props.action != null && props.link != null) && <a href={props.link} className="btn btn-primary">{props.action}</a> }
+            {(props.action != null && props.link != null) && <a href={props.link} className="btn btn-primary">{props.action}</a> }
     
             </div>
             </div>

@@ -25,7 +25,6 @@ export default function MieteChart () {
         renderer={'canvas'}
         animation={true}
         animationDuration={2500}
-        onClick={() => console.log('clicked!')}
         style={{
             height: '600px',
             width: '100%'
@@ -57,7 +56,7 @@ export default function MieteChart () {
         }}
         series={[
             {
-                smooth: true,
+            smooth: true,
             name:'Ohne Mietendeckel',
             type: 'line',
             data: [

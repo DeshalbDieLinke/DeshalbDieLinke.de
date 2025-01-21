@@ -8,11 +8,12 @@ export default function WeilSteuern() {
         <h1 className="text-center text-3xl xl:text-6xl p-5  text-white font-black " >Reichtum gerecht verteilen</h1>
 
         </div>
-        <div className=" ">
+        <div className="font-light sm:p-8 p-2 ">
+            <p> Steuerentlastung im Vergleich zum Bruttoeinkommen.</p>
             <SteuernChart />
 
         </div>
-        <p className="font-light text-sm"> Quelle: <a href="https://www.zew.de/fileadmin/FTP/ZEWKurzexpertisen/ZEW_Kurzexpertise2105.pdf">ZEW</a> über <a href="https://de.statista.com/statistik/daten/studie/1256030/umfrage/veraenderung-des-einkommens-durch-die-wahlprogramme/"> Statista</a></p>
+        <p className="font-light text-sm"> Quelle (2021): <a href="https://www.zew.de/fileadmin/FTP/ZEWKurzexpertisen/ZEW_Kurzexpertise2105.pdf">ZEW</a> über <a href="https://de.statista.com/statistik/daten/studie/1256030/umfrage/veraenderung-des-einkommens-durch-die-wahlprogramme/"> Statista</a></p>
 
     </div>
     </>

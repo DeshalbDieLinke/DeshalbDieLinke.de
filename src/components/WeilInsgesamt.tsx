@@ -6,7 +6,7 @@ export default function WeilInsgesamt() {
             <div className="flex items-center  h-full  flex-row justify-around flex-wrap">
                 <Card title="Die Linke" description="Webseite von der Bundespartei Die Linke" image="/images/logos/Logo_Linke.png" action="Besuchen" tag="Offiziell" link="https://www.die-linke.de"/>
                 <Card title="Material" description="Material von uns und der Partei zum Download" link="/Material" tag="Downloads" action="Besuchen" image="/images/sharepics/Klassenkampf/Klassenkampf.png"/>
-
+                <Card title="Wahlprogramm" description="Das Kurzwahlprogramm der Partei Die Linke" link="/Wahlprogramm.pdf" tag="Programm" action="Herunterladen" image="/images/logos/Logo_Linke.png"/>
             <Footer />
             </div>
         </div>

@@ -1,8 +1,13 @@
-export default function TeamCard(props: {title: string, position?: string, description: string, image?: string, tag? : string,  website?: string, insta?: string, x?: string, tiktok?: string, facebook?: string, bluesky?: string, email?: string}) {
+interface TeamCardProps {
+title: string, position?: string, description: string, image?: string, tag? : string,  website?: string, insta?: string, x?: string, tiktok?: string, facebook?: string, bluesky?: string, email?: string, fotosource?: string
+}
+
+export default function TeamCard(props: TeamCardProps) {
     return <>
         <div className="card bg-base-100 w-96 shadow-xl m-4">
             <figure>
             {(props.image != null) && <img src={props.image}/>}
+            {(props.fotosource != null)&&<p className="absolute right-1 text-white text-[0.5rem] top-[1%]">{props.fotosource}</p>}
             </figure> 
             <div className="card-body">
                 <h2 className="card-title">

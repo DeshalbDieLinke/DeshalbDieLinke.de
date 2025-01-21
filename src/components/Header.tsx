@@ -48,6 +48,25 @@ export default function Header(props: { pathname: string; subpath: any }) {
     }*/
 	`;
 
+  let links = <><HeaderLink
+  pathname={props.pathname}
+  subpath={props.subpath}
+  href="/"
+  title="Home"
+></HeaderLink>
+<HeaderLink
+  pathname={props.pathname}
+  subpath={props.subpath}
+  href="/FAQ"
+  title="FAQ"
+></HeaderLink>
+<HeaderLink
+  pathname={props.pathname}
+  subpath={props.subpath}
+  href="/Material"
+  title="Material"
+></HeaderLink></>;
+
   return (
     <>
       <style>{css}</style>
@@ -58,54 +77,25 @@ export default function Header(props: { pathname: string; subpath: any }) {
                   <img className="scale-150 md:fixed absolute h-[2.8rem] top-10 left-10 rounded-none" src="/images/logos/DDL-Logo.svg" alt="Logo" />
               </a>
           </div>
+          
           <div className="internal-links lg:block p-[1.1rem] hidden">
-            <HeaderLink
-              pathname={props.pathname}
-              subpath={props.subpath}
-              href="/"
-              title="Home"
-            ></HeaderLink>
-            <HeaderLink
-              pathname={props.pathname}
-              subpath={props.subpath}
-              href="/FAQ"
-              title="FAQ"
-            ></HeaderLink>
-            <HeaderLink
-              pathname={props.pathname}
-              subpath={props.subpath}
-              href="/Material"
-              title="Material"
-            ></HeaderLink>
+          {links} 
           </div>
+
+          {/* Open Burger Links */}
           {burgerState && (
-            <div className="internal-links absolute left-[20%] ">
-              <ul className="menu bg-base-200 rounded-box w-56">
-                <HeaderLink
-                  pathname={props.pathname}
-                  subpath={props.subpath}
-                  href="/"
-                  title="Home"
-                ></HeaderLink>
-                <HeaderLink
-                  pathname={props.pathname}
-                  subpath={props.subpath}
-                  href="/FAQ"
-                  title="FAQ"
-                ></HeaderLink>
-                <HeaderLink
-                  pathname={props.pathname}
-                  subpath={props.subpath}
-                  href="/Material"
-                  title="Material"
-                ></HeaderLink>
+            <div className="absolute right-[0] top-[10%] ">
+              <ul className="bg-grey-background rounded w-56 flex flex-col [&>*]:py-1 ">
+                {links}
               </ul>
             </div>
-          )}
-          <div className="social-links block lg:hidden">
+          ) } {burgerState && (<div className="w-screen h-screen lg:hidden" onClick={()=> {
+            setBurgerState(false);
+          }}></div>)}
+          <div className="social-links top-0 right-0 absolute lg:hidden">
             <button onClick={() => setBurgerState(!burgerState)}>
               <svg
-                className="w-16"
+                className="w-10 m-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

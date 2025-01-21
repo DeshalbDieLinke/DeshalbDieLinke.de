@@ -7,20 +7,23 @@ export default function MieteChart () {
     var timeLineIndex = 0;
     let timeline: echart.TimelineComponentOption = {
             show: true,
+            
             axisType: 'value',
-            playInterval: 2000,
+            playInterval: 2100,
             autoPlay: true,
-            data: [20000 ,40000, 60000, 120000, 300000],
-            orient: 'horizontal',
+            data: [20 ,40, 60, 120, 300],
+            orient: 'vertical',
             currentIndex: timeLineIndex,
-            left: "5%",
-            right: "5%",
+            top: 10,
+            bottom: 10,
+            left: -1,
             
             label: {
                 formatter: function (value, index) {
-                  return `${value}€`;
+                  return `${value}k`;
                 },
-                position: 'bottom',
+                rotate: 45,
+                position: 10,
                 fontFamily: 'inter',
                 fontWeight: 'normal',
                 fontSize: 12,
@@ -31,6 +34,7 @@ export default function MieteChart () {
   return (
     <div id="SteuerChart" className="w-full md:h-full bg-white">
       <EChart
+        
         timeline={timeline}
         renderer={"canvas"}
         style={{
@@ -39,11 +43,23 @@ export default function MieteChart () {
         }}
         xAxis={{
           type: "category",
+          axisLabel: {
+            show: false,
+            hideOverlap: false,
+            formatter: "{value}",
+            inside: true,
+            rotate: 90,
+            margin: 3,
+            interval: 0,
+            fontFamily: 'inter',
+            verticalAlign: 'top',
+          },
         }}
         yAxis={{
+          
           type: "value",
           name: "Entlastung in Euro",
-          position: "left",
+          position: "right",
           axisLabel: {
             formatter: "{value}€",
           },
@@ -79,6 +95,15 @@ export default function MieteChart () {
                   {value:["SPD", 3200], itemStyle: {color: colors[4]}},
                   {value:["AfD", 0], itemStyle: {color: colors[5]}},
                 ],
+                label: {
+                  show: true,
+                  formatter: "{b}",
+                  rotate: 90,
+                  fontFamily: 'inter',
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  position: 'inside',
+                }
               },
             ],
           },
@@ -103,6 +128,15 @@ export default function MieteChart () {
                   color: "#000000",
                 },
                 colorBy: "series",
+                label: {
+                  show: true,
+                  formatter: "{b}",
+                  rotate: 90,
+                  fontFamily: 'inter',
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  position: 'inside',
+                }
               },
             ],
           },
@@ -127,6 +161,15 @@ export default function MieteChart () {
                   color: "#000000",
                 },
                 colorBy: "series",
+                label: {
+                  show: true,
+                  formatter: "{b}",
+                  rotate: 90,
+                  fontFamily: 'inter',
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  position: 'inside',
+                }
               },
             ],
           },
@@ -150,7 +193,17 @@ export default function MieteChart () {
                 itemStyle: {
                   color: "#000000",
                 },
+                
                 colorBy: "series",
+                label: {
+                  show: true,
+                  formatter: "{b}",
+                  rotate: 90,
+                  fontFamily: 'inter',
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  position: 'inside',
+                }
               },
             ],
           },
@@ -171,7 +224,17 @@ export default function MieteChart () {
                     {value:["SPD", -12840],itemStyle: {color: colors[4]}},
                     {value:["AfD", 42620],itemStyle: {color: colors[5]}},
                 ],
+                label: {
+                  show: true,
+                  formatter: "{b}",
+                  rotate: 90,
+                  fontFamily: 'inter',
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  position: 'inside',
+                }
               },
+              
             ],
           },
         ]}
