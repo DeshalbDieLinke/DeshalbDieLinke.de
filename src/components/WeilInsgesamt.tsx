@@ -19,8 +19,8 @@ export default function WeilInsgesamt() {
                         <Card title="Material" description="Material von uns und der Partei zum Download" link="/Material" tag="Downloads" action="Besuchen" image="/images/sharepics/Klassenkampf/Klassenkampf.png"/>
                         <Card title="Wahlprogramm" description="Das Kurzwahlprogramm der Partei Die Linke" link="/Wahlprogramm.pdf" tag="Programm" action="Herunterladen" image="/images/logos/Logo_Linke.png"/>
                     </CarouselItem>
-                        <CarouselItem className=" h-full" key={1}>
-
+                        <CarouselItem className=" h-full flex justify-center items-center" key={1}>
+                            <p>Hier kommt bald mehr. Versprochen :)</p>
                         </CarouselItem>
                     </CarouselContent>
                     <CarouselNext />
