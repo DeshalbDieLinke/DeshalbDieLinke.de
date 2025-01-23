@@ -4,7 +4,7 @@ import { useState } from "react"
 export default function Profile() {
     var [email, setEmail] = useState("")
     var [loggedIn, setLoggedIn] = useState(false)
-    fetch("http://localhost:8080/auth/check", {
+    fetch("https://api.deshalbdielinke.de/auth/check", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

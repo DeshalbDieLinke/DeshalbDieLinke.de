@@ -13,7 +13,7 @@ export default function Login() {
         var email = formdata.get("email")
         var password = formdata.get("password")
 
-        fetch("http://localhost:8080/login", {
+        fetch("https://api.deshalbdielinke.de/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
