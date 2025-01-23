@@ -65,6 +65,12 @@ export default function Header(props: { pathname: string; subpath: any }) {
   subpath={props.subpath}
   href="/Material"
   title="Material"
+></HeaderLink>
+<HeaderLink
+  pathname={props.pathname}
+  subpath={props.subpath}
+  href="/profile"
+  title="Profil"
 ></HeaderLink></>;
 
   return (
