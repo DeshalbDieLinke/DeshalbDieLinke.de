@@ -14,7 +14,7 @@ export default function Login() {
         var password = formdata.get("password")
         var token = formdata.get("token")
 
-        fetch("https://api.deshalbdielinke.de/register", {
+        fetch("http://localhost:8080/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -25,7 +25,7 @@ export default function Login() {
                 token: token
             })
         }).then(res => {
-            if (res.status === 200) {
+            if (res.ok) {
                 res.json().then(json => {
                     window.localStorage.setItem("token", json.token)
                     window.location.href = "/"

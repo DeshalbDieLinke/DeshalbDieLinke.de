@@ -2,6 +2,12 @@ import React from "react"
 import AltertDiv from "./AltertDiv"
 
 export default function Login() {
+    const queryParams = new URLSearchParams(window.location.search)
+
+    const redirectLocation = queryParams.get("redirect")
+
+    console.log(redirectLocation)
+
     const [error, setError] = React.useState("")
     const [showAlert, setShowAlert] = React.useState(false)
 
@@ -13,7 +19,7 @@ export default function Login() {
         var email = formdata.get("email")
         var password = formdata.get("password")
 
-        fetch("https://api.deshalbdielinke.de/login", {
+        fetch("http://localhost:8080/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +38,7 @@ export default function Login() {
                     if (json.token !== undefined) {
                     window.localStorage.setItem("token", json.token) }
 
-                    window.location.href = "/profile"
+                    window.location.href = "/" + (redirectLocation || "profile")
                 })
             } else {
                 setError("Login failed")
