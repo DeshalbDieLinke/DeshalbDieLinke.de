@@ -1,4 +1,6 @@
 import React from "react"
+import Topics from "./Topics";
+import { API_DOMAIN } from "config";
 
 export default function Upload() { 
     const [error, setError] = React.useState("")
@@ -6,14 +8,15 @@ export default function Upload() {
     const [preview, setPreview] = React.useState<string | null>(null);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false)
     const [accessLevel, setAccessLevel] = React.useState(3)
-    
+    const [selectedTops, setSelectedTops] = React.useState<string[]>([])
+
     // Check if user is logged in
-    fetch("http://localhost:8080/auth/check", {
+    fetch("http://127.0.01:8080/auth/check", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": window.localStorage.getItem("token") || ""
-        }
+        },
+        credentials: "include"
     }).then(res => {
         if (res.status === 401) {
             setIsLoggedIn(false)
@@ -27,7 +30,15 @@ export default function Upload() {
 
     function onFileAdded(e: any) { 
         const file = e.target.files?.[0]; // Access the first file (if any)
+        
         if (file) {
+            if (file.size > 1024 * 1024 * 10) {
+                //TODO add proper error handling for large files
+                e.target.value = ""; // Clear the input
+                setPreview(null); // Clear the preview
+                console.error("File is too large. Maximum size is 10MB.");
+                return;
+            }
             console.log("Selected File:", file); // Debug: Ensure file exists
             if (file.type.startsWith("image/")) {
                 const previewURL = URL.createObjectURL(file);
@@ -43,12 +54,10 @@ export default function Upload() {
         e.preventDefault()
         const form = e.target
         const formdata = new FormData(form)
-
-        fetch("http://localhost:8080/auth/upload", {
+        formdata.append("topics", JSON.stringify(selectedTops))
+        fetch( API_DOMAIN + "/auth/upload", {
             method: "POST",
-            headers: { 
-                "Authorization": window.localStorage.getItem("token") || ""
-            },
+            credentials: "include",
             body: formdata
         }).then(res => {
             if (res.ok) {
@@ -87,12 +96,13 @@ export default function Upload() {
                 <input required className="p-2 w-[20rem]"  type="text" name="title" id="title" placeholder="title" />
                 <input className="p-2 h-[6rem] w-[20rem]" type="text" name="description" id="description" placeholder="description" />
                 <div className="w-[20rem] flex justify-between">
-                    <input required  className="w-full mr-4 ml-0" type="text" name="topics" id="topics" placeholder="topics ',' seperated" />
+                    <Topics SelectedTopicsCallback={setSelectedTops} />
                     {isLoggedIn && accessLevel == 0 &&<div className="flex flex-col items-center w-8">
                         <label className="text-[0.7rem]" htmlFor="official">Official</label>
                         <input  name="official" id="official" type="checkbox" />
                     </div>}
                 </div>
+                
 
                 <input className="btn" type="submit" value="Upload" />
             </form> }

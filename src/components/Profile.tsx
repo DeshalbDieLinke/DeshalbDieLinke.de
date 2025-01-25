@@ -1,26 +1,24 @@
-import { useState } from "react"
+import {type ContentItem} from "@/types/ContentItem"
+import type { User } from "@/types/User"
+import { API_DOMAIN } from "config"
+import React, { useState } from "react"
+import NewContentDisplay from "./NewContentDisplay"
 
 
 export default function Profile() {
-    var [email, setEmail] = useState("")
+    var [profileOwner, setProfileOwner] = useState<User | null>(null)
     var [loggedIn, setLoggedIn] = useState(false)
-    fetch("http://localhost:8080/auth/check", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": window.localStorage.getItem("token") || ""
+    var [contentItems, setContentItems] = useState<ContentItem[]>([])
+
+    React.useEffect(() => {
+        var queryParams = window.location.search
+        var userID = parseInt(queryParams.split("id=")[1])
+        if (userID) {
+            //TODO check if the profile exists and get its data
+            GetAuthorOwnedItems(setContentItems, userID)
+            setProfileOwner({ID: userID})
         }
-    }).then(res => {
-        if (res.status === 401) {
-            setEmail("")
-        } else if (res.status === 200) {
-            setLoggedIn(true)
-            res.json().then(json => {
-                setEmail(json.email)
-            })
-        }
-    })
-    
+    }, [])
     function LogOut() {
         window.localStorage.removeItem("token")
         window.location.href = "/"
@@ -28,10 +26,44 @@ export default function Profile() {
 
     return <>
         <div className="flex flex-col items-center justify-center h-screen">
-            {loggedIn ? <h1>Profile: {email}</h1> : <h1>Not logged in. <a href="/login"> login</a></h1>}
-            <p className="text-lg">Welcome to your profile page</p>
-            <a onClick={LogOut}>Logout</a>
-            <a href="/upload">Upload new Content</a>
+            <div>
+                <h1>Profile: {profileOwner ? profileOwner.ID : "Noone"}</h1> 
+                <p className="text-lg">Welcome to your profile page</p>
+                <a onClick={LogOut}>Logout</a>
+                <a href="/upload">Upload new Content</a>
+            </div>
+            <NewContentDisplay contentItems={contentItems} />
         </div>
         </>
 }
+
+
+function GetAuthorOwnedItems(setContentItems: (arg0: ContentItem[]) => void, authorID?: number) {
+    var AuthorID = authorID || 0
+
+    fetch(`${API_DOMAIN}/content?author=${AuthorID}`,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include"
+    }).then(res => {
+        if (res.ok) {
+            res.json().then(json => {
+                const contentList: ContentItem[] = json.map((item: any) => { 
+                    const topics = item.Topics ? JSON.parse(item.Topics) : [];
+                    return ({
+                        ID: item.ID,
+                        title: item.Title,
+                        type: "image",
+                        text: item.Text,
+                        imageUrl: item.Uri,
+                        topics: topics,
+                        official: item.Official,
+                        
+                    });
+                });
+
+                setContentItems(contentList)
+            })}})}
+            

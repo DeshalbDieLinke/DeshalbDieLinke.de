@@ -3,6 +3,7 @@ import React from "react"
 import NewUserDialog from "./NewUserDialog"
 import UserListItem from "./UserListItem"
 import type { User } from "@/types/User"
+import { API_DOMAIN } from "config"
 
 
 export default function AdminPanel() {
@@ -15,12 +16,12 @@ export default function AdminPanel() {
         getUserData()
     }, [])
     function getUserData(): void {
-        fetch("http://localhost:8080/auth/users",
+        fetch( API_DOMAIN +"/auth/users",
         {
+            credentials: "include",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization":  token || ""
     }}).then(
         res =>  {
             if (res.status == 401) {

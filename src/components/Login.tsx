@@ -1,6 +1,8 @@
 import React from "react"
 import AltertDiv from "./AltertDiv"
 
+import { API_DOMAIN } from "config"
+
 export default function Login() {
     const queryParams = new URLSearchParams(window.location.search)
 
@@ -19,11 +21,12 @@ export default function Login() {
         var email = formdata.get("email")
         var password = formdata.get("password")
 
-        fetch("http://localhost:8080/login", {
+        fetch(API_DOMAIN + "/login", {
+            credentials: "include",
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": window.localStorage.getItem("token") || ""
+                // "Authorization": window.localStorage.getItem("token") || ""
             },
             body: JSON.stringify({
                 email: email,
@@ -31,15 +34,7 @@ export default function Login() {
             })
         }).then(res => {
             if (res.status === 200) {
-                res.json().then(json => {
-
-                    // The server does not send a token if the login was done with a token 
-                    // Therefore, we only set the token if it is present in the response
-                    if (json.token !== undefined) {
-                    window.localStorage.setItem("token", json.token) }
-
-                    window.location.href = "/" + (redirectLocation || "profile")
-                })
+                window.location.href = "/" + (redirectLocation || "profile")
             } else {
                 setError("Login failed")
                 setShowAlert(true)

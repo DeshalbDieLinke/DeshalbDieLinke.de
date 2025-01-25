@@ -1,5 +1,6 @@
 import React from "react"
 import AltertDiv from "./AltertDiv"
+import { API_DOMAIN } from "config"
 
 export default function Login() {
     const [error, setError] = React.useState("")
@@ -14,7 +15,7 @@ export default function Login() {
         var password = formdata.get("password")
         var token = formdata.get("token")
 
-        fetch("http://localhost:8080/register", {
+        fetch(API_DOMAIN + "/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

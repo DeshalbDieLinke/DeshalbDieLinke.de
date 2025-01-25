@@ -1,4 +1,4 @@
-import ContentItem from "../types/ContentItem";
+import {type ContentItem} from "../types/ContentItem";
 
 export default function ContentPopup(props: {item: ContentItem, deleteCallback: (_: any) => void}) { 
     const del = () => {

@@ -1,7 +1,7 @@
 import {type ContentItem} from "../types/ContentItem.ts";
 import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
-import ContentItemComponent from "./ContentComponent.tsx";
+import NewContentComponent from "./NewContentComponent.tsx";
 
 export default function GridWrapper(props: { contentItems: ContentItem[] }) {
     const contentItems = props.contentItems;
@@ -147,7 +147,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4">
                 {filteredItems.length > 0 ? (
                     paginatedItems.map(item => (
-                        <ContentItemComponent
+                        <NewContentComponent
                             key={item.title}
                             item={item}
                             clickCallback={openPopup}

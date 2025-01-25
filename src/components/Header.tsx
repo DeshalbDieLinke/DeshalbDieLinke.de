@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HeaderLink from "./HeaderLink.tsx";
+import {HeaderLink, HeaderLinkProfile} from "./HeaderLink.tsx";
 import { SITE_TITLE } from "../consts";
 
 export default function Header(props: { pathname: string; subpath: any }) {
@@ -66,12 +66,12 @@ export default function Header(props: { pathname: string; subpath: any }) {
   href="/Material"
   title="Material"
 ></HeaderLink>
-<HeaderLink
+<HeaderLinkProfile
   pathname={props.pathname}
   subpath={props.subpath}
   href="/profile"
   title="Profil"
-></HeaderLink></>;
+></HeaderLinkProfile></>;
 
   return (
     <>

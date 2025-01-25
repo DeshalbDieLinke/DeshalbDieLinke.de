@@ -9,6 +9,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+    server: { port: 4321, host: "127.0.0.1" },
     site: 'https://deshalbdielinke.de',
     integrations: [mdx(), sitemap(), react(),
         tailwind({

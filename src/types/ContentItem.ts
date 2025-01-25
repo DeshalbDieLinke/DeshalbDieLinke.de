@@ -1,7 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+export { ContentItemClass, type ContentItem };
 
-class ContentItem {
-    key: string = uuidv4();
+
+class ContentItemClass {
+    ID: number;
     topics: string[];
     title: string;
     videoUrl?: string; 
@@ -9,22 +10,49 @@ class ContentItem {
     imageUrl?: string;
     type: string;
     verified: boolean;
-    image?: any;
+    autherID?: number;
 
-    constructor(topics: string[], title: string, type: string, verified: boolean, content: string, image?: any) {
+    constructor(
+        ID: number,
+        topics: string[],
+        title: string,
+        type: string,
+        verified: boolean,
+        content: string,
+        imageURL?: any,
+        autherID?: number
+    ) {
+        this.ID = ID;
         this.topics = topics;
         this.title = title;
         this.type = type;
         this.verified = verified;
-        switch (type) { 
-            case "video": this.videoUrl = content;
-            case "text": this.text = content;
-            case "image": {
-                this.imageUrl = content;
-                this.image = image;
-            }
-        }
-    }  
-};
+        this.autherID = autherID;
 
-export default ContentItem;
+        switch (type) { 
+            case "video":
+                this.videoUrl = content;
+                break;
+            case "text":
+                this.text = content;
+                break;
+            case "image":
+                this.imageUrl = this.imageUrl;
+                break;
+        }
+    }
+}
+
+
+
+interface ContentItem {
+    ID: number;
+    topics: string[];
+    title: string;
+    videoUrl?: string; 
+    text?: string;
+    imageUrl?: string;
+    type: string;
+    verified: boolean;
+    autherID?: number;
+}
