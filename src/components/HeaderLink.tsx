@@ -1,4 +1,4 @@
-import getAuthStatus from "@/utils/getAuthStatus";
+import {DDL} from "@/utils/DDL";
 import type { HTMLAttributes } from "astro/types";
 import React from "react";
 
@@ -45,7 +45,7 @@ export function HeaderLinkProfile(props: Props) {
   console.log("isActive", isActive, href, pathname, subpath);
 
   React.useEffect(() => {
-          getAuthStatus(
+          DDL.getAuthStatus(
             (user) => {
               if (user) {
                 const targetStr = "/profile?id=" + user.ID

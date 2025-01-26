@@ -3,6 +3,7 @@ import type { User } from "@/types/User"
 import { API_DOMAIN } from "config"
 import React, { useState } from "react"
 import NewContentDisplay from "./NewContentDisplay"
+import {DDL } from "@/utils/DDL"
 
 
 export default function Profile() {
@@ -20,8 +21,7 @@ export default function Profile() {
         }
     }, [])
     function LogOut() {
-        window.localStorage.removeItem("token")
-        window.location.href = "/"
+        console.log("Not implemented")
     }
 
     return <>
@@ -39,31 +39,41 @@ export default function Profile() {
 
 
 function GetAuthorOwnedItems(setContentItems: (arg0: ContentItem[]) => void, authorID?: number) {
-    var AuthorID = authorID || 0
 
-    fetch(`${API_DOMAIN}/content?author=${AuthorID}`,{
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include"
-    }).then(res => {
-        if (res.ok) {
-            res.json().then(json => {
-                const contentList: ContentItem[] = json.map((item: any) => { 
-                    const topics = item.Topics ? JSON.parse(item.Topics) : [];
-                    return ({
-                        ID: item.ID,
-                        title: item.Title,
-                        type: "image",
-                        text: item.Text,
-                        imageUrl: item.Uri,
-                        topics: topics,
-                        official: item.Official,
+    if (authorID) {
+        const SearchQuery: DDL.ContentSearchQuery = { 
+            author: authorID
+        }
+        DDL.GetContentItems((content) => {
+            setContentItems(content)
+        }, () => {}, (err) => console.error(err), SearchQuery)
+    }
+   
+
+    // fetch(`${API_DOMAIN}/content?author=${AuthorID}`,{
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     credentials: "include"
+    // }).then(res => {
+    //     if (res.ok) {
+    //         res.json().then(json => {
+    //             const contentList: ContentItem[] = json.map((item: any) => { 
+    //                 const topics = item.Topics ? JSON.parse(item.Topics) : [];
+    //                 return ({
+    //                     ID: item.ID,
+    //                     title: item.Title,
+    //                     type: "image",
+    //                     text: item.Text,
+    //                     imageUrl: item.Uri,
+    //                     topics: topics,
+    //                     official: item.Official,
                         
-                    });
-                });
+    //                 });
+    //             });
 
-                setContentItems(contentList)
-            })}})}
+    //             setContentItems(contentList)
+    //         })}})}
             
+}

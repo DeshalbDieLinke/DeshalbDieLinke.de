@@ -1,4 +1,4 @@
-export { ContentItemClass, type ContentItem };
+export { ContentItemClass, type ContentItem, ContentType };
 
 
 class ContentItemClass {
@@ -43,16 +43,20 @@ class ContentItemClass {
     }
 }
 
-
+enum ContentType { 
+    Video = "video",
+    Text = "text",
+    Image = "image"
+}
 
 interface ContentItem {
-    ID: number;
+    id: number;
     topics: string[];
     title: string;
-    videoUrl?: string; 
-    text?: string;
-    imageUrl?: string;
-    type: string;
-    verified: boolean;
+    description?: string;
+    altText?: string;
+    url?: string;
+    type: ContentType;
+    official: boolean;
     autherID?: number;
 }

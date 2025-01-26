@@ -19,7 +19,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
             ? item.topics.some(topic => selectedTopics.includes(topic))
             : true;
 
-        const verifiedMatch = showVerifiedOnly ? item.verified : true;
+        const verifiedMatch = showVerifiedOnly ? item.official : true;
 
         return topicMatch && verifiedMatch;
     });
