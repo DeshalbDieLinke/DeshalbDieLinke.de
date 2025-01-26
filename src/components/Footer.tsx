@@ -1,3 +1,4 @@
+import { HeaderLinkProfile } from "./HeaderLink";
 
 export default function Footer() {
     return <> 
@@ -6,6 +7,10 @@ export default function Footer() {
                 <a href="/Impressum" className="hover:text-primary text-black">Impressum</a>
                 <a href="/Datenschutz" className="hover:text-primary text-black">Datenschutz</a>
                 <a href="/about" className="hover:text-primary text-black">Unser Team</a>
+                <HeaderLinkProfile
+                href="/profile"
+                title="Profil"
+                ></HeaderLinkProfile>
             </div>
         </div>
     </>

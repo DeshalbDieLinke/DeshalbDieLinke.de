@@ -2,6 +2,7 @@ import type { ContentItem } from "@/types/ContentItem"
 import type { User } from "@/types/User"
 import type { string } from "astro:schema"
 import { API_DOMAIN } from "config"
+import { on } from "events"
 
 
 export namespace DDL {
@@ -27,7 +28,7 @@ export namespace DDL {
      * @param onRejected - Optional callback function to be called when the request is rejected (e.g., status 401).
      * @param onError - Optional callback function to be called when an error occurs during the request.
      */
-    export function getAuthStatus(onSuccess: (user: User | null) => void, onRejected?: () => void, onError?: () => void) {
+    export function getAuthStatus(onSuccess: (user: User | null) => void, onRejected?: () => void, onError?: (err: Error) => void) {
             fetch(API_DOMAIN + "/auth/check", {
                     method: "GET",
                     headers: {
@@ -52,10 +53,35 @@ export namespace DDL {
                     }
                 }).catch(err => { 
                     if (onError) {
-                        onError()
+                        onError(err)
                     }
                 })
     }
+
+    export function GetNewUserToken(email: string, accessLevel: number, onSuccess: (token: string) => void, onRejected?: () => void, onError?: (err: Error) => void) {
+        fetch(API_DOMAIN + "/auth/new-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                email: email,
+                accessLevel: accessLevel
+            })
+        }).then(res => {
+            if (res.ok) {
+                res.json().then(json => {
+                    onSuccess(json.token)
+                })
+            }   }
+        ).catch(err => {
+            if (onError) {
+                onError(err)
+            }})
+        
+    }
+
     /**
      * Fetches the Content from the server. Query Params are passed as a URLSearchParams object. 
      * 
@@ -150,6 +176,7 @@ export namespace DDL {
     export function ParseToContentItem(item: any): ContentItem {
         const topics = item.Topics ? JSON.parse(item.Topics) : [];
 
+        console.log(item)
         const ID = item.ID
         const title = item.Title
         const type = item.Type || "image"

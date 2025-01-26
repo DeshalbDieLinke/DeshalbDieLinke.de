@@ -37,12 +37,8 @@ export function HeaderLink(props: Props) {
   );
 }
 
-export function HeaderLinkProfile(props: Props) {
+export function HeaderLinkProfile(props: { href: string; title: string }) {
   const [href, setHref] = React.useState(props.href);
-  const pathname = props.pathname;
-  const subpath = props.subpath;
-  const isActive = href === pathname || href === "/" + (subpath?.[0] || "");
-  console.log("isActive", isActive, href, pathname, subpath);
 
   React.useEffect(() => {
           DDL.getAuthStatus(
@@ -61,21 +57,9 @@ export function HeaderLinkProfile(props: Props) {
 
   return (
     <>
-      <a href={href} className={isActive ? "active hover:text-black" : "hover:text-black"} >
+      <a href={href} >
         {props.title}
       </a>
-
-      <style>
-        {`a {
-            display: inline-block;
-            text-decoration: none;
-          }
-          a.active {
-            font-weight: bolder;
-            text-decoration: underline;
-            text-decoration-color: var(--primary);
-          }`}
-      </style>
     </>
   );
 }

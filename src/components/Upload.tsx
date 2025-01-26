@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import Topics from "./Topics";
 import { API_DOMAIN } from "config";
+import { DDL } from "@/utils/DDL";
 
 export default function Upload() { 
     const [error, setError] = React.useState("")
@@ -10,8 +11,17 @@ export default function Upload() {
     const [accessLevel, setAccessLevel] = React.useState(3)
     const [selectedTops, setSelectedTops] = React.useState<string[]>([])
 
+
+    useEffect(() => {
+        DDL.getAuthStatus((user) => {
+            setIsLoggedIn(true)
+            setAccessLevel(user?.AccessLevel || 3)
+        }, () => {
+            console.log("Not logged in")
+            setIsLoggedIn(false)}), (err: Error) => console.error(err)
+    }, [])
     // Check if user is logged in
-    fetch("http://127.0.01:8080/auth/check", {
+    fetch(API_DOMAIN + "/auth/check", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +30,7 @@ export default function Upload() {
     }).then(res => {
         if (res.status === 401) {
             setIsLoggedIn(false)
-        } else if (res.status === 200) {
+        } else if (res.ok) {
             setIsLoggedIn(true)
             res.json().then(json => {
                 setAccessLevel(json.accessLevel)
@@ -61,6 +71,7 @@ export default function Upload() {
             body: formdata
         }).then(res => {
             if (res.ok) {
+                console.log(formdata)
                 setError("UPLOAD SUCCESSFUL")
                 setShowAlert(true)
             } else {
@@ -94,10 +105,11 @@ export default function Upload() {
                 <img className="h-96" src={preview || ""} alt="" />
                 <input required onChange={onFileAdded} type="file" name="file" id="file" accept="image/*" />
                 <input required className="p-2 w-[20rem]"  type="text" name="title" id="title" placeholder="title" />
-                <input className="p-2 h-[6rem] w-[20rem]" type="text" name="description" id="description" placeholder="description" />
+                <input className="p-2 w-[20rem]" type="text" name="description" id="description" placeholder="description" />
+                {preview && <input className="p-2 w-[20rem]" type="text" name="altText" id="altText" placeholder="Alt-Text Bild" />}
                 <div className="w-[20rem] flex justify-between">
                     <Topics SelectedTopicsCallback={setSelectedTops} />
-                    {isLoggedIn && accessLevel == 0 &&<div className="flex flex-col items-center w-8">
+                    {isLoggedIn && accessLevel < 2 &&<div className="flex flex-col items-center w-8">
                         <label className="text-[0.7rem]" htmlFor="official">Official</label>
                         <input  name="official" id="official" type="checkbox" />
                     </div>}

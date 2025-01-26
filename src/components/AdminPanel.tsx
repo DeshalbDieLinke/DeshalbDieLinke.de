@@ -4,11 +4,11 @@ import NewUserDialog from "./NewUserDialog"
 import UserListItem from "./UserListItem"
 import type { User } from "@/types/User"
 import { API_DOMAIN } from "config"
+import { DDL } from "@/utils/DDL"
 
 
 export default function AdminPanel() {
-    token = ""
-    var token = window.localStorage.getItem("token")
+    
     const [users, setUsers] = React.useState<User[]>([])
     const [isLoggedIn, setIsLoggedIn] = React.useState(false)
 
@@ -41,8 +41,8 @@ export default function AdminPanel() {
         console.error(err)
     }) }
 
-    function handleNewUserTokenRequest(email: String, accessLevel: Number) {
-        
+    function handleNewUserTokenRequest(email: string, accessLevel: number) {
+        console.log("Requesting new user token for email: ", email, " with access level: ", accessLevel)
     }
 
     return <>

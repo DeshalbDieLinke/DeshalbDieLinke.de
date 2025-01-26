@@ -27,6 +27,7 @@ import { Label } from "@/components/ui/label"
 import React from "react"
 import { cn } from "@/lib/utils"
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@radix-ui/react-dropdown-menu"
+import { DDL } from "@/utils/DDL"
 
 const AccessLevels = [
     {
@@ -67,30 +68,14 @@ export default function NewUserDialog(props: { onSubmitToken: (email: string, ac
             //TODO show error
             return
         }
+
         setEmail(email)
 
-        fetch("http://localhost:8080/auth/new-user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": window.localStorage.getItem("token") || ""
-            },
-            body: JSON.stringify({
-                email: email,
-                accessLevel: accessLevel
-            })
-        }).then(res => {
-            if (res.ok) {
-                res.json().then(json => {
-                    setNewToken(json.token)
-                })
-            } else {
-                console.error("Failed to generate token: ", res.status)
-            }
-        }).catch(err => {
-            console.error("Failed to generate token", err)
+        DDL.GetNewUserToken(email, accessLevel, (token) => {
+            setNewToken(token)
+        }, () => {
+            console.error("Request rejected")
         })
-
     }
 
     return <>

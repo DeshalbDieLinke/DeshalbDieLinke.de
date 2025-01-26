@@ -16,6 +16,7 @@ export default function Login() {
         var token = formdata.get("token")
 
         fetch(API_DOMAIN + "/register", {
+
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

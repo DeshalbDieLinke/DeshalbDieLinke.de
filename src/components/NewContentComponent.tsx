@@ -18,7 +18,7 @@ export default function ContentItemComponent(props: { item: ContentItem, clickCa
             {/* Content */}
             {item.type == ContentType.Video && <video src={item.url} />}
             {item.type === ContentType.Text  && <p>{item.description}</p>}
-            {item.type === ContentType.Image && item.url && <img loading="lazy" src={item.url} alt="Sharepic" />}
+            {item.type === ContentType.Image && item.url && <img loading="lazy" src={item.url} alt={item.altText} />}
         </button>
     );
 }
