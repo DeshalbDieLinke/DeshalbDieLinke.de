@@ -2,7 +2,6 @@ import type { ContentItem } from "@/types/ContentItem"
 import type { User } from "@/types/User"
 import type { string } from "astro:schema"
 import { API_DOMAIN } from "config"
-import { on } from "events"
 
 
 export namespace DDL {
@@ -138,6 +137,36 @@ export namespace DDL {
                 }
             })
     }
+
+
+    export function GetUsers(onSuccess: (users: User[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: ContentSearchQuery) {
+        fetch( API_DOMAIN +"/auth/users",
+            {
+                credentials: "include",
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }}).then(
+            res =>  {
+                if (res.status == 401) {
+                    if (onRejected)
+                    onRejected()
+                }
+                else if (res.ok) {
+                    res.json().then(json=> {
+                        const users = (json.users)
+                        onSuccess(users)
+                    }).catch(err => {
+                        if (onError)
+                        onError(err)
+                    })
+                }
+            }
+        ).catch(err => {
+            if (onError)
+            onError(err)
+        }) }
+
 
     export interface Topic {
         key: number;

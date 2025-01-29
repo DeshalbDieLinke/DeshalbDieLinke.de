@@ -8,7 +8,7 @@ import {DDL } from "@/utils/DDL"
 
 export default function Profile() {
     var [profileOwner, setProfileOwner] = useState<User | null>(null)
-    var [loggedIn, setLoggedIn] = useState(false)
+    var [isOwner, setIsOwner] = useState(false)
     var [contentItems, setContentItems] = useState<ContentItem[]>([])
 
     React.useEffect(() => {
@@ -17,7 +17,7 @@ export default function Profile() {
         if (userID) {
             //TODO check if the profile exists and get its data
             GetAuthorOwnedItems(setContentItems, userID)
-            setProfileOwner({ID: userID})
+
         }
     }, [])
     function LogOut() {
@@ -48,32 +48,4 @@ function GetAuthorOwnedItems(setContentItems: (arg0: ContentItem[]) => void, aut
             setContentItems(content)
         }, () => {}, (err) => console.error(err), SearchQuery)
     }
-   
-
-    // fetch(`${API_DOMAIN}/content?author=${AuthorID}`,{
-    //     method: "GET",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     credentials: "include"
-    // }).then(res => {
-    //     if (res.ok) {
-    //         res.json().then(json => {
-    //             const contentList: ContentItem[] = json.map((item: any) => { 
-    //                 const topics = item.Topics ? JSON.parse(item.Topics) : [];
-    //                 return ({
-    //                     ID: item.ID,
-    //                     title: item.Title,
-    //                     type: "image",
-    //                     text: item.Text,
-    //                     imageUrl: item.Uri,
-    //                     topics: topics,
-    //                     official: item.Official,
-                        
-    //                 });
-    //             });
-
-    //             setContentItems(contentList)
-    //         })}})}
-            
 }
