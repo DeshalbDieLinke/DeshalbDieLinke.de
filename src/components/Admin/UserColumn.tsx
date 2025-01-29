@@ -46,7 +46,7 @@ export const columns: ColumnDef<User>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => location.href = `/user?id=${user.ID}`}
+                            onClick={() => location.href = `/profile?id=${user.ID}`}
                         > Visit Profile
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
