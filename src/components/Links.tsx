@@ -57,7 +57,7 @@ export function ProfileLink() {
       }, [])
 
   return (
-    <>{isLoggedIn ? <a href={`/profile/${id}`} className="hover:text-primary text-black">Profil</a> 
+    <>{isLoggedIn ? <a href={`/profile?=${id}`} className="hover:text-primary text-black">Profil</a> 
     : <a href="/login" className="hover:text-primary text-black">Login</a>}
 
     </>
