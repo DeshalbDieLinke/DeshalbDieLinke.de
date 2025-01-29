@@ -1,6 +1,5 @@
 import { useState } from "react";
-import {HeaderLink, HeaderLinkProfile} from "./HeaderLink.tsx";
-import { SITE_TITLE } from "../consts";
+import {HeaderLink} from "./Links.tsx";
 
 export default function Header(props: { pathname: string; subpath: any }) {
   var [burgerState, setBurgerState] = useState(false);

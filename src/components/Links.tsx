@@ -37,29 +37,29 @@ export function HeaderLink(props: Props) {
   );
 }
 
-export function HeaderLinkProfile(props: { href: string; title: string }) {
-  const [href, setHref] = React.useState(props.href);
+export function ProfileLink() {
+  const [id, setId] = React.useState<number | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
           DDL.getAuthStatus(
             (user) => {
               if (user) {
-                const targetStr = "/profile?id=" + user.ID
-                setHref(targetStr)
+                setId(user.ID)
+                setIsLoggedIn(true)
               } else {
-                setHref("/login")
+                setId(null)
+                setIsLoggedIn(false)
               }
             }
           )
-          console.log("User gotten: ", href)
 
       }, [])
 
   return (
-    <>
-      <a href={href} >
-        {props.title}
-      </a>
+    <>{isLoggedIn ? <a href={`/profile/${id}`} className="hover:text-primary text-black">Profil</a> 
+    : <a href="/login" className="hover:text-primary text-black">Login</a>}
+
     </>
   );
 }
