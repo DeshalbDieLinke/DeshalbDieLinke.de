@@ -13,6 +13,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import React from "react";
+import EditUserDialog from "../EditUserDialog";
 export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "ID",
@@ -34,8 +36,9 @@ export const columns: ColumnDef<User>[] = [
         id: "actions",
         cell: ({ row }) => {
             const user = row.original
-
+            const [isOpen, setIsOpen] = React.useState(false)
             return (
+                <>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -45,13 +48,20 @@ export const columns: ColumnDef<User>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        
+                        <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={() => location.href = `/profile?id=${user.ID}`}
                         > Visit Profile
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={() => setIsOpen(true)}
+                        > Edit User
+                        </DropdownMenuItem>
                         <DropdownMenuItem className="bg-red-600">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+                {isOpen && <EditUserDialog />}
+                </>
             )}},
 ]

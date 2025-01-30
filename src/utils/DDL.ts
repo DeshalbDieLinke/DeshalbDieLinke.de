@@ -137,6 +137,35 @@ export namespace DDL {
                 }
             })
     }
+    export type UserUpdateRequest = {
+        id: number,
+        email?: string,
+        accessLevel?: number,
+        username?: string,
+        password?: string
+    }
+    export function UpdateUser(updateRequest: UserUpdateRequest, onSuccess: () => void, onRejected?: () => void, onError?: (err: Error) => void) {
+        console.log(JSON.stringify(updateRequest))
+        fetch(API_DOMAIN + "/auth/update-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(updateRequest)
+        }).then(res => {
+            if (res.ok) {
+                onSuccess()
+            } else {
+                if (onRejected) 
+                onRejected()
+            }
+        }).catch(err => {
+            if (onError) {
+                onError(err)
+            }
+        })
+    }
 
     export function Logout(onSuccess: () => void, onError?: (err: Error) => void) {
         fetch(API_DOMAIN + "/auth/logout", {
