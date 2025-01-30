@@ -2,7 +2,7 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.tsx';
 import Footer from '../../components/Footer.tsx';
-import Profile from '../../components/Profile/Profile.tsx';
+import ContentEditor from '../../components/ContentEditor.tsx';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 
@@ -14,16 +14,16 @@ const subpath = pathname.match(/[^\/]+/g);
 
 
 
-<doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body class="min-h-screen flex flex-col">
+<!doctype html>
+    <html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    </head>
+    <body class="h-screen flex flex-col">
         <Header client:load pathname={pathname} subpath={subpath} />
-		<main class="bg-gray-100">
-			<Profile client:only />
-		</main>
+        <main class="bg-gray-100 h-full">
+            <ContentEditor client:load />
+        </main>
         <Footer />
-	</body>
-</html>
+    </body>
+    </html>

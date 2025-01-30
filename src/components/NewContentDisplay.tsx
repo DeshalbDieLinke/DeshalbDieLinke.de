@@ -144,11 +144,11 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
             
             <SelectionPills />
             <PaginationControls />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4 flex-wrap">
                 {filteredItems.length > 0 ? (
                     paginatedItems.map(item => (
                         <NewContentComponent
-                            key={item.title}
+                            key={item.id}
                             item={item}
                             clickCallback={openPopup}
                         />

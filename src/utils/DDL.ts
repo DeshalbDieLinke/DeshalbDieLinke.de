@@ -27,7 +27,7 @@ export namespace DDL {
      * @param onRejected - Optional callback function to be called when the request is rejected (e.g., status 401).
      * @param onError - Optional callback function to be called when an error occurs during the request.
      */
-    export function getAuthStatus(onSuccess: (user: User | null) => void, onRejected?: () => void, onError?: (err: Error) => void) {
+    export function getAuthStatus(onSuccess: (user: User) => void, onRejected?: () => void, onError?: (err: Error) => void) {
             fetch(API_DOMAIN + "/auth/check", {
                     method: "GET",
                     headers: {

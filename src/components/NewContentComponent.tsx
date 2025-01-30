@@ -1,11 +1,19 @@
-import { Image } from "astro:assets";
-import {ContentType, type ContentItem} from "../types/ContentItem";
+import {type ContentItem, ContentType} from "../types/ContentItem";
+import React from "react";
+import {AspectRatio} from "@radix-ui/react-aspect-ratio";
 
-export default function ContentItemComponent(props: { item: ContentItem, clickCallback: (item: ContentItem) => void }) {
+
+
+export default function ContentItemComponent(props: { item: ContentItem, clickCallback: (item: ContentItem) => void}) {
+
     const item = props.item;
+
+
+
+
     return (
         <button
-            className="contentItem relative flex flex-col rounded-md border border-black border-outset p-4 bg-white no-underline"
+            className=" contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden"
             onClick={() => { props.clickCallback(item); }}
         >
             {/* Verified Label */}
@@ -14,11 +22,10 @@ export default function ContentItemComponent(props: { item: ContentItem, clickCa
                     <img src="/images/icons/verified.svg" alt="Offizell" width="20" height="20" />
                 </div>
             )}
-
             {/* Content */}
-            {item.type == ContentType.Video && <video src={item.url} />}
-            {item.type === ContentType.Text  && <p>{item.description}</p>}
-            {item.type === ContentType.Image && item.url && <img loading="lazy" src={item.url} alt={item.altText} />}
+                {item.type == ContentType.Video && <video src={item.url} />}
+                {item.type === ContentType.Text  && <p>{item.description}</p>}
+                {item.type === ContentType.Image && item.url && <img loading="lazy" src={item.url} alt={item.altText} className="object-contain" />}
         </button>
     );
 }
