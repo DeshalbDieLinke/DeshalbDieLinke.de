@@ -138,6 +138,22 @@ export namespace DDL {
             })
     }
 
+    export function Logout(onSuccess: () => void, onError?: (err: Error) => void) {
+        fetch(API_DOMAIN + "/auth/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include"
+        }).then(res => {
+            if (res.ok) {
+                onSuccess()
+            } 
+        }).catch(err => {
+            if (onError) {
+                onError(err)
+            }})
+    }
 
     export function GetUsers(onSuccess: (users: User[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: ContentSearchQuery) {
         fetch( API_DOMAIN +"/auth/users",
