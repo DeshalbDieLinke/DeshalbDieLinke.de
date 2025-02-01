@@ -2,7 +2,7 @@ import {type ContentItem, ContentType} from "@/types/ContentItem.ts"
 import type {User} from "@/types/User.tsx"
 import React, {useState} from "react"
 import NewContentDisplay from "../NewContentDisplay.tsx"
-import {DDL} from "@/utils/DDL.ts"
+import {DDL} from "@/lib/DDL.ts"
 
 
 export default function Profile() {

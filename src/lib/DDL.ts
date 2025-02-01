@@ -138,13 +138,19 @@ export namespace DDL {
             })
     }
     export type UserUpdateRequest = {
-        id: number,
-        email?: string,
-        accessLevel?: number,
-        username?: string,
-        password?: string
+        ID: number,
+        Email?: string,
+        AccessLevel?: number,
+        Username?: string,
+        Password: string
     }
     export function UpdateUser(updateRequest: UserUpdateRequest, onSuccess: () => void, onRejected?: () => void, onError?: (err: Error) => void) {
+        if (!updateRequest.Password) {
+            if (onError) {
+            onError(new Error("Password is required")) }
+            return
+        }
+
         console.log(JSON.stringify(updateRequest))
         fetch(API_DOMAIN + "/auth/update-user", {
             method: "POST",
@@ -182,6 +188,32 @@ export namespace DDL {
             if (onError) {
                 onError(err)
             }})
+    }
+
+    export function Login(email: string, password: string, onSuccess: () => void, onRejected?: () => void, onError?: (err: Error) => void) {
+        
+        fetch(API_DOMAIN + "/login", {
+                    credentials: "include",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        onSuccess()
+                    } else {
+                        if (onRejected) 
+                        onRejected()
+                    }
+                }).catch(err => {
+                    if (onError) {
+                        onError(err)
+                    }
+                })
     }
 
     export function GetUsers(onSuccess: (users: User[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: ContentSearchQuery) {
@@ -271,5 +303,9 @@ export namespace DDL {
         }
         return contentItem
 
-}
+    }
+
+    export function DeleteUser(ID: number, arg1: () => void) {
+        throw new Error("Function not implemented.")
+    }
 }

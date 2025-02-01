@@ -2,6 +2,7 @@ import React from "react"
 import AltertDiv from "./AltertDiv"
 
 import { API_DOMAIN } from "config"
+import { DDL } from "@/lib/DDL"
 
 export default function Login() {
     const queryParams = new URLSearchParams(window.location.search)
@@ -21,28 +22,21 @@ export default function Login() {
         var email = formdata.get("email")
         var password = formdata.get("password")
 
-        fetch(API_DOMAIN + "/login", {
-            credentials: "include",
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // "Authorization": window.localStorage.getItem("token") || ""
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        }).then(res => {
-            if (res.status === 200) {
-                window.location.href = "/" + (redirectLocation || "profile")
-            } else {
-                setError("Login failed")
+        DDL.Login(email as string, password as string,
+        // Accepted & Resolved
+        () => {
+            window.location.href = "/" + (redirectLocation || "profile")
+        },
+        // Rejected
+        () => {
+            setError("Login failed")
+            setShowAlert(true) },
+        // Error
+        (err) => {
+                setError("Login failed: " + err)
                 setShowAlert(true)
             }
-        }).catch(err => {
-            setError("An error occurred")
-            setShowAlert(true)
-        })
+        ) 
     }
 
     // Optionally hide the alert after a timeout
@@ -54,16 +48,6 @@ export default function Login() {
     }, [showAlert])
 
     return (
-        // <div className="flex flex-col items-center justify-center h-screen">
-        //     <h1>Login</h1>
-        //     <form action="" onSubmit={handleSubmit}>
-        //         <input required type="email" name="email" id="email" placeholder="email" />
-        //         <input type="password" name="password" id="password" placeholder="Password" />
-        //         <input type="submit" value="Login" />
-        //     </form>
-        //     <p>Don't have an account? <a href="/register">Register</a></p>
-        //     { showAlert && <AltertDiv message={error} severiy={"error"} /> }
-        // </div>
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img className="mx-auto h-10 w-auto rounded-none" src="/images/logos/DDL-Logo.svg" alt="Deshalb Die Linke Logo"/>

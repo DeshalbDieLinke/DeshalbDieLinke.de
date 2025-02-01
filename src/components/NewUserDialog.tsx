@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label"
 import React from "react"
 import { cn } from "@/lib/utils"
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@radix-ui/react-dropdown-menu"
-import { DDL } from "@/utils/DDL"
+import { DDL } from "@/lib/DDL"
 
 const AccessLevels = [
     {

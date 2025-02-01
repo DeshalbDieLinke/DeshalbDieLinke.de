@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ContentDisplay from './NewContentDisplay.tsx';
-import {DDL} from '@/utils/DDL.ts';
+import {DDL} from '@/lib/DDL.ts';
 import { type ContentItem } from '@/types/ContentItem.ts';
 
 export default function MaterialWrapper() {

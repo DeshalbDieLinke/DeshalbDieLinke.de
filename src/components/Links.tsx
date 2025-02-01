@@ -1,7 +1,6 @@
-import {DDL} from "@/utils/DDL";
+import {DDL} from "@/lib/DDL";
 import type { HTMLAttributes } from "astro/types";
 import React from "react";
-
 interface Props extends HTMLAttributes<"a"> {
   pathname: string;
   subpath: any;

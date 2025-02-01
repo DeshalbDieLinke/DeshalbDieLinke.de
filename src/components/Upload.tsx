@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import Topics from "./Topics";
 import { API_DOMAIN } from "config";
-import { DDL } from "@/utils/DDL";
+import { DDL } from "@/lib/DDL";
 
 export default function Upload() { 
     const [error, setError] = React.useState("")

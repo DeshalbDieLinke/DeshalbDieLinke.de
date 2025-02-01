@@ -1,6 +1,6 @@
 import {ContentType, type ContentItem} from "../types/ContentItem";
 import {useEffect, useState} from "react";
-import {DDL} from "@/utils/DDL.ts";
+import {DDL} from "@/lib/DDL";
 
 export default function ContentPopup(props: {item: ContentItem, deleteCallback: (_: any) => void}) { 
     const del = () => {

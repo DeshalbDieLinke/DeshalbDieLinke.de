@@ -3,7 +3,7 @@
 import React, {useEffect} from "react"
 import Topics from "./Topics";
 import {API_DOMAIN} from "config";
-import {DDL} from "@/utils/DDL";
+import {DDL} from "@/lib/DDL";
 import ContentItemComponent from "@/components/NewContentComponent.tsx";
 import {type ContentItem, ContentType} from "@/types/ContentItem.ts";
 
