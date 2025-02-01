@@ -308,4 +308,41 @@ export namespace DDL {
     export function DeleteUser(ID: number, arg1: () => void) {
         throw new Error("Function not implemented.")
     }
+
+    export function GetUser(userID: number, onSuccess: (user: User) => void, onFailure?: () => void, onError?: (err: Error) => void) {
+        if (userID) {
+            fetch(
+                API_DOMAIN + "/profile?id=" + userID,
+                {
+                    credentials: "include",
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        res.json().then(json => {
+                            const user: User = {
+                                Email: json.email,
+                                ID: userID,
+                                AccessLevel: json.accessLevel
+                            }
+                            if (onSuccess) {
+                                onSuccess(user)
+                            }
+                        })
+                    } else {
+                        if (onFailure) 
+                        onFailure()
+                    }
+                }).catch(err => {
+                    if (onError) 
+                    onError(err)
+                })
+        } else {
+            if (onError) {
+                onError(new Error("No User ID provided."))
+            }
+        }
+    }
 }
