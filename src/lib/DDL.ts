@@ -116,13 +116,11 @@ export namespace DDL {
             }).then(res => {
                 if (res.ok) {
                     res.json().then(json => {
-                        console.log(json)
                         if (onSuccess) {
                             if (json.length == 0) {
                                 onSuccess([])
                             }
                             const contentItems: ContentItem[] = json.map((item: any) => ParseToContentItem(item))
-                            console.log(contentItems)
                             // Map the JSON response to ContentItem objects
                             onSuccess(contentItems)
                         }

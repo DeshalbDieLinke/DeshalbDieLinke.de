@@ -64,7 +64,7 @@ export default function Profile() {
     return <>
         {profileOwner ? <div className="flex flex-col items-center justify-center h-screen">
             <div className="flex flex-col justify-center w-1/2 p-4 bg-gray-200 rounded-lg">
-                <h1>{profileOwner.Username?? "Diese*r Benutzer*In hat keinen username. Fordere die Persn gerne auf, einen Einzurichten :)"}</h1>
+                <h1>{profileOwner.Username?? "Diese*r Benutzer*In hat keinen username. Fordere die Person gerne auf, einen Einzurichten :)"}</h1>
                 {isOwner && <div>
                     <p className="text-lg">Welcome to your profile page</p>
                     <div className="w-[50%] m-2">
