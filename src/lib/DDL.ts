@@ -26,7 +26,7 @@ export namespace DDL {
      * @param onRejected - Optional callback function to be called when the request is rejected (e.g., status 401).
      * @param onError - Optional callback function to be called when an error occurs during the request.
      */
-    export function getAuthStatus(onSuccess: (user: User) => void, onRejected?: () => void, onError?: (err: Error) => void) {
+    export function GetAuthStatus(onSuccess: (user: User) => void, onRejected?: () => void, onError?: (err: Error) => void) {
             fetch(API_DOMAIN + "/auth/check", {
                     method: "GET",
                     headers: {
@@ -37,14 +37,16 @@ export namespace DDL {
                     if (res.status === 401) {
                         if (onRejected) 
                         onRejected()
-                    } else if (res.status === 200) {
+                    } else if (res.ok) {
                         res.json().then(json => {
-                            const user: User = { 
-                                Email: json.email,
-                                ID: json.id,
-                                AccessLevel: json.accessLevel
-                            }
                             if (onSuccess) {
+                                console.log("JSON", json)
+                                const user: User = { 
+                                    ID: json.id,
+                                    Email: json.email,
+                                    AccessLevel: json.accessLevel,
+                                    Username: json.username
+                                };
                                 onSuccess(user)
                             }
                         })
@@ -135,27 +137,31 @@ export namespace DDL {
             })
     }
     export type UserUpdateRequest = {
-        ID: number,
-        Email?: string,
-        AccessLevel?: number,
-        Username?: string,
-        Password: string
+        id: number,
+        email?: string,
+        accessLevel?: number,
+        username?: string,
+        password: string
     }
     export function UpdateUser(updateRequest: UserUpdateRequest, onSuccess: () => void, onRejected?: () => void, onError?: (err: Error) => void) {
-        if (!updateRequest.Password) {
+        if (updateRequest.password == undefined) {
             if (onError) {
             onError(new Error("Password is required")) }
             return
         }
-
-        console.log(JSON.stringify(updateRequest))
         fetch(API_DOMAIN + "/auth/update-user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify(updateRequest)
+            body: JSON.stringify({
+                id: Number(updateRequest.id),  
+                email: updateRequest.email,
+                accessLevel: Number(updateRequest.accessLevel),  
+                username: updateRequest.username,
+                password: updateRequest.password
+            })
         }).then(res => {
             if (res.ok) {
                 onSuccess()
@@ -377,10 +383,9 @@ export namespace DDL {
         }
     }
 
-    export function GetUser(userID: number, onSuccess: (user: User) => void, onFailure?: () => void, onError?: (err: Error) => void) {
-        if (userID) {
-            fetch(
-                API_DOMAIN + "/profile?id=" + userID,
+    export function GetUser( onSuccess: (user: User) => void, userID?: number, onFailure?: () => void, onError?: (err: Error) => void) {
+        fetch(
+                API_DOMAIN + "/profile" + (userID ? "?id=" + userID : ""),
                 {
                     credentials: "include",
                     method: "GET",
@@ -391,8 +396,8 @@ export namespace DDL {
                     if (res.ok) {
                         res.json().then(json => {
                             const user: User = {
-                                Email: json.email,
-                                ID: userID,
+                                Username: json.username,
+                                ID: userID ? userID : json.id,
                                 AccessLevel: json.accessLevel
                             }
                             if (onSuccess) {
@@ -407,11 +412,7 @@ export namespace DDL {
                     if (onError) 
                     onError(err)
                 })
-        } else {
-            if (onError) {
-                onError(new Error("No User ID provided."))
-            }
-        }
+        
     }
 
 }

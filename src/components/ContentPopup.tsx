@@ -10,7 +10,7 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
     const [canEdit, setCanEdit] = useState(false);
 
     useEffect(() => {
-        DDL.getAuthStatus((user) => {
+        DDL.GetAuthStatus((user) => {
             if (user.ID == props.item.id || (user.AccessLevel == 0 && user.AccessLevel != undefined) ) {
                 setCanEdit(true);
             }

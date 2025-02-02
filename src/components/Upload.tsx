@@ -13,7 +13,7 @@ export default function Upload() {
 
 
     useEffect(() => {
-        DDL.getAuthStatus((user) => {
+        DDL.GetAuthStatus((user) => {
             setIsLoggedIn(true)
             setAccessLevel(user?.AccessLevel || 3)
         }, () => {

@@ -22,7 +22,7 @@ export default function ContentEditor() {
         const searchQuery = {
             id: parseInt(id)
         }
-        DDL.getAuthStatus((user) => {
+        DDL.GetAuthStatus((user) => {
             setIsLoggedIn(true)
             setAccessLevel(user?.AccessLevel || 3)
         }, () => {

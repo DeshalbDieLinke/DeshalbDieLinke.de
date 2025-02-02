@@ -52,7 +52,7 @@ export const columns: ColumnDef<User>[] = [
             }
             React.useEffect(() => {
                 console.log("User: ", row.original)
-                setEmail(row.original.Email)
+                setEmail(row.original.Email || "")
                 setUsername(row.original.Username || "")
                 setCurrentUser(row.original)
                 setAccessLevel(row.original.AccessLevel as 0 | 1 | 2 | 3)
@@ -157,11 +157,11 @@ export const columns: ColumnDef<User>[] = [
                                     <DialogClose asChild 
                                     type="button" className="btn btn-primary btn-md" onClick={() => {
                                             const UpdateRequest: DDL.UserUpdateRequest = {
-                                                ID: user.ID,
-                                                Email: email || user.Email,
-                                                Username: username || user.Username,
-                                                Password: password || "",
-                                                AccessLevel: accessLevel
+                                                id: user.ID,
+                                                email: email || user.Email,
+                                                username: username || user.Username,
+                                                password: password || "",
+                                                accessLevel: accessLevel
                                             }
                                             DDL.UpdateUser(UpdateRequest, () => {
                                                 // Close the dialog

@@ -1,3 +1,5 @@
+
+
 import {DDL} from "@/lib/DDL";
 import type { HTMLAttributes } from "astro/types";
 import React from "react";
@@ -37,26 +39,19 @@ export function HeaderLink(props: Props) {
 }
 
 export function ProfileLink() {
-  const [id, setId] = React.useState<number | null>(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
   React.useEffect(() => {
-          DDL.getAuthStatus(
-            (user) => {
-              if (user) {
-                setId(user.ID)
+          DDL.GetAuthStatus(
+            () => {
                 setIsLoggedIn(true)
-              } else {
-                setId(null)
-                setIsLoggedIn(false)
-              }
-            }
+              
+            }, 
           )
 
       }, [])
 
   return (
-    <>{isLoggedIn ? <a href={`/profile?id=${id}`} className="hover:text-primary text-black">Profil</a> 
+    <>{isLoggedIn ? <a href={`/profile`} className="hover:text-primary text-black">Profil</a> 
     : <a href="/login" className="hover:text-primary text-black">Login</a>}
 
     </>

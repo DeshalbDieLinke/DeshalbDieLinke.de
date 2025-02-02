@@ -30,7 +30,7 @@ export default function Login() {
             if (res.ok) {
                 res.json().then(json => {
                     window.localStorage.setItem("token", json.token)
-                    window.location.href = "/"
+                    window.location.href = "/login"
                 })
                 setError("REGISTRATION SUCCESSFUL")
                 setShowAlert(true)

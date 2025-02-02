@@ -22,8 +22,8 @@ const subpath = pathname.match(/[^\/]+/g);
 	<body class="min-h-screen flex flex-col">
         <Header client:load pathname={pathname} subpath={subpath} />
 		<main class="bg-gray-100">
-			<Profile client:only />
+			<Profile client:load />
 		</main>
-        <Footer />
+        <Footer client:load />
 	</body>
 </html>

@@ -37,7 +37,7 @@ export default function AdminPanel() {
     }
 
     return <>
-        {true && <div className="h-full w-full flex flex-col items-center justify-center">
+        {isLoggedIn && <div className="h-full w-full flex flex-col items-center justify-center">
             <div className="flex flex-row justify-between w-full px-28">
                 <h1 className="text-4xl">Admin Panel</h1>
                 <NewUserDialog onSubmitToken={handleNewUserTokenRequest}/>

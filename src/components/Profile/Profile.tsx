@@ -3,6 +3,7 @@ import type {User} from "@/types/User.tsx"
 import React, {useState} from "react"
 import NewContentDisplay from "../NewContentDisplay.tsx"
 import {DDL} from "@/lib/DDL.ts"
+import EditUserDialog from "../EditProfile.tsx"
 
 
 export default function Profile() {
@@ -13,17 +14,17 @@ export default function Profile() {
     React.useEffect(() => {
         var queryParams = window.location.search
         var userID = parseInt(queryParams.split("id=")[1])
-        console.log("User ID:", userID)
-        if (userID ) {
-            DDL.GetUser(userID,
+        if (userID != undefined && !isNaN(userID) || userID == 0 || userID == null) {
+            DDL.GetUser(
                 // Success
                 (user) => {
                 setProfileOwner(user)
-
-                // TODO check if user is owner
-                setIsOwner(true)
                 GetAuthorOwnedItems(setContentItems, user.ID)
-            }, 
+                // TODO replace with Session 
+                DDL.GetAuthStatus((user) => {
+                    setIsOwner(user.ID == userID)
+                })
+            }, userID,
             () => {
                 setProfileOwner(null)
             },
@@ -32,45 +33,32 @@ export default function Profile() {
                 setProfileOwner(null)
             } )
         
+        } else {
+            DDL.GetAuthStatus( 
+                // Success
+                (user) => {
+                setProfileOwner(user)
+                setIsOwner(true)
+                GetAuthorOwnedItems(setContentItems, user.ID)
+            } )
         }
-        // TESTING
-        // const profileUser : User = {
-        //     ID: 1,
-        //     Email: "email@example.com",
-        //     Username: "Example1212",
-        //     AccessLevel: 1,
-        // }
-        // setProfileOwner(profileUser)
-        // setIsOwner(true)
     }, [])
     function LogOut() {
         DDL.Logout(() => {
             window.location.href = "/"
         })}
 
-    // TESTING
-    // contentItems = // Test
-    // [ {
-    //     id: 1,
-    //     autherID: 2,
-    //     title: "Debug Item title",
-    //     official: false,
-    //     description: "debug",
-    //     topics: ["topic1", "topic2"],
-    //     type: ContentType.Image,
-    //     url: "https://deshalbdielinke.de/images/sharepics/Arbeit%20und%20Inflation/Inflation.OFFIZIELL.png",
-    // }]
-
 
     return <>
         {profileOwner ? <div className="flex flex-col items-center justify-center h-screen">
             <div className="flex flex-col justify-center w-1/2 p-4 bg-gray-200 rounded-lg">
-                <h1>{profileOwner.Username?? "Diese*r Benutzer*In hat keinen username. Fordere die Person gerne auf, einen Einzurichten :)"}</h1>
+                <h1>{profileOwner.Username ? profileOwner.Username: "Diese*r Benutzer*In hat keinen username. Fordere die Person gerne auf, einen Einzurichten :)"}</h1>
                 {isOwner && <div>
                     <p className="text-lg">Welcome to your profile page</p>
                     <div className="w-[50%] m-2">
                         <a className="btn" onClick={LogOut}>Logout</a>
                         <a className="btn m-2" href="/upload">Upload new Content</a>
+                        <EditUserDialog user={profileOwner}/>
                     </div>
                 </div>}
             </div>
