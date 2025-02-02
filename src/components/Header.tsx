@@ -70,11 +70,11 @@ export default function Header(props: { pathname: string; subpath: any }) {
   return (
     <>
       <style>{css}</style>
-      <header className="z-10 h-[3.5rem] sticky top-0 bg-white">
-        <nav>
-          <div className="flex items-center space-x-2 pl-0">
-              <a href="/" className="flex items-center">
-                  <img className="scale-150 md:fixed absolute h-[2.8rem] top-10 left-10 rounded-none" src="/images/logos/DDL-Logo.svg" alt="Logo" />
+      <header className="sticky top-0 bg-white h-[3.5rem] z-50">
+        <nav className="h-full">
+          <div className="flex items-center space-x-2 pl-0 w-[20%] h-full rounded-none">
+              <a href="/" className="w-full h-full rounded-none">
+                  <img className="w-32 h-32 rounded-none top-10 left-10 absolute" src="/images/logos/DDL-Logo.svg" alt="Logo" />
               </a>
           </div>
           

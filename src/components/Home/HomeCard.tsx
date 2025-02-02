@@ -4,8 +4,8 @@ export default function HomeCard(props: {purpose: string, children: React.ReactN
 
 
     return <>
-        <div className={`card h-[45rem] w-[35rem] p-4 rounded-xl shadow-2xl shadow-gray-700 ${props.className}`}>
-            {props.children}
+        <div className={`card h-[35rem] w-[24rem] p-4 rounded-xl shadow-2xl flex shadow-gray-700 ${props.className}`}>
+            {props.children} 
         </div>
     </>
 }
