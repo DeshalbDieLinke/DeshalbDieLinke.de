@@ -117,6 +117,7 @@ export default function ContentEditor() {
         console.log("Formdata:", formdata.get("title"))
         DDL.UpdateContentItem(formdata, () => {
             setError("Upload successful")
+            location.reload()
             setShowAlert(true)
         }, (err) => {
             console.error(err)
@@ -175,7 +176,9 @@ export default function ContentEditor() {
             <div className="flex justify-around items-center relative bottom-0 w-full">
                 <input className="btn" type="submit" value="Bild Editieren"/>
                 <input className="btn" type="button" value="Bild Löschen" 
-                    onClick={() => DDL.DeleteContentItem(contentItem!.id )}/>
+                    onClick={() => DDL.DeleteContentItem(contentItem!.id, ()=>{
+                        location.href = "/content"
+                    })}/>
                 
             </div>
 

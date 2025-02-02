@@ -74,6 +74,7 @@ export default function Upload() {
                 console.log(formdata)
                 setError("UPLOAD SUCCESSFUL")
                 setShowAlert(true)
+                location.reload()
             } else {
                 // Extract error message 
                 res.json().then(json => {
