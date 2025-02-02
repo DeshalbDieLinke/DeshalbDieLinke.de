@@ -1,0 +1,69 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+// import Header from '../components/Header.astro';
+import Header from '../components/Header.tsx';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import WeilMiete from '../components/WeilMiete.tsx';
+import Introduction from '../components/introduction';
+import WeilInsgesamt from '../components/WeilInsgesamt.tsx';
+import WeilSteuern from '../components/WeilSteuern.tsx';
+
+
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const subpath = pathname.match(/[^\/]+/g);
+
+
+
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body >
+		<!-- <Header /> -->
+		<main>
+			<section class="introdcution">
+				<Header client:load pathname={pathname} subpath={subpath} />
+				<Introduction />
+			</section>
+			<section>
+				<WeilMiete client:visible />
+			</section>
+			<section>
+				<WeilSteuern client:visible/>
+			</section>
+			<section> 
+				<WeilInsgesamt client:visible /> 
+			</section>  
+			
+		</main>
+	</body>
+</html>
+
+<style> 
+	main {
+		height: 100vh; /*height: calc(100vh - 3.5rem); */
+		overflow-x: hidden;
+		overflow-y: scroll;
+		scroll-snap-type: y mandatory;
+	}
+	section {
+		position: relative;
+		height:  100%;
+		scroll-snap-align: start;
+	}
+	@media (max-width: 1200px) {
+		main {
+			height: auto;
+		}
+		section {
+			height: fit-content;
+			scroll-snap-align: none;
+		}
+		.introdcution {;
+			height: 100vh;
+		}
+	}	
+	</style> 

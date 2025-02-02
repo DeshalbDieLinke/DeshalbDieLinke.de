@@ -3,10 +3,9 @@ import BaseHead from '../components/BaseHead.astro';
 // import Header from '../components/Header.astro';
 import Header from '../components/Header.tsx';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import WeilMiete from '../components/WeilMiete.tsx';
-import Introduction from '../components/introduction';
-import WeilInsgesamt from '../components/WeilInsgesamt.tsx';
-import WeilSteuern from '../components/WeilSteuern.tsx';
+;import Footer from '../components/Footer.tsx';
+
+import Homepage from '@/components/Home/Homepage';
 
 
 const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
@@ -24,46 +23,23 @@ const subpath = pathname.match(/[^\/]+/g);
 	<body >
 		<!-- <Header /> -->
 		<main>
-			<section class="introdcution">
-				<Header client:load pathname={pathname} subpath={subpath} />
-				<Introduction />
+			<Header client:load pathname={pathname} subpath={subpath} />
+			<section id="home">
+				<Homepage client:load />
 			</section>
-			<section>
-				<WeilMiete client:visible />
-			</section>
-			<section>
-				<WeilSteuern client:visible/>
-			</section>
-			<section> 
-				<WeilInsgesamt client:visible /> 
-			</section>  
-			
+			<Footer client:load />
 		</main>
 	</body>
 </html>
 
-<style> 
+<style>
+	body {
+		height: 100vh;
+	}
 	main {
-		height: 100vh; /*height: calc(100vh - 3.5rem); */
+		height: 100vh;
 		overflow-x: hidden;
 		overflow-y: scroll;
 		scroll-snap-type: y mandatory;
 	}
-	section {
-		position: relative;
-		height:  100%;
-		scroll-snap-align: start;
-	}
-	@media (max-width: 1200px) {
-		main {
-			height: auto;
-		}
-		section {
-			height: fit-content;
-			scroll-snap-align: none;
-		}
-		.introdcution {;
-			height: 100vh;
-		}
-	}	
-	</style> 
+</style>
