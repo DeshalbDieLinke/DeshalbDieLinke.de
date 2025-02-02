@@ -177,7 +177,7 @@ export default function ContentEditor() {
                 <input className="btn" type="submit" value="Bild Editieren"/>
                 <input className="btn" type="button" value="Bild Löschen" 
                     onClick={() => DDL.DeleteContentItem(contentItem!.id, ()=>{
-                        location.href = "/content"
+                        location.href = "/profile"
                     })}/>
                 
             </div>
