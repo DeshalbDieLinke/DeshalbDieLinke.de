@@ -1,6 +1,5 @@
 import { useState } from "react";
-import HeaderLink from "./HeaderLink.tsx";
-import { SITE_TITLE } from "../consts";
+import {HeaderLink} from "./Links.tsx";
 
 export default function Header(props: { pathname: string; subpath: any }) {
   var [burgerState, setBurgerState] = useState(false);
@@ -65,7 +64,8 @@ export default function Header(props: { pathname: string; subpath: any }) {
   subpath={props.subpath}
   href="/Material"
   title="Material"
-></HeaderLink></>;
+></HeaderLink>
+</>;
 
   return (
     <>
