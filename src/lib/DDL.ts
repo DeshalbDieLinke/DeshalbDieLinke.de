@@ -1,6 +1,5 @@
-import type { ContentItem } from "@/types/ContentItem"
+import type { ContentItem, ContentType } from "@/types/ContentItem"
 import type { User } from "@/types/User"
-import type { string } from "astro:schema"
 import { API_DOMAIN } from "config"
 
 
@@ -90,20 +89,20 @@ export namespace DDL {
      * @param onError - Optional callback function to be called when an error occurs during the request.
      * @param searchQuery - Optional object containing search parameters.
      */
-    export function GetContentItems(onSuccess: (contenItems: ContentItem[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: ContentSearchQuery) {
+    export function GetContentItems(onSuccess: (contenItems: ContentItem[]) => void,  searchQuery?: ContentSearchQuery, onFailure?: (err: Error) => void) {
         var url = API_DOMAIN + "/content"
         // Parsr the search query object into a URLSearchParams object
         if (searchQuery) {
-            if (searchQuery.author) { 
+            if (searchQuery.author != undefined) { 
                 url += "?author=" + searchQuery.author
             }
-            if (searchQuery.topic) {
+            if (searchQuery.topic  != undefined) {
                 url += "?topic=" + searchQuery.topic
             }
-            if (searchQuery.id) {
-                url += "?id=" + searchQuery.id
+            if (searchQuery.id != undefined) {
+                url += "?id=" + searchQuery.id 
             }
-            if (searchQuery.search) {
+            if (searchQuery.search  != undefined) {
                 url += "?search=" + searchQuery.search
             }
         }
@@ -126,12 +125,12 @@ export namespace DDL {
                         }
                     })
                 } else {
-                    if (onRejected) 
-                    onRejected()
+                    if (onFailure) 
+                    onFailure(new Error("Request rejected."))
                 }
             }).catch(err => { 
-                if (onError) {
-                    onError(err)
+                if (onFailure) {
+                    onFailure(err)
                 }
             })
     }
@@ -170,10 +169,42 @@ export namespace DDL {
             }
         })
     }
+    export type ContentItemUpdate = {
+        id: number,
+        title: string,
+        description: string,
+        altText: string,
+        official: boolean,
+        topics: string,
+        type: ContentType,
+        url: string,
+    }
+
+
+    export function UpdateContentItem(formData: FormData, onSuccess: () => void, onFailure?: (err: Error) => void) {
+        const request = API_DOMAIN + "/auth/update-content" + "?id=" + formData.get("id")
+        console.log("Formdata again:", formData.get("title"))
+        fetch(request, {
+            method: "POST",
+            credentials: "include",
+            body: formData
+        }).then(res => {
+            if (res.ok) {
+                onSuccess()
+            } else {
+                if (onFailure) 
+                onFailure(new Error("Request rejected."))
+            }
+        }).catch(err => {
+            if (onFailure) {
+                onFailure(err)
+            }
+        })
+    }
 
     export function Logout(onSuccess: () => void, onError?: (err: Error) => void) {
-        fetch(API_DOMAIN + "/auth/logout", {
-            method: "POST",
+        fetch(API_DOMAIN + "/logout", {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -278,7 +309,12 @@ export namespace DDL {
 
 
     export function ParseToContentItem(item: any): ContentItem {
-        const topics = item.Topics ? JSON.parse(item.Topics) : [];
+        var topics: string[];
+        try {
+            topics = item.Topics ? JSON.parse(item.Topics) : []; }
+        catch (err) {
+            topics = item.Topics || [];
+        }
 
         console.log(item)
         const ID = item.ID
@@ -288,6 +324,7 @@ export namespace DDL {
         const description = item.Description
         const uri = item.Uri 
         const official = item.Official
+        const broken = item.Broken
 
         const contentItem: ContentItem = {
             id: ID,
@@ -297,7 +334,8 @@ export namespace DDL {
             description: description,
             url: uri,
             topics: topics,
-            official: official
+            official: official,
+            broken: broken
         }
         return contentItem
 
@@ -305,6 +343,38 @@ export namespace DDL {
 
     export function DeleteUser(ID: number, arg1: () => void) {
         throw new Error("Function not implemented.")
+    }
+
+    export function DeleteContentItem(ID: number, onSuccess?: () => void, onFailure?: (err: Error) => {}) {
+        if (ID) {
+            fetch(
+                API_DOMAIN + "/content/delete?id=" + ID,
+                {
+                    credentials: "include",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        if (onSuccess) {
+                            onSuccess()
+                        }
+                    } else {
+                        if (onFailure) {
+                            onFailure(new Error("Request rejected."))
+                        }
+                    }
+                }).catch(err => {
+                    if (onFailure) {
+                        onFailure(err)
+                    }
+                })
+        } else {
+            if (onFailure) {
+                onFailure(new Error("No Content ID provided."))
+            }
+        }
     }
 
     export function GetUser(userID: number, onSuccess: (user: User) => void, onFailure?: () => void, onError?: (err: Error) => void) {
@@ -343,4 +413,5 @@ export namespace DDL {
             }
         }
     }
+
 }

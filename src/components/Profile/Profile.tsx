@@ -13,6 +13,7 @@ export default function Profile() {
     React.useEffect(() => {
         var queryParams = window.location.search
         var userID = parseInt(queryParams.split("id=")[1])
+        console.log("User ID:", userID)
         if (userID ) {
             DDL.GetUser(userID,
                 // Success
@@ -20,7 +21,7 @@ export default function Profile() {
                 setProfileOwner(user)
 
                 // TODO check if user is owner
-                setIsOwner(false)
+                setIsOwner(true)
                 GetAuthorOwnedItems(setContentItems, user.ID)
             }, 
             () => {
@@ -88,6 +89,6 @@ function GetAuthorOwnedItems(setContentItems: (arg0: ContentItem[]) => void, aut
         }
         DDL.GetContentItems((content) => {
             setContentItems(content)
-        }, () => {}, (err) => console.error(err), SearchQuery)
+        }, SearchQuery, (err) => console.error(err))
     }
 }

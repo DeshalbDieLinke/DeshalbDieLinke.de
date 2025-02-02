@@ -59,4 +59,5 @@ interface ContentItem {
     type: ContentType;
     official: boolean;
     autherID?: number;
+    broken?: boolean;
 }

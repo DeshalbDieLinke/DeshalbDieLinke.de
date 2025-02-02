@@ -9,11 +9,11 @@ export default function ContentItemComponent(props: { item: ContentItem, clickCa
     const item = props.item;
 
 
-
+    const isBroken = item.broken 
 
     return (
         <button
-            className=" contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden"
+            className={" contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden" + (isBroken ? " bg-red-300" : "")}
             onClick={() => { props.clickCallback(item); }}
         >
             {/* Verified Label */}
