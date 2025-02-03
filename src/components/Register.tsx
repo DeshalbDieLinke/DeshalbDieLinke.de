@@ -67,7 +67,7 @@ export default function Login() {
                 <p className="text-white">Da diese Funktion noch in Entwicklung ist, müssen wir ein Konto für dich erstellen. Für Verbände oder Organisationen machen wir dies gerne auch in Entwicklung. Frag gerne nach:</p>
                 <KontaktKompakt iconSize={30} />
                 <br></br>
-                <p className="text-white">Allerdings: FRÜHE ENTWICKLUNG!!! Feedback erwünscht und Bugs wahrscheinlich. Sei gewahrnt :)</p>
+                <p className="text-white">Allerdings: FRÜHE ENTWICKLUNG!!! Feedback erwünscht und Bugs wahrscheinlich. Sei gewarnt :)</p>
 
             </div>
         </div>
