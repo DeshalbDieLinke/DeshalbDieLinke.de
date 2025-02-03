@@ -62,7 +62,7 @@ export default function Login() {
     return (
     <div className="flex h-screen">
         <div className="w-1/2 h-full bg-[var(--primary)] flex justify-center items-center p-12">
-            <div className="">
+            <div className="m-12 flex flex-col items-center">
                 <p className="text-white text-2xl font-black">Du willst mitmachen?</p>
                 <p className="text-white">Da diese Funktion noch in Entwicklung ist, müssen wir ein Konto für dich erstellen. Für Verbände oder Organisationen machen wir dies gerne auch in Entwicklung. Frag gerne nach:</p>
                 <KontaktKompakt iconSize={30} />
@@ -71,7 +71,7 @@ export default function Login() {
 
             </div>
         </div>
-    <div className="flex w-1/2 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex w-1/2 min-h-full flex-col justify-center items-center p-10">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img className="mx-auto h-10 w-auto rounded-none" src="/images/logos/DDL-Logo.svg" alt="Deshalb Die Linke Logo"/>
             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Neues Konto anlegen</h2>

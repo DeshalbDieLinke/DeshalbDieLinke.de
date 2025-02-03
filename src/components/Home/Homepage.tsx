@@ -18,7 +18,7 @@ export default function Homepage() {
                     className="object-cover h-full w-full rounded-xl grow"
                     />
                     <div className=" h-20 text-center flex items-center justify-center ">
-                        <p className="text-6xl  font-black translate-y-8">Material</p>
+                        <p className="text-6xl font-black translate-y-8">Material</p>
                     </div>
             </HomeCard>
 
@@ -34,8 +34,8 @@ export default function Homepage() {
                 <div className="absolute bottom-0 -top-40 -left-40 rotate-32 h-fit">
                             <p className="text-3xl  font-black translate-y-6">Unser Team</p>
                 </div> */}
-                <p className="absolute top-0 left-14 origin-left rotate-90 whitespace-nowrap text-6xl font-black ">
-                TEAM
+                <p className="absolute -top-3 left-12 origin-left rotate-90 whitespace-nowrap text-6xl font-black ">
+                Team
                 </p>
             </HomeCard>
 
@@ -52,7 +52,7 @@ export default function Homepage() {
                 <div className="absolute bottom-0 -top-40 -left-40 rotate-20 h-fit">
                                 <p className="text-5xl  font-black translate-y-6">FAQ</p>
                 </div> */}
-            <p className="absolute top-0 left-16 origin-left rotate-90 whitespace-nowrap text-8xl font-black ">
+            <p className="absolute -top-5 left-16 origin-left rotate-90 whitespace-nowrap text-8xl font-black ">
                 FAQ
             </p>
                 
@@ -70,8 +70,8 @@ export default function Homepage() {
                 <div className="absolute bottom-0 w-fit -top-40 left-70 -rotate-20 h-fit">
                                 <p className="text-3xl w-fit font-black translate-y-6">Mehr Infos</p>
                 </div> */}
-            <p className="absolute top-55 -right-40 origin-left -rotate-90 whitespace-nowrap text-8xl font-black ">
-                INFO
+            <p className="absolute top-40 -right-32 origin-left -rotate-90 whitespace-nowrap text-8xl font-black ">
+                Info
             </p>
             </HomeCard>
 
@@ -87,13 +87,13 @@ export default function Homepage() {
                 <p className="text-3xl  font-black translate-y-6">Mitmachen</p>
             </div> */}
             <p className="absolute top-50 text-right -right-40 origin-left -rotate-90 whitespace-nowrap text-6xl font-black ">
-                Mit<br/>machen
+                Mit-<br/>machen
             </p>
             
             </HomeCard>
             </HomeCardWrapper>
         </div>
-            <div className="grid w-full  grid-cols-2 grid-rows-2 gap-4 lg:hidden">
+            <div className="grid w-full  grid-cols-2 grid-rows-2 gap-4 lg:hidden mb-20">
                     <HomeTile src="/images/cards/banner.webp" title="Material" href={"/material"} color="bg-blue-200" className="col-span-2" />
                     <HomeTile src="/images/bg-ppl-text.jpg" title="Mitmachen"href={"/register"} color="bg-orange-200" />    
                     <HomeTile src="/images/bg-ppl-text.jpg" title="FAQ" href={"/faq"} color="bg-fuchsia-200" />
