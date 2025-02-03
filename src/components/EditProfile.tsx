@@ -43,13 +43,13 @@ export default function EditUserDialog(props: { user: User }) {
     return <>
     <Dialog>
         <DialogTrigger asChild className="w-full btn">
-                <p className="">Edit Profile</p>
+                <p className="text-black">Edit Profile</p>
         </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-md bg-white">
                         <DialogHeader>
                             <DialogTitle>Edit User Profile</DialogTitle>
                         </DialogHeader>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 ">
                             <form  id="editprofile" className="grid flex-1 gap-2">
                                 <Input
                                 defaultValue={currentUser?.Email}
