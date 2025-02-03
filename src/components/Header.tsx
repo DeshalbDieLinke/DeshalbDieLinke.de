@@ -1,5 +1,18 @@
 import { useState } from "react";
 import {HeaderLink} from "./Links.tsx";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DDL } from "@/lib/DDL.ts";
+
+
+
+
 
 export default function Header(props: { pathname: string; subpath: any }) {
   var [burgerState, setBurgerState] = useState(false);
@@ -65,6 +78,24 @@ export default function Header(props: { pathname: string; subpath: any }) {
   href="/material"
   title="Material"
 ></HeaderLink>
+<details className="dropdown">
+  <summary className="m-1 text-black hover:cursor-pointer">Konto</summary>
+  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+    <li><a href="/upload">Hochladen</a></li>
+    <li><a href="/login">Anmelden</a></li>
+    <li><a href="/register">Registrieren</a></li>
+    <li><a href="/profile">Profil</a></li>
+
+    <li><a onClick={
+      () => {
+        DDL.Logout(()=>{
+          location.reload();
+        });
+      }
+    }>Abmelden</a></li>
+
+  </ul>
+</details>
 </>;
 
   return (
@@ -80,11 +111,12 @@ export default function Header(props: { pathname: string; subpath: any }) {
           
           <div className="internal-links lg:block p-[1.1rem] hidden">
           {links} 
+          
           </div>
 
           {/* Open Burger Links */}
           {burgerState && (
-            <div className="absolute right-[0] top-[10%] ">
+            <div className="absolute right-[0] top-[10%] bg-white">
               <ul className="bg-grey-background rounded w-56 flex flex-col [&>*]:py-1 ">
                 {links}
               </ul>
@@ -92,7 +124,7 @@ export default function Header(props: { pathname: string; subpath: any }) {
           ) } {burgerState && (<div className="w-screen h-screen lg:hidden" onClick={()=> {
             setBurgerState(false);
           }}></div>)}
-          <div className="social-links top-0 right-0 absolute lg:hidden">
+          <div className="social-links top-0 right-0 absolute lg:hidden bg-white">
             <button onClick={() => setBurgerState(!burgerState)}>
               <svg
                 className="w-10 m-1"
