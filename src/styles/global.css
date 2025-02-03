@@ -4,10 +4,114 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 @import "tailwindcss";
+@plugin "daisyui" {
+	themes: light --default, dark --default;
+}
+@plugin "daisyui/theme" {
+	name: "DieLinke";
+	default: true;
+	color-scheme: light;
 
-/* @tailwind base;
-@tailwind components; */
-@tailwind utilities;
+	--color-base-100: #FFFFFF;
+	--color-base-200: #FFFFFF;
+	--color-base-300: #FFFFFF;
+	--color-base-content: #FFFFFF;
+	--color-primary: #FF0000;
+	--color-primary-content: #FFFFFF;
+	--color-secondary: #6F003C;
+	--color-secondary-content: oklch(98% 0.01 200);
+	--color-accent: #00B19C;
+	--color-accent-content: oklch(98% 0.01 160);
+	--color-neutral: #FFFFFF;
+	--color-neutral-content: #FFFFFF;
+	--color-info: oklch(70% 0.2 220);
+	--color-info-content: oklch(98% 0.01 220);
+	--color-success: oklch(65% 0.25 140);
+	--color-success-content: oklch(98% 0.01 140);
+	--color-warning: oklch(80% 0.25 80);
+	--color-warning-content: oklch(20% 0.05 80);
+	--color-error: oklch(65% 0.3 30);
+	--color-error-content: oklch(98% 0.01 30);
+  
+	/* border radius */
+	--radius-selector: 1rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.5rem;
+  
+	/* base sizes */
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+  
+	/* border size */
+	--border: 1px;
+  
+	/* effects */
+	--depth: 1;
+	--noise: 0;
+}
+
+@keyframes fanOutBottomLeft {
+	from {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	to {
+		transform: translate(-200px, 50px) rotate(-40deg);
+	}
+}
+@keyframes fanOutTopLeft {
+	from {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	to {
+		transform: translate(-120px, 20px) rotate(-20deg);
+	}
+}
+@keyframes fanOutBottomRight {
+	from {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	to {
+		transform: translate(200px, 50px) rotate(40deg);
+	}
+}
+@keyframes fanOutTopRight {
+	from {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	to {
+		transform: translate(120px, 20px) rotate(20deg);
+	}
+}
+
+@keyframes focus {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		z-index: 12;
+		transform: scale(1.05);
+	}
+}
+
+.animate-fanOutBottomLeft {
+	animation: fanOutBottomLeft 0.5s forwards;
+}
+.animate-fanOutTopLeft {
+	animation: fanOutTopLeft 0.5s forwards;
+}
+
+.animate-fanOutBottomRight {
+	animation: fanOutBottomRight 0.5s forwards;
+}
+
+.animate-fanOutTopRight {
+	animation: fanOutTopRight 0.5s forwards;
+}
+
+
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 :root {
 	--primary: #ff0000;

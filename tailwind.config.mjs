@@ -1,6 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
 import fluid, { extract, screens, fontSize } from 'fluid-tailwind'
-import daisyui from "daisyui"
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -92,8 +91,6 @@ export default {
     },
 	
 	plugins: [
-		fluid,
-		daisyui,
         require("tailwindcss-animate")
     ],
 
@@ -101,9 +98,6 @@ export default {
 		themes: [
 			{
 				DieLinke: {
-					"primary": "#FF0000",
-					"secondary": "#6F003C",
-					"tertiary": "#00B19C",
 					"quaternary": "#8100A1",
 					"quinary": "#D675D8",
 					"senary": "#2E4FC4",
