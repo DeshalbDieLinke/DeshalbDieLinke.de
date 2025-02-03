@@ -43,12 +43,12 @@ export default function Profile() {
             } )
         }
 
-        setProfileOwner({
-            ID: 0,
-            Username: "Test",
-            Email: ""
-        })
-        setIsOwner(true)
+            // setProfileOwner({
+            //     ID: 0,
+            //     Username: "Test",
+            //     Email: ""
+            // })
+            // setIsOwner(true)
     }, [])
     function LogOut() {
         DDL.Logout(() => {
