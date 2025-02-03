@@ -150,7 +150,7 @@ export default function ContentEditor() {
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="description" className="text-sm">Beschreibung</label>
-                                <input required className="p-2 w-[20rem]" type="text" name="description" id="description" placeholder="Beschreibung" defaultValue={contentItem?.description}/>
+                                <input className="p-2 w-[20rem]" type="text" name="description" id="description" placeholder="Beschreibung" defaultValue={contentItem?.description}/>
                             </div>
                             {preview &&
                                 <div className="flex flex-col">
