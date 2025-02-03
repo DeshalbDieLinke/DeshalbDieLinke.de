@@ -98,7 +98,7 @@ export const columns: ColumnDef<User>[] = [
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-                        <DialogContent className="sm:max-w-md">
+                        <DialogContent className="sm:max-w-md bg-white">
                                 <DialogHeader>
                                     <DialogTitle>Edit User Profile</DialogTitle>
                                 </DialogHeader>

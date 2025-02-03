@@ -42,12 +42,19 @@ export default function Profile() {
                 GetAuthorOwnedItems(setContentItems, user.ID)
             } )
         }
+
+            // setProfileOwner({
+            //     ID: 0,
+            //     Username: "Test",
+            //     Email: ""
+            // })
+            // setIsOwner(true)
     }, [])
     function LogOut() {
         DDL.Logout(() => {
             window.location.href = "/"
         })}
-
+    
 
     return <>
         {profileOwner ? <div className="flex flex-col items-center justify-center h-screen">

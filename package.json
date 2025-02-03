@@ -9,11 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.4",
-    "@astrojs/react": "^4.1.2",
+    "@astrojs/mdx": "^4.0.8",
+    "@astrojs/react": "^4.2.0",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/tailwind": "^5.1.5",
     "@hookform/resolvers": "^3.10.0",
     "@kbox-labs/react-echarts": "^1.4.2",
     "@radix-ui/react-aspect-ratio": "^1.1.1",
@@ -22,10 +21,11 @@
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-popover": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
+    "@tailwindcss/vite": "^4.0.3",
     "@tanstack/react-table": "^8.20.6",
     "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
-    "astro": "^5.1.7",
+    "astro": "^5.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "echarts": "^5.6.0",
@@ -41,14 +41,13 @@
     "react-select": "^5.10.0",
     "react-share": "^5.1.2",
     "recharts": "^2.15.0",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss": "^3.4.17",
+    "tailwind-merge": "3.0.1",
+    "tailwindcss": "4.0.3",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "daisyui": "^4.12.23",
-    "fluid-tailwind": "^1.0.4"
+    "daisyui": "^5.0.0-beta.6"
   }
 }
