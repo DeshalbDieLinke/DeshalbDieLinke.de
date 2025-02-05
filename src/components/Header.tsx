@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {HeaderLink} from "./Links.tsx";
-import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 
@@ -68,21 +68,23 @@ export default function Header() {
   title="Material"
 ></HeaderLink>
 <details className="dropdown">
-  <summary className="m-1 text-black hover:cursor-pointer"><SignedIn> 
-      <UserButton showName />
-    </SignedIn></summary>
+  <summary className="m-1 text-black hover:cursor-pointer"> Konto </summary>
   <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-    <li><a href="/upload">Hochladen</a></li>
     <SignedOut>
      <li> <SignInButton /></li>
      <li> <SignUpButton /></li>
     </SignedOut>
     
     <SignedIn>
-      <SignOutButton />
+      <li><a href="/upload">Hochladen</a></li>
+
+      <li><SignOutButton /></li>
     </SignedIn>
   </ul>
+  
 </details>
+<UserButton  />
+
 </>;
 
   return (
@@ -90,7 +92,7 @@ export default function Header() {
       <style>{css}</style>
       <header className="sticky top-0 bg-white h-[3.5rem] z-50">
         <nav className="h-full">
-          <div className="flex items-center space-x-2 pl-0 w-[20%] h-full rounded-none">
+          <div className="items-center space-x-2 pl-0 w-[20%] h-full rounded-none">
               <Link href="/" className="w-full h-full rounded-none">
                   <img className="w-32 h-32 rounded-none top-10 left-10 absolute" src="/images/logos/DDL-Logo.svg" alt="Logo" />
               </Link>

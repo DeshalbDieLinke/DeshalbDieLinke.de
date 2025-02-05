@@ -1,7 +1,7 @@
+import Image from "next/image";
 import Card from "../Card";
 import HomeCard from "./HomeCard";
 import HomeCardWrapper from "./HomeCardWrapper";
-
 
 export default function Homepage() {
 
@@ -13,15 +13,11 @@ export default function Homepage() {
             {/* Center (deck) card */}
             <HomeCard
                 purpose="/material"
-                className="bg-gradient-to-br from-blue-200 via-blue-300 to-fuchsia-100 center-card z-10 flex flex-col">
-                <img
-                    src="/images/cards/banner.webp"
-                    alt="Material"
-                    className="object-cover h-full w-full rounded-xl grow"
-                    />
-                    <div className=" h-20 text-center flex items-center justify-center ">
-                        <p className="text-6xl font-black translate-y-8">Material</p>
-                    </div>
+                className="bg-gradient-to-br from-bnlue-200 via-blue-300 to-fuchsia-100 center-card z-10 flex flex-col">
+                <Image src="/Images/Banner.jpg" fill alt="Material" className="object-cover h-full w-full rounded-xl grow" />
+                <div className=" h-20 text-center z-12 absolute bottom-10 rounded-xl w-full left-1/2 -translate-x-1/2 bg-[var(--primary)] flex items-center justify-center ">
+                    <p className="text-6xl font-black text-white translate-y-8">Material</p>
+                </div>
             </HomeCard>
 
             {/* Card that fans out top left */}
@@ -65,7 +61,7 @@ export default function Homepage() {
         </div>
             <div className=" w-full  grid-cols-2 flex-wrap lg:hidden justify-center items-center gap-8">
                 <div className="h-1/2">
-                    <Card image="/images/cards/banner.webp" action="Material entdecken" link={"/material"}  />
+                    <Card image="/Images/Banner.jpg" action="Material entdecken" link={"/material"}  />
                 </div>
                 <div className="flex ml-4 flex-col gap-1">
                     <p> Wir brauchen Dich! Wenn du Technisch, Graphisch, oder Inhaltlich was drauf hast, meld dich! </p>

@@ -4,8 +4,8 @@
 import React from "react"
 import { KontaktKompakt } from "./Kontakt";
 
-import * as Clerk from  "@clerk/clerk-react";
-import { SignIn } from "@clerk/clerk-react";
+import * as Clerk from  "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 import { Variable } from "lucide-react";
 
 export default function Register() {
@@ -34,7 +34,7 @@ export default function Register() {
         </div>
         <div className="flex lg:w-1/2 min-h-full  justify-center items-center p-4">
 
-            <Clerk.Waitlist />
+            <Clerk.Waitlist fallback={"Netzwerk Problemchen. Hier sollte etwas sein"} />
 
         </div>
     </div>

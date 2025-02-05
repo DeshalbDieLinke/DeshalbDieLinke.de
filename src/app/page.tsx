@@ -13,7 +13,8 @@ function App() {
               <section id="intro" className="h-screen flex flex-col">
                 <div className="flex items-center h-full bg-gray-100">
                   <div className="bg-[var(--primary)] h-full flex items-center p-4 w-1/4 md:w-1/2 justify-center">
-                    <h1 className=" text-6xl md:text-4xl lg:text-6xl font-black text-white rotate-90 md:rotate-0 overflow:hidden" id="hashtagDDL">#DeshalbDieLinke</h1>
+                    <p className=" text-5xl md:text-4xl lg:text-6xl font-black text-white rotate-90 md:rotate-0 overflow:hidden" 
+                    >#DeshalbDieLinke</p>
 
                   </div>
                   <div className="h-full flex flex-col items-center p-4 w-3/4 md:w-1/2 justify-center">

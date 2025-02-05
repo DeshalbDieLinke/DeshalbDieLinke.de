@@ -5,7 +5,6 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 
-import {DDL} from "../lib/DDL";
 import React, { useEffect, useState } from "react";
 interface Props  {
   href: string;
