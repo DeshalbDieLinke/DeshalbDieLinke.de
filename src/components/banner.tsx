@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import banner from '../images/banner.jpg';
+import banner from '../Images/banner.jpg';
 
 
 export default function Banner() {
