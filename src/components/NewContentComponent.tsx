@@ -1,6 +1,5 @@
 import {type ContentItem, ContentType} from "../types/ContentItem";
 import React from "react";
-import {AspectRatio} from "@radix-ui/react-aspect-ratio";
 
 
 

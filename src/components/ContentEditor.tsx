@@ -1,19 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import React, {useEffect} from "react"
 import Topics from "./Topics";
-import {API_DOMAIN} from "config";
-import {DDL} from "@/lib/DDL";
-import ContentItemComponent from "@/components/NewContentComponent.tsx";
-import {type ContentItem, ContentType} from "@/types/ContentItem.ts";
+import {API_DOMAIN} from "../../config";
+import {DDL} from "../lib/DDL";
+import ContentItemComponent from "../components/NewContentComponent.tsx";
+import {type ContentItem, ContentType} from "../types/ContentItem.ts";
+import { useAuth } from "@clerk/nextjs";
+import useShowError from "./Error/setError.ts";
 
 export default function ContentEditor() {
     const [contentItem, setContentItem] = React.useState<ContentItem | null>(null)
-    const [error, setError] = React.useState("")
     const [showAlert, setShowAlert] = React.useState(false)
     const [preview, setPreview] = React.useState<ContentItem | null>(null);
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-    const [accessLevel, setAccessLevel] = React.useState(3)
     const [selectedTops, setSelectedTops] = React.useState<string[]>([])
 
 
@@ -22,14 +35,7 @@ export default function ContentEditor() {
         const searchQuery = {
             id: parseInt(id)
         }
-        DDL.GetAuthStatus((user) => {
-            setIsLoggedIn(true)
-            setAccessLevel(user?.AccessLevel || 3)
-        }, () => {
-            console.log("Not logged in")
-            setIsLoggedIn(false)
-        }), (err: Error) => console.error(err)
-
+        
         DDL.GetContentItems((items) => {
             const item = items[0]
             setContentItem(item)
@@ -42,23 +48,7 @@ export default function ContentEditor() {
             })
     
     }, [])
-    // Check if user is logged in
-    fetch(API_DOMAIN + "/auth/check", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include"
-    }).then(res => {
-        if (res.status === 401) {
-            setIsLoggedIn(false)
-        } else if (res.ok) {
-            setIsLoggedIn(true)
-            res.json().then(json => {
-                setAccessLevel(json.accessLevel)
-            })
-        }
-    })
+    // Check if user is logged in)
 
     function onFileAdded(e: any) {
         console.log(e.target.files[0])
@@ -76,16 +66,6 @@ export default function ContentEditor() {
             if (file.type.startsWith("image/")) {
                 const previewURL = URL.createObjectURL(file);
                 console.log("Preview URL:", previewURL); // Debug: Check the generated URL
-                const prewiewItem: ContentItem = {
-                    id: 0,
-                    title: "ADD TITLE",
-                    url: previewURL,
-                    topics: selectedTops,
-                    official: false,
-                    type: ContentType.Image,
-
-                }
-                setPreview(prewiewItem);
             } else {
                 console.error("Selected file is not an image.");
             }
@@ -94,35 +74,70 @@ export default function ContentEditor() {
         }
     }
 
-    function handleSubmit(e: any) {
+    const { getToken } = useAuth()
+    const setError = useShowError()
+    
+    async function handleDelete() {
+        fetch( API_DOMAIN + "/auth/delete-content?id=" + contentItem?.id.toString(), {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${await getToken()}`,
+            },
+            credentials: "include",
+    }).then(res => { 
+        if (res.ok) {
+            setError("Deleted successfully!", "success")
+            location.href = "/profile"
+        } else {
+            // Extract error message 
+            res.json().then(json => {
+                setError("Response: " + json.message, "error")
+            }).catch(err => {
+                setError("An error occurred", "error")
+                console.error(err)
+            })
+        }
+    }).catch(err => { 
+        setError("A client error occurred", "error")
+    })
+    }
+
+    async function handleSubmit(e: any) {
         e.preventDefault()
         const form = e.target 
         const formdata = new FormData(form)
         if (!formdata.get("file") ) {
-            if (!contentItem?.url) {
-                setError("No file selected")
-                setShowAlert(true)
-                return
-            } else {
-                setError("No file selected, using existing file")
-                setShowAlert(true)
-                formdata.append("url", contentItem.url)
-
-            }
+            setError("No file selected", "warning")
         }
 
         formdata.append("topics", JSON.stringify(selectedTops))
         formdata.append("id", contentItem!.id.toString())
 
         console.log("Formdata:", formdata.get("title"))
-        DDL.UpdateContentItem(formdata, () => {
-            setError("Upload successful")
-            location.reload()
-            setShowAlert(true)
-        }, (err) => {
+        fetch( API_DOMAIN + "/auth/update-content?id=" + contentItem?.id.toString(), {
+            method: "POST",
+            headers: {
+                    "Authorization": `Bearer ${await getToken()}`,
+            },
+            credentials: "include",
+            body: formdata
+        }).then(res => {
+            if (res.ok) {
+                setError("Updated successfully!", "success")
+                location.href = "/profile"
+            } else {
+                // Extract error message 
+                res.json().then(json => {
+                    setError("Response: " + json.message, "error")
+                }).catch(err => {
+                    setError("An error occurred", "error")
+                    console.error(err)
+                })
+            }
+        }).catch(err => { 
+            setError("A client error occurred", "error")
             console.error(err)
-        })
-    }
+        })}
 
     // Optionally hide the alert after a timeout
     React.useEffect(() => {
@@ -139,8 +154,8 @@ export default function ContentEditor() {
                 <div className="flex justify-around items-center max-h-full m-4">
                     <div className="form flex-shrink mr-20">
                         <div className=" ">
-                            <input onChange={onFileAdded} type="file" name="file" id="file" accept="image/*"
-                                defaultValue={contentItem?.url}/>
+                            <input onChange={onFileAdded} type="file" name="file" id="file" accept="image/* video/* .pdf"
+                                />
                         </div>
                         <div className="h-[30%] ">
                             <div className="flex flex-col">
@@ -160,11 +175,11 @@ export default function ContentEditor() {
                                 </div>}
                             <div className="w-[20rem] flex justify-between">
                                 <Topics SelectedTopicsCallback={setSelectedTops}/>
-                                {isLoggedIn && accessLevel < 2 && <div className="flex flex-col items-center w-8">
+                                <div className="flex flex-col items-center w-8">
                                     <label className="text-[0.7rem]" htmlFor="official">Official</label>
                                     <input name="official" id="official" type="checkbox"
                                     defaultChecked={contentItem?.official}/>
-                                </div>}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -174,11 +189,26 @@ export default function ContentEditor() {
                 </div>
             </div>
             <div className="flex justify-around items-center relative bottom-0 w-full">
-                <input className="btn" type="submit" value="Bild Editieren"/>
-                <input className="btn" type="button" value="Bild Löschen" 
-                    onClick={() => DDL.DeleteContentItem(contentItem!.id, ()=>{
-                        location.href = "/profile"
-                    })}/>
+                <input className="btn btn-accent" type="submit" value="Bild Editieren"/>
+                <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    
+                <input className="btn btn-primary" type="button" value="Bild Löschen" />
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-white">
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Bist Du dir sicher?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Dies kann nicht rückgängig gemacht werden. Diese Aktion löscht das Bild dauerhaft.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDelete()} className="cursor-pointer">Löschen</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+                </AlertDialog>
+    
                 
             </div>
 

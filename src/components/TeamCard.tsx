@@ -13,7 +13,7 @@ export default function TeamCard(props: TeamCardProps) {
                 <h2 className="card-title">
                     <b>{props.title}</b>
                     
-                    {(props.tag != null) && <div className="badge badge-secondary">{props.tag}</div>}
+                    {(props.tag != null) && <div className="badge badge-secondary rounded-xl p-1">{props.tag}</div>}
                     
                 </h2>
                 <p className="text-left text-lg">

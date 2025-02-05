@@ -1,21 +1,28 @@
+"use client";
+
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
-import {DDL} from "@/lib/DDL";
-import type { HTMLAttributes } from "astro/types";
-import React from "react";
-interface Props extends HTMLAttributes<"a"> {
-  pathname: string;
-  subpath: any;
+import {DDL} from "../lib/DDL";
+import React, { useEffect, useState } from "react";
+interface Props  {
   href: string;
   title: string;
+  class?: string;
 }
 
 export function HeaderLink(props: Props) {
   const { href, class: className } = props;
-  const pathname = props.pathname;
-  const subpath = props.subpath;
+  const [pathname, setPathname] = useState("");
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
+  const subpath = pathname.split("/").slice(1);
   const isActive = href === pathname || href === "/" + (subpath?.[0] || "");
-  console.log("isActive", isActive, href, pathname, subpath);
 
   return (
     <>
@@ -39,21 +46,15 @@ export function HeaderLink(props: Props) {
 }
 
 export function ProfileLink() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  React.useEffect(() => {
-          DDL.GetAuthStatus(
-            () => {
-                setIsLoggedIn(true)
-              
-            }, 
-          )
 
-      }, [])
+  return ( <>
+      <SignedIn>
+        <UserButton showName />
 
-  return (
-    <>{isLoggedIn ? <a href={`/profile`} className="hover:text-primary text-black">Profil</a> 
-    : <a href="/login" className="hover:text-primary text-black">Login</a>}
-
+      </SignedIn>
+      <SignedOut>
+          <a href="/login" className="hover:text-primary text-black">Login</a>
+      </SignedOut>
     </>
   );
 }

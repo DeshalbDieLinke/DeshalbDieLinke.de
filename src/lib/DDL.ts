@@ -1,8 +1,9 @@
-import type { ContentItem, ContentType } from "@/types/ContentItem"
-import type { User } from "@/types/User"
-import { API_DOMAIN } from "config"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { ContentItem, ContentType } from "../types/ContentItem"
+import type { User } from "../types/User"
+import { API_DOMAIN } from "../../config"
 
-
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DDL {
     /**
      * Represents a ContentItem Search.
@@ -26,18 +27,21 @@ export namespace DDL {
      * @param onRejected - Optional callback function to be called when the request is rejected (e.g., status 401).
      * @param onError - Optional callback function to be called when an error occurs during the request.
      */
-    export function GetAuthStatus(onSuccess: (user: User) => void, onRejected?: () => void, onError?: (err: Error) => void) {
-            fetch(API_DOMAIN + "/auth/check", {
+    export const GetAuthStatus = async (onSuccess: (user: User) => void, onRejected?: () => void, onError?: (err: Error) => void) => 
+        {
+            try {
+                const res = await fetch(API_DOMAIN + "/auth/check", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     credentials: "include"
-                }).then(res => {
-                    if (res.status === 401) {
+                })
+            
+            if (res.status === 401) {
                         if (onRejected) 
                         onRejected()
-                    } else if (res.ok) {
+            } else if (res.ok) {
                         res.json().then(json => {
                             if (onSuccess) {
                                 console.log("JSON", json)
@@ -51,12 +55,11 @@ export namespace DDL {
                             }
                         })
                     }
-                }).catch(err => { 
+                } catch(err) { 
                     if (onError) {
-                        onError(err)
-                    }
-                })
-    }
+                        onError(err as Error)
+                } } }
+
 
     export function GetNewUserToken(email: string, accessLevel: number, onSuccess: (token: string) => void, onRejected?: () => void, onError?: (err: Error) => void) {
         fetch(API_DOMAIN + "/auth/new-user", {
@@ -91,8 +94,8 @@ export namespace DDL {
      * @param onError - Optional callback function to be called when an error occurs during the request.
      * @param searchQuery - Optional object containing search parameters.
      */
-    export function GetContentItems(onSuccess: (contenItems: ContentItem[]) => void,  searchQuery?: ContentSearchQuery, onFailure?: (err: Error) => void) {
-        var url = API_DOMAIN + "/content"
+    export function GetContentItems(onSuccess: (contenItems: ContentItem[]) => void,  searchQuery?: DDL.ContentSearchQuery, onFailure?: (err: Error) => void) {
+        let url = API_DOMAIN + "/content"
         // Parsr the search query object into a URLSearchParams object
         if (searchQuery) {
             if (searchQuery.author != undefined) { 
@@ -121,7 +124,7 @@ export namespace DDL {
                             if (json.length == 0) {
                                 onSuccess([])
                             }
-                            const contentItems: ContentItem[] = json.map((item: any) => ParseToContentItem(item))
+                            const contentItems: ContentItem[] = json.map((item: ContentItem) => ParseToContentItem(item))
                             // Map the JSON response to ContentItem objects
                             onSuccess(contentItems)
                         }
@@ -251,7 +254,7 @@ export namespace DDL {
                 })
     }
 
-    export function GetUsers(onSuccess: (users: User[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: ContentSearchQuery) {
+    export function GetUsers(onSuccess: (users: User[]) => void, onRejected?: () => void, onError?: (err: Error) => void, searchQuery?: DDL.ContentSearchQuery) {
         fetch( API_DOMAIN +"/auth/users",
             {
                 credentials: "include",
@@ -314,8 +317,9 @@ export namespace DDL {
 
 
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export function ParseToContentItem(item: any): ContentItem {
-        var topics: string[];
+        let topics: string[];
         try {
             topics = item.Topics ? JSON.parse(item.Topics) : []; }
         catch (err) {
@@ -331,6 +335,9 @@ export namespace DDL {
         const uri = item.Uri 
         const official = item.Official
         const broken = item.Broken
+        const authorID = item.AuthorClerkID || item.AuthorID
+
+        console.log(authorID)
 
         const contentItem: ContentItem = {
             id: ID,
@@ -341,7 +348,8 @@ export namespace DDL {
             url: uri,
             topics: topics,
             official: official,
-            broken: broken
+            broken: broken,
+            autherID: authorID
         }
         return contentItem
 
@@ -351,7 +359,7 @@ export namespace DDL {
         throw new Error("Function not implemented.")
     }
 
-    export function DeleteContentItem(ID: number, onSuccess?: () => void, onFailure?: (err: Error) => {}) {
+    export function DeleteContentItem(ID: number, onSuccess?: () => void, onFailure?: (err: Error) => unknown) {
         if (ID) {
             fetch(
                 API_DOMAIN + "/content/delete?id=" + ID,

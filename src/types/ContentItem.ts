@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export { ContentItemClass, type ContentItem, ContentType };
 
 
@@ -58,6 +59,6 @@ interface ContentItem {
     url?: string;
     type: ContentType;
     official: boolean;
-    autherID?: number;
+    autherID: string;
     broken?: boolean;
 }

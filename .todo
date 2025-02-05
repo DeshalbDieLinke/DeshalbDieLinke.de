@@ -1,4 +1,0 @@
-Fixes:
-    ✘ fix stuer graph on mobile @started(25-01-15 18:01) @cancelled(25-01-15 18:15) @wasted(14m4s)
-    - will need to rewrite logic and render graph each update.
-Features:

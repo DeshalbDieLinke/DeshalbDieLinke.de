@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Select from 'react-select';
 import { API_DOMAIN } from '../../config.ts';
+import React from 'react';
 
 export default function Topics(props: {SelectedTopicsCallback: (topics: string[]) => void}) {
 
@@ -26,7 +27,7 @@ export default function Topics(props: {SelectedTopicsCallback: (topics: string[]
     isMulti
     name="Themen"
     options={ topics.map((topic, index) => {return {value: index, label: topic}})}
-    className="basic-multi-select"
+    className="basic-multi-select w-3/4"
     classNamePrefix="select"
     onChange={(selectedOption) => {
         if (selectedOption) {

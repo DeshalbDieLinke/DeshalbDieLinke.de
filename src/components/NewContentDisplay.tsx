@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {type ContentItem} from "../types/ContentItem.ts";
 import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
@@ -36,7 +38,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
     }
 
     function openPopup(item: ContentItem) {
-        let p = <ContentPopup item={item} deleteCallback={deletePopup} />;
+        const p = <ContentPopup item={item} deleteCallback={deletePopup} />;
         setPopup(p);
     }
 

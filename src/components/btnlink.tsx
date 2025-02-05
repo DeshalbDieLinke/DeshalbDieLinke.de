@@ -1,5 +1,5 @@
 export default function BtnLink(props: {title: string, href: string}) {
-    var style = {
+    const style = {
         fontFamily: 'work sans',
     }
     return <>

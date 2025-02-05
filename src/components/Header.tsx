@@ -1,21 +1,16 @@
+"use client";
+
 import { useState } from "react";
 import {HeaderLink} from "./Links.tsx";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DDL } from "@/lib/DDL.ts";
+import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton } from "@clerk/clerk-react";
+import Link from "next/link";
 
 
 
 
 
-export default function Header(props: { pathname: string; subpath: any }) {
-  var [burgerState, setBurgerState] = useState(false);
+export default function Header() {
+  const [burgerState, setBurgerState] = useState(false);
   const css = `
 	header {
 		height: 3.5rem;
@@ -60,40 +55,32 @@ export default function Header(props: { pathname: string; subpath: any }) {
     }*/
 	`;
 
-  let links = <><HeaderLink
-  pathname={props.pathname}
-  subpath={props.subpath}
+  const links = <><HeaderLink
   href="/"
   title="Home"
 ></HeaderLink>
 <HeaderLink
-  pathname={props.pathname}
-  subpath={props.subpath}
   href="/faq"
   title="FAQ"
 ></HeaderLink>
 <HeaderLink
-  pathname={props.pathname}
-  subpath={props.subpath}
   href="/material"
   title="Material"
 ></HeaderLink>
 <details className="dropdown">
-  <summary className="m-1 text-black hover:cursor-pointer">Konto</summary>
+  <summary className="m-1 text-black hover:cursor-pointer"><SignedIn> 
+      <UserButton showName />
+    </SignedIn></summary>
   <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
     <li><a href="/upload">Hochladen</a></li>
-    <li><a href="/login">Anmelden</a></li>
-    <li><a href="/register">Registrieren</a></li>
-    <li><a href="/profile">Profil</a></li>
-
-    <li><a onClick={
-      () => {
-        DDL.Logout(()=>{
-          location.reload();
-        });
-      }
-    }>Abmelden</a></li>
-
+    <SignedOut>
+     <li> <SignInButton /></li>
+     <li> <SignUpButton /></li>
+    </SignedOut>
+    
+    <SignedIn>
+      <SignOutButton />
+    </SignedIn>
   </ul>
 </details>
 </>;
@@ -104,9 +91,9 @@ export default function Header(props: { pathname: string; subpath: any }) {
       <header className="sticky top-0 bg-white h-[3.5rem] z-50">
         <nav className="h-full">
           <div className="flex items-center space-x-2 pl-0 w-[20%] h-full rounded-none">
-              <a href="/" className="w-full h-full rounded-none">
+              <Link href="/" className="w-full h-full rounded-none">
                   <img className="w-32 h-32 rounded-none top-10 left-10 absolute" src="/images/logos/DDL-Logo.svg" alt="Logo" />
-              </a>
+              </Link>
           </div>
           
           <div className="internal-links lg:block p-[1.1rem] hidden">
