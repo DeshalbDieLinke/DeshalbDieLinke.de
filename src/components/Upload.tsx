@@ -103,7 +103,7 @@ export default function Upload() {
             </form>
             </SignedIn>
             <SignedOut>
-                <RedirectToSignIn />
+                {/* <RedirectToSignIn /> */}
                 </SignedOut>
 
         </div>

@@ -26,7 +26,7 @@ export default function Globals({ children, className }: { children: React.React
                         <button onClick={resetErrorBoundary}>Try again</button>
                     </div>
                 )}>
-                    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"} localization={deDE} >
+                    <ClerkProvider  dynamic publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"} localization={deDE} >
                         <div className={className}>
                             {children}
                         </div>
