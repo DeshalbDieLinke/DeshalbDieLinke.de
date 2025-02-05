@@ -1,6 +1,8 @@
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* esling-disable @typescript-eslint/no-unused-vars */
+
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import {ContentType, type ContentItem} from "../types/ContentItem";
 import {useEffect, useState} from "react";
@@ -10,14 +12,20 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
         props.deleteCallback(null);
     };
 
+    
     const [canEdit, setCanEdit] = useState(false);
     const { userId } = useAuth();
+
 
 
 
     useEffect(() => {
         setCanEdit(userId === props.item.autherID);
     }, []);
+
+    useEffect(() => {
+        console.log("Can edit: " + canEdit);
+    }, [canEdit]);
 
     return <div className="overlay w-screen h-screen backdrop-blur-sm bg-opacity-50 bg-gray-500 top-0 left-0 z-[9999] fixed popup "> 
 
