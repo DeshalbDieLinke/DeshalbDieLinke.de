@@ -15,7 +15,7 @@ export default function Homepage() {
                 purpose="/material"
                 className="bg-gradient-to-br from-bnlue-200 via-blue-300 to-fuchsia-100 center-card z-10 flex flex-col">
                 <Image src="https://ddl.fra1.cdn.digitaloceanspaces.com/Banner.jpg" fill alt="Material" className="object-cover h-full w-full rounded-xl grow" />
-                <div className=" h-20 text-center z-12 absolute bottom-10 rounded-xl w-full left-1/2 -translate-x-1/2 bg-[var(--primary)] flex items-center justify-center ">
+                <div className=" h-20 text-center z-12 absolute bottom-10 rounded-xl w-3/4 left-1/2 -translate-x-1/2 bg-[var(--primary)] flex items-center justify-center ">
                     <p className="text-6xl font-black text-white translate-y-8">Material</p>
                 </div>
             </HomeCard>
