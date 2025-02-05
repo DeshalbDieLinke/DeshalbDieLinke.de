@@ -114,14 +114,14 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
         const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     
         return (
-            <div className="pagination-controls flex justify-center items-center my-4 join">
+            <div className="pagination-controls gap-2 flex justify-center items-center my-4 join">
                 {pageNumbers.map(number => (
                     <button
                         key={number}
                         onClick={() => setCurrentPage(number)}
-                        className={`join-item btn ${currentPage === number ? "btn-active" : ""}`}
+                        className={`join-item btn border-2 border-black ${currentPage === number ? "btn-active" : ""}`}
                     >
-                        {number}
+                        <p className="text-black">{number}</p>
                     </button>
                 ))}
             </div>

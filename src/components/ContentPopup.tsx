@@ -1,7 +1,7 @@
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAuth } from "@clerk/nextjs";
+import { SignedIn, useAuth } from "@clerk/nextjs";
 import {ContentType, type ContentItem} from "../types/ContentItem";
 import {useEffect, useState} from "react";
 
@@ -23,10 +23,10 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
 
         <div id="default-modal" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
         justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex">
-        <div className="relative p-4 w-full max-w-2xl max-h-full bg-white">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 className="text-xl font-black text-gray-900 dark:text-white">
+        <div className="relative p-4 w-full max-w-2xl max-h-full">
+        <div className="relative bg-white rounded-lg shadow bg-frey-300">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 className="text-xl font-black text-black">
                     {props.item.title}
                 </h3>
                 <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => del()}>
@@ -43,8 +43,10 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
             </div>
             <div className="flex justify-around items-center w-ful p-2 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <a download href={props.item.url} className="visited:text-white hover:text-white text-white bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Herunterladen</a>
-                {canEdit && <a href={"/edit-content?id=" + String(props.item.id)} className="text-black hover:text-gray-500">Bild
-                    Editieren </a>}
+                <SignedIn>
+                    <a href={"/edit-content?id=" + String(props.item.id)} className="text-black hover:text-gray-500">Bild
+                    Editieren </a>
+                </SignedIn>
                 <button onClick={ () => {
                     try {
                         shareFile(props.item);
