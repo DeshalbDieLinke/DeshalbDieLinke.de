@@ -5,6 +5,7 @@ import { SignedIn, SignedOut, useAuth, UserProfile } from "@clerk/nextjs";
 // import Profile from "@/components/Profile/Profile";
 import { useEffect, useState } from "react";
 import { API_DOMAIN } from "../../../config";
+import Profile from "@/components/Profile/Profile";
 
 
 function ProfilePage() {
@@ -36,7 +37,7 @@ function ProfilePage() {
 
 		<div className="flex flex-col items-center justify-center">
 					<SignedIn>
-						<UserProfile />
+						<Profile />
 					</SignedIn>
 					<SignedOut >
 						<p>Bitte logge dich ein, um dein Profil zu sehen. Das Profil anderer zu sehen ist NOCH nicht implementiert.</p>
