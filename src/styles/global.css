@@ -13,9 +13,7 @@
 	color-scheme: light;
 
 	--color-base-100: #FFFFFF;
-	--color-base-200: #FFFFFF;
-	--color-base-300: #FFFFFF;
-	--color-base-content: #FFFFFF;
+	--color-base-content: #D3D3D3;
 	--color-primary: #FF0000;
 	--color-primary-content: #FFFFFF;
 	--color-secondary: #6F003C;
@@ -32,7 +30,7 @@
 	--color-warning-content: oklch(20% 0.05 80);
 	--color-error: oklch(65% 0.3 30);
 	--color-error-content: oklch(98% 0.01 30);
-  
+	
 	/* border radius */
 	--radius-selector: 1rem;
 	--radius-field: 0.25rem;
@@ -112,6 +110,7 @@
 /* @tailwind base; */
 /* @tailwind components; */
 /* @tailwind utilities; */
+
 
 :root {
 	--primary: #ff0000;
@@ -301,6 +300,7 @@ hr {
 
 	
 }
+
 
 /* @layer base {
   * {

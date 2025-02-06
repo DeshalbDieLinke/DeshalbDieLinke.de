@@ -143,8 +143,8 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
 
     return (
         <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full h-full z-50 p-1 md:p-8">
-            
-            <SelectionPills />
+            {contentItems.length > 0 && (
+            <SelectionPills /> )}
             <PaginationControls />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4 flex-wrap">
                 {filteredItems.length > 0 ? (
@@ -156,7 +156,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
                         />
                     ))
                 ) : (
-                    <div className="col-span-full text-center text-gray-500">
+                    <div className="col-span-full h-full text-center text-gray-500">
                         Keine Inhalte verfügbar
                     </div>
                 )}

@@ -29,11 +29,13 @@ export default function RootLayout({
             <meta name="description" content={SITE_DESCRIPTION} />
 
 
-            <body>
-                <Globals>
+            <body >
+                <Globals className="min-h-screen flex flex-col">
                     <Header />
-                    {children}
-                    <Footer />
+                        <div className="grow h-full">
+                        {children}       
+                        </div>             
+                    <Footer className="shrink text-center bg-grey-background p-4 bottom-0 w-full footer footer-center mt-auto bg-grey-400 flex flex-col" />
                 </Globals>
             </body>
     </html>

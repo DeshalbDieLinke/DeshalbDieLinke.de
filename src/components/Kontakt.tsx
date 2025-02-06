@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const links = {
     "insta": "https://www.instagram.com/deshalbdielinke.de/",
     "webseite": "https://deshalbdielinke.de/",
@@ -8,11 +10,12 @@ const links = {
 }
 
 
-export function KontaktKompakt(props: {className?: string, iconSize?: number}) { 
+export function KontaktKompakt(props: {className?: string, iconSize?: number, iconColor?: string}) { 
     const iconSize = props.iconSize || 50;
-    return <>
-        <div className="flex gap-2 m-2">
-            <a href={links["insta"]} target="_blank"><img title="Instagram" src="https://ddl.fra1.cdn.digitaloceanspaces.com/Logos/instagram.svg" width={iconSize} height={iconSize} /></a> 
+    const iconColor = props.iconColor || 'black';
+    return <>    
+        <div className={"flex gap-2 m-2" + props.className}>
+            <a href={links["insta"]} target="_blank"><Image alt="Instagram" title="Instagram" src="https://ddl.fra1.cdn.digitaloceanspaces.com/Logos/instagram.svg" width={iconSize} height={iconSize} /></a> 
             <a href={links["x"]} target="_blank"><img title="X" src="https://ddl.fra1.cdn.digitaloceanspaces.com/Logos/x-logo.svg" width={iconSize} height={iconSize} /></a> 
             <a href={links["github"]} target="_blank"><img title="Github" src="https://ddl.fra1.cdn.digitaloceanspaces.com/Logos/github.svg" width={iconSize} height={iconSize} /></a> 
             {/* <a href={links["tiktok"]} target="_blank"><img title="TikTok" src="/images/logos/tiktok.svg" width={iconSize} height={iconSize} /></a>  */}
