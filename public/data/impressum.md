@@ -27,4 +27,4 @@ Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden 
 
 ## Datenschutz
 
-Siehe </datenschutz>
+Siehe <https://deshalbdielinke.de/datenschutz>
