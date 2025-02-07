@@ -1,7 +1,6 @@
 import DDLMarkdown from '@/components/DDLMarkdown';
 import fs from 'fs';
 import path from 'path';
-import Markdown from 'react-markdown';
 
 
 function TOSPage(){

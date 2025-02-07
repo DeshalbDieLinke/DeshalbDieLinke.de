@@ -1,8 +1,7 @@
-import { SignInButton, UserButton, UserProfile, useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { Skeleton } from "../ui/skeleton";
 import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
-import Card from "../Card";
 import GridWrapper from "../NewContentDisplay";
 import { ContentItem } from "@/types/ContentItem";
 import { DDL } from "@/lib/DDL";
@@ -18,15 +17,7 @@ function Profile(props: { id?: string }) {
     }
     // For now assume the user is accessing their own profile
     const { user  } = useUser();    
-    if (!user) {
-        return <div>
-            <p> You must be signed in to view your profile</p>
-            <SignInButton />
-        </div>;
-    }
 
-    const userBio = user.publicMetadata.bio as string;
-    const userName = user.username;
 
     const [contentItems, setContentItems] = useState<ContentItem[]>([]);
 
@@ -38,8 +29,8 @@ function Profile(props: { id?: string }) {
     return ( 
 
         <div className="flex flex-col w-screen h-full b-red-200">
-            
-            <div className=" flex bg-blue-200 w-full items-center justify-center p-4">
+           <SignedIn >
+           <div className=" flex bg-blue-200 w-full items-center justify-center p-4">
                 <Suspense fallback={<Skeleton className="rounded-full bg-black w-24 h-24" />}>
                 {/* <UserButton appearance={{
                     elements: {
@@ -56,7 +47,7 @@ function Profile(props: { id?: string }) {
                         },
                     } 
                 }}/> */}
-                <Image src={user.imageUrl} width={100} height={100} alt="Profile Picture" className=" z-5 border-black rounded-full bg-white"/>
+                <Image src={user!.imageUrl} width={100} height={100} alt="Profile Picture" className=" z-5 border-black rounded-full bg-white"/>
                 </Suspense>
                 <div className="z-5 absolute outline-2 outline- outline-black 1-5 w-24 h-24 rounded-full "></div>
             </div>
@@ -64,10 +55,10 @@ function Profile(props: { id?: string }) {
             <div className="z-3 bg-white p-4 shrink shadow-md border-t-2 h-fit max-h-50 h-fit rounded-xl left-1/2 -translate-x-1/2 z-2 relative w-9/10 -top-10 grow items-center justify-center">
                 <div className="flex flex-row items-start justify-between">
                         <div className="flex flex-col"><div className="flex flex-col items-center justify-center">
-                        {userName && <p className="font-black text-2xl ">@{userName}</p> }
+                        {user!.username && <p className="font-black text-2xl ">@{user!.username}</p> }
                         </div>
                         <div>
-                        {userBio ? <p className="text-sm ">{userBio}</p> : <p className="text-sm ">No bio provided</p>}
+                        {user!.publicMetadata.bio as string ? <p className="text-sm ">{user!.publicMetadata.bio as string}</p> : <p className="text-sm ">No bio provided</p>}
                         </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
@@ -81,8 +72,12 @@ function Profile(props: { id?: string }) {
 
             <div className="w-9/10 bg-gray-100 h-full grow p-4 left-1/2 -translate-x-1/2 z-1 relative rounded-xl  ">
                 <GridWrapper contentItems={contentItems}/>
-            </div>
-
+            </div>        
+            
+            </SignedIn> 
+            <SignedOut>
+                <SignInButton />
+            </SignedOut>
         </div>
     );
 }

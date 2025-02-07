@@ -9,7 +9,7 @@ const links = {
     "email": "mailto:eric.stehr@dielinke-lsa.de",
 }
 
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export function KontaktKompakt(props: {className?: string, iconSize?: number, iconColor?: string}) { 
     const iconSize = props.iconSize || 50;
     const iconColor = props.iconColor || 'black';

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 function FileUpload(props: {onFileAdded?: (e: any) => void, className?: string}) {
 
     const onFileAdded = props.onFileAdded ?? ((e: any) => {});

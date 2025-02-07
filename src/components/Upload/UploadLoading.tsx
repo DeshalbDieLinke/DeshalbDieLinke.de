@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from 'react';
 interface UploadLoadingProps {
     status: "idle" | "uploading" | "success" | "error"
 }

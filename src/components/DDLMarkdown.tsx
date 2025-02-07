@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // Template for Markdown for DDL
 
 import Markdown from "react-markdown";

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Card from "../Card";
 import HomeCard from "./HomeCard";
 import HomeCardWrapper from "./HomeCardWrapper";
-import React, { useEffect } from "react";
+import React from "react";
 
 export default function Homepage() {
     // const follower = React.useRef<HTMLDivElement>(null);
