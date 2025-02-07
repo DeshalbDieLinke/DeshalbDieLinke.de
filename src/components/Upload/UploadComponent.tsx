@@ -11,6 +11,7 @@ import { ContentItem } from "@/types/ContentItem";
 import { Skeleton } from "../ui/skeleton";
 import FileUpload from "./FileUpload";
 import Image from "next/image";
+import { UploadServer } from "./UploadServer";
 
 
 interface Preview {
@@ -18,7 +19,7 @@ interface Preview {
     type: string;
 }
 
-export default function UploadComponent(props: {submit: (formdata: FormData) => Promise<void>}) {
+export default function UploadComponent(props: {submit?: (formdata: FormData) => Promise<void>}) {
     const [selectedTops, setSelectedTops] = React.useState<string[]>([])
     const [preview, setPreview] = React.useState<Preview | null>(null);
     const showError = useShowError()
@@ -69,7 +70,7 @@ export default function UploadComponent(props: {submit: (formdata: FormData) => 
     
             formdata.append("topics", JSON.stringify(selectedTops))
         
-        props.submit(formdata)
+        // props.submit(formdata)
 
     }
     const follower = useRef<HTMLDivElement>(null);
@@ -78,7 +79,7 @@ export default function UploadComponent(props: {submit: (formdata: FormData) => 
 
     return <>
         <div className="h-full w-full flex flex-col items-center justify-center overflow-y-scroll ">
-            <form  onSubmit={handleSubmit} className="relative h-full md:h-[90%] lg:w-[65%] w-full flex-col  items-center justify-center  md:border md:p-8 border-black rounded-md">
+            <form action={UploadServer}  className="relative h-full md:h-[90%] lg:w-[65%] w-full flex-col  items-center justify-center  md:border md:p-8 border-black rounded-md">
                 <div className="flex justify-around w-full items-start flex-wrap max-h-full md:m-4 gap-3">
                     <div className="w-3/4 md:w-fit ">
                         <div className="h-full relative rounded-md md:w-100 md:h-100 w-full border-2  flex flex-col p-4 items-center justify-around">

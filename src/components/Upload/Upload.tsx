@@ -5,29 +5,32 @@ import { API_DOMAIN } from "../../../config"
 import UploadComponent from "./UploadComponent"
 import UploadLoading from "./UploadLoading"
 import React, { useCallback } from "react"
+import { UploadServer } from "./UploadServer";
+
 
 function Upload() {
     const [uploadStatus, setUploadStatus] = React.useState<"idle" | "uploading" | "success">("idle")
     const { getToken } = useAuth()
     const showError = useShowError()
- 
+    
+    // fetch( API_DOMAIN + "/auth/upload", {
+    //     method: "POST",
+    //     headers: {
+    //             "Authorization": `Bearer ${await getToken()}`
+    //     },
+    //     credentials: "include",
+    //     body: formdata
+        
+    // }).
 
     async function submit(formdata: FormData): Promise<void | Response> { 
         console.log("Formdata:", formdata.get("title"))
-        return fetch( API_DOMAIN + "/auth/upload", {
-            method: "POST",
-            headers: {
-                    "Authorization": `Bearer ${await getToken()}`
-            },
-            credentials: "include",
-            body: formdata
-            
-        }).then((res) => {
+        return UploadServer(formdata).then((res) => {
                 if (!res) {
                     showError("No Response", "error")
                     setUploadStatus("idle")
                 }
-                if (res?.ok) {
+                if (res) {
                     setUploadStatus("success")
                 } else {
                     console.log(res)

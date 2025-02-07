@@ -12,6 +12,9 @@
     "@clerk/localizations": "^3.10.4",
     "@clerk/nextjs": "^6.11.0",
     "@kbox-labs/react-echarts": "^1.4.2",
+    "@prisma/client": "6.3.1",
+    "@prisma/extension-accelerate": "1.2.1",
+    "@prisma/extension-pulse": "1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-aspect-ratio": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.5",
@@ -24,6 +27,7 @@
     "@tanstack/react-table": "^8.20.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "16.4.7",
     "echarts": "^5.6.0",
     "embla-carousel-react": "^8.5.2",
     "lucide-react": "^0.474.0",
@@ -49,7 +53,13 @@
     "eslint-config-next": "15.1.6",
     "pnpm": "^10.2.0",
     "postcss": "^8.5.1",
+    "prisma": "6.3.1",
     "tailwindcss": "^4.0.3",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client"
+    ]
   }
 }
