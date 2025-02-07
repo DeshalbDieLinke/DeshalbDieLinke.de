@@ -47,7 +47,39 @@
 	--depth: 1;
 	--noise: 0;
 }
+@keyframes feedback {
+    0% {
+		left: 50%; /* Changed to percentage */
+		bottom: 50%; /* Changed to percentage */
+		transform: translateX(-50%) scale(0); /* Corrected translate */
+		opacity: 1; 
+    }
+    10% {
+		left: 50%; 
+		bottom: 50%;
+		width: fit-content;
+		height: fit-content;
 
+      	transform: translateX(-50%) scale(1.1); /* Corrected translate */
+    }
+	25% {
+		left: 50%; 
+		bottom: 10vh;
+		transform: translateX(-50%) scale(1); 
+    }
+	90% {
+		opacity: 1;
+		transform: translateX(-50%) scale(1); /* Corrected translate */
+	}
+    100% {
+		width: fit-content;
+		height: fit-content;
+		left: 50%; 
+		bottom: 10%;
+		transform: translateX(-50%) scale(0); /* Corrected translate */
+		opacity: 0; /* Added opacity */
+    }
+  }
 @keyframes fanOutBottomLeft {
 	from {
 		transform: translate(0, 0) rotate(0deg);
@@ -89,6 +121,11 @@
 		z-index: 12;
 		transform: scale(1.05);
 	}
+}
+
+.animate-feedback {
+	border-radius: 8px;
+	animation: feedback 2s forwards;
 }
 
 .animate-fanOutBottomLeft {
