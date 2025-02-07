@@ -1,14 +1,63 @@
+"use client";
 import Image from "next/image";
 import Card from "../Card";
 import HomeCard from "./HomeCard";
 import HomeCardWrapper from "./HomeCardWrapper";
+import React, { useEffect } from "react";
 
 export default function Homepage() {
+    // const follower = React.useRef<HTMLDivElement>(null);
+    // const followerBlue = React.useRef<HTMLDivElement>(null);
+    // const followerGreen = React.useRef<HTMLDivElement>(null);
+    // const bound = React.useRef<HTMLDivElement>(null);
+
+    // useEffect(() => {
+    //     const handleMouseMove = (e: any) => {
+    //         const rect = bound.current?.getBoundingClientRect();
+
+    //         if (!rect) return;
+    //         if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+    //             return;
+    //         }
+    //         const x = e.clientX - rect.left; 
+    //         const y = e.clientY - rect.top;
+
+    //         if (follower.current && followerBlue.current && followerGreen.current) {
+    //             follower.current.style.setProperty("top", y + "px");
+    //             follower.current.style.setProperty("left", x + "px");
+    //             // Chaotic movement of the blue follower
+    //             const xBlue = x + Math.random() * 500 - 50;
+    //             followerBlue.current.style.setProperty("top", y + "px");
+    //             followerBlue.current.style.setProperty("left", xBlue + "px");
+    //             followerGreen.current.style.setProperty("top", y + "px");
+    //             followerGreen.current.style.setProperty("left", x + "px");
+
+    //         }
+    //     }
+    //     window.addEventListener("mousemove", handleMouseMove);
+    //     return () => {
+    //         window.removeEventListener("mousemove", handleMouseMove);
+    //     }
+
+
+    // }, []);
+
 
     return (
     <>
-    <div className="w-full p-4 flex justify-center items-center flex-col gap-4 bg-gradient-to-br from-grey-200 via-grey-100 to-red-100">
+    {/* <div ref={bound} className="w-screen absolute top-[3.5rem] left-0 h-screen overflow-hidden"> 
+        <div ref={follower} className={"z-1 absolute shadow-2xl shadow-red-200 rounded-full bg-red-200/80 pointer-events-none transition-all duration-100 ease-linear blur-[100vw] w-[100vw] aspect-square -translate-x-1/2 -translate-y-1/2  "}></div>
+        <div ref={followerBlue} className={"z-1 rotate-45 absolute shadow-2xl shadow-red-200 rounded-full bg-blue-200/80 pointer-events-none transition-all duration-100 ease-linear blur-[100vw] w-[25vw] h-40 -translate-x-180  -translate-y-[10vh]  "}></div>
+        <div ref={followerGreen} className={"z-1 absolute shadow-2xl shadow-orange-200 rounded-full bg-green-100/90 pointer-events-none transition-all duration-100 ease-cubic blur-[50vw] w-[5vw] h-10 translate-x-1/2  -translate-y-0  "}></div>
+
+    </div>
+ */}
+
+    <div  className="w-full p-4 flex justify-center items-center flex-col gap-4 bg-gradient-to-br from-grey-200 via-grey-100 to-red-100 ">
+
         <div className=" flex-col items-center justify-center h-screen hidden lg:flex">
+            
+
             <HomeCardWrapper className="cards  w-full ">
             {/* Center (deck) card */}
             <HomeCard

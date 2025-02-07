@@ -9,7 +9,7 @@ export default function useShowError() {
         message: string,
         severity: "error" | "warning" | "info" | "success" = "error"
     ) => {
-        setError(message);
+        setError(message as string);
         setSeverity(severity);
     },
     [setError, setSeverity]

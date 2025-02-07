@@ -6,7 +6,8 @@ export default function Banner() {
         <img src={"https://ddl.fra1.cdn.digitaloceanspaces.com/Banner.jpg"} alt="Banner" className="h-full object-cover" />
     </div>
     <div className="intro bg-primary p-10 relative">
-    <div className="absolute left-0 top-0 quelle float-end p-2">
+    <div className="absolute left-0 top-0 quelle float-end p-2 ">
+        
             <p className=' text-xs text-white font-light '>
                 Bildquelle: Olaf Krostitz
             </p>
@@ -17,13 +18,13 @@ export default function Banner() {
         <p className='text-white'>Organisiert durch ehrenamtliche Basis-Mitglieder. Hier findet ihr eine breite Auswahl An Sharepics, die ihr gerne mit dem Hashtag #DeshalbDieLinke teilem könnt, um Werbung f&uuml;r eine starke linke Partei zu machen.</p> 
         <p className='text-white'> Am 23. Februar: <strong>#DeshalbDieLinke</strong></p>
         <div className='flex flex-wrap gap-2'>
-            <a download href="https://ddl.fra1.cdn.digitaloceanspaces.com/DDL_Logos_und_Vorlagen.zip" className="btn my-4 text-white">Logos & Vorlagen herunterladen</a>
-            <a href="/register" className="btn my-4">Eigene Inhalte Hochladen</a>
-            <a download href="https://ddl.fra1.cdn.digitaloceanspaces.com/Wahlprogramm.pdf" className="btn text-black my-4">Parteiprogramm runterladen</a>
-        </div>
- 
-
-
+            <a download href="https://ddl.fra1.cdn.digitaloceanspaces.com/DDL_Logos_und_Vorlagen.zip" className="btn border-none my-4 bg-white ">
+                <p className="translate-y-2">Logos & Vorlagen herunterladen</p></a>
+            <a href="/register" className="btn border-none bg-white my-4">
+                <p className="translate-y-2">Eigene Inhalte Hochladen</p></a>
+            <a download href="https://ddl.fra1.cdn.digitaloceanspaces.com/Wahlprogramm.pdf" className="btn border-none text-black border none bg-white my-4">
+                <p className="translate-y-2"> Parteiprogramm runterladen</p></a>
+        </div> 
         </div>
     </div>
 
