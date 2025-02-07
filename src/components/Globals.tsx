@@ -5,13 +5,15 @@ import {ErrorProvider} from "./Error/ErrorContext"
 import {ErrorBoundary} from "react-error-boundary"
 import ErrorAlert from "./Error/ErrorAlert"
 import { deDE } from "@clerk/localizations"
+import useShowError from "./Error/setError"
 
 export default function Globals({ children, className }: { children: React.ReactNode, className?: string }) {
     
     const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    const setError = useShowError()
 
     {if (!PUBLISHABLE_KEY) {
-        throw new Error("PUBLISHABLE_KEY not set")
+        setError("No Clerk Publishable Key found. Please add it to your .env file.")
     }}
     
    

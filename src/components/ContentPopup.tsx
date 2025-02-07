@@ -5,6 +5,7 @@
 
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import {ContentType, type ContentItem} from "../types/ContentItem";
+import CustomShare from "./CustomShare";
 import {useEffect, useState} from "react";
 
 export default function ContentPopup(props: {item: ContentItem, deleteCallback: (_: any) => void}) { 
@@ -13,11 +14,9 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
     };
 
     
+    const [showCustomShare, setShowCustomShare] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
     const { userId } = useAuth();
-
-
-
 
     useEffect(() => {
         setCanEdit(userId === props.item.autherID);
@@ -49,7 +48,7 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
             {props.item.type == ContentType.Text && <p>{props.item.description}</p>}
             {props.item.type == ContentType.Image && <img src={props.item.url} />}
             </div>
-            <div className="flex justify-around items-center w-ful p-2 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <div className="flex flex-wrap justify-around items-center w-ful p-2 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <a download href={props.item.url} className="visited:text-white hover:text-white text-white bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Herunterladen</a>
                 <SignedIn>
                     <a href={"/edit-content?id=" + String(props.item.id)} className="text-black hover:text-gray-500">Bild
@@ -57,44 +56,52 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
                 </SignedIn>
                 <button onClick={ () => {
                     try {
-                        shareFile(props.item);
+                        shareFile(props.item, setShowCustomShare);
                     }
                     catch (e) {
                         alert("Fehler beim Teilen: " + e);
                     }}} 
-                    className="text-white bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Bild Teilen</button>
+                    className="text-white bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Bild Teilen
+                </button>
             </div>
+            {showCustomShare && <CustomShare item={props.item}/>}
         </div>
     </div>
 </div>
 </div>
 }
 
-async function shareFile(item: ContentItem) {
-    try {
-      // Fetch the file from the server
-      const response = await fetch(item.url!); // Replace with your server file path
+async function FetchFile(url: string): Promise<File> {
+    const response = await fetch(url); // Replace with your server file path
     if (!response.ok) throw new Error('Failed to fetch file');
 
       // Convert the response to a Blob
     const blob = await response.blob();
-    const filename = item.url!.split("/").pop() ?? "sharepic.png";
+    const filename = url.split("/").pop() ?? "sharepic.png";
       // Create a File object
     const file = new File([blob], filename, { type: blob.type });
+    return file;
+}
 
-      // Check if navigator.share is supported
-    if (navigator.share && navigator.canShare({ files: [file] })) {
-        // Use navigator.share
-        await navigator.share({
-        title: file.name,
-        text: '#DeshalbDieLinke',
-        files: [file],
-        });
-        console.log('File shared successfully!');
-    } else {
-        alert('Sharing not supported or file type not shareable.');
-    }
+async function shareFile(item: ContentItem, setShowCustomShare: (_: boolean) => void) {
+    try {
+        const file = await FetchFile(item.url!);
+
+          // Check if navigator.share is supported
+        if (navigator.share && navigator.canShare({ files: [file] })) {
+            setShowCustomShare(false);
+            // Use navigator.share
+            await navigator.share({
+            title: file.name,
+            text: '#DeshalbDieLinke',
+            files: [file],
+            });
+            console.log('File shared successfully!');
+        } else {
+            setShowCustomShare(true);
+            // alert('Sharing not supported or file type not shareable.');
+        }
     } catch (error) {
-        alert('Error sharing file:' + error);
+        setShowCustomShare(true);
     }
 }
