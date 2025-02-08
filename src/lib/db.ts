@@ -5,6 +5,8 @@
 import { ContentItem, ContentType } from '@/types/ContentItem';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
+import { UploadToBucket, DeleteFromBucket, listDirBucket} from './bucket';
+import { buildStaticPaths } from 'next/dist/build/utils';
 
 export interface UploadItem {
     title: string;
@@ -77,7 +79,9 @@ export async function getContent(): Promise<ContentItem[] | undefined> {
 } 
 
 export async function updateContent(content: ContentItem, file: File, id?: number) {
+    console.log("blabla")
     const prisma = initPrisma();
+    console.log("blabla2")
     if (!prisma) {
         return new Error("Failed to initialize Prisma client");
     }
@@ -102,8 +106,15 @@ export async function updateContent(content: ContentItem, file: File, id?: numbe
 
     //TODO Delete the existing content and upload the new content if new content is provided
     if (file.size > 0 ) {
-        console.log("File upload not yet implemented");
-        return new Error("File upload not yet implemented: " + file.name + " and " + file.size);
+        const itemsToDelete = await listDirBucket(`content/${oldItem.type}s/${oldItem.id}`);
+        await DeleteFromBucket(itemsToDelete);
+        const bucketResponse = await UploadToBucket(file, oldItem.id)
+        console.log("bucketRes ", bucketResponse);
+        if (bucketResponse != true) {
+            return new Error("Failed to Upload File");
+        }
+        // console.log("File upload not yet implemented");
+        // return new Error("File upload not yet implemented: " + file.name + " and " + file.size);
     }
 
     const topics: string = content.topics.join() ?? oldItem.topics;
@@ -116,16 +127,17 @@ export async function updateContent(content: ContentItem, file: File, id?: numbe
         data: {
             title: content.title ?? oldItem.title,
             description: content.description ?? oldItem.description,
-            published: content.official ?? oldItem.official,
+            // published: content.official ?? oldItem.official,
+            published: true,
             type: content.type as ContentType ?? oldItem.type,
             authorId: content.autherID ?? oldItem.authorId,
             alt: content.altText ?? oldItem.alt,
             topics: topics,
         },
     });
-        console.log(`Published the newly created post: ${JSON.stringify(updatedPost)}`);
-        prisma.$disconnect();
-        return true;
+    console.log(`Published the newly created post: ${JSON.stringify(updatedPost)}`);
+    prisma.$disconnect();
+    return true;
 }
 
 

@@ -1,6 +1,6 @@
 "use server";
 import { getUserDDL, isAdmin } from "@/lib/auth";
-import { deleteFromBucket, listDirBucket } from "@/lib/bucket";
+import { DeleteFromBucket, listDirBucket } from "@/lib/bucket";
 import { deleteFromDB } from "@/lib/db";
 import { ContentItem } from "@/types/ContentItem";
 
@@ -22,7 +22,7 @@ function DeleteItemFromServer(item: ContentItem) {
         // Delete from Bucket
         const itemsToDelete = await listDirBucket(`content/${item.type}s/${item.id}`);
         console.log(itemsToDelete)
-        deleteFromBucket(itemsToDelete)
+        DeleteFromBucket(itemsToDelete)
 
         // Delete from DB
         deleteFromDB(item.id)

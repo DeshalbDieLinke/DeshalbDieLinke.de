@@ -105,8 +105,9 @@ export default function ContentEditor() {
         if (result != true) {
             setError("Error: " + result, "error")
         } 
-        if (result == true)
-        location.reload()
+        if (result == true) {
+            location.reload()
+        }
         
     }
 

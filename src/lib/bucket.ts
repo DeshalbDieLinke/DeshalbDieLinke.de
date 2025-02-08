@@ -13,7 +13,7 @@ export async function UploadToBucket(f: File, id: number) {
     if (!SPACES_SECRET || !SPACES_ACCES_KEY) {
         return new Error("No access key or secret key")
     }
-// Step 2: The s3Client function validates your request and directs it to your Space's specified endpoint using the AWS SDK.
+    // Step 2: The s3Client function validates your request and directs it to your Space's specified endpoint using the AWS SDK.
     const s3Client = new S3Client({
         endpoint: ENDPOINT, // Find your endpoint in the control panel, under Settings. Prepend "https://".
         forcePathStyle: false, // Configures to use subdomain/virtual calling format.
@@ -120,7 +120,7 @@ export async function listDirBucket(dir: string): Promise<string[]>{
 
 }
 
-export async function deleteFromBucket(keys: string[]) { 
+export async function DeleteFromBucket(keys: string[]) { 
     // DELETE OBJECT from bucket
     const SPACES_SECRET = process.env.SPACES_SECRET;
     const SPACES_ACCES_KEY = process.env.SPACES_ACCESS_KEY;
