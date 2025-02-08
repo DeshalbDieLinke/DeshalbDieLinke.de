@@ -21,7 +21,7 @@ export default function Globals({ children, className }: { children: React.React
 
                 <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => (
                     <div>
-                        <p>Something wen VERY wrong:</p>
+                        <p>Something went VERY wrong:</p>
                         <pre>{error.message}</pre>
                         <button onClick={resetErrorBoundary}>Try again</button>
                     </div>
