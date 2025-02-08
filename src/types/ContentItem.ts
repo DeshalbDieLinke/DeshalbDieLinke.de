@@ -47,7 +47,9 @@ class ContentItemClass {
 enum ContentType { 
     Video = "video",
     Text = "text",
-    Image = "image"
+    Image = "image",
+    PDF = "pdf",
+    Audio = "audio"
 }
 
 interface ContentItem {

@@ -27,7 +27,7 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
         console.log("Can edit: " + canEdit);
     }, [canEdit]);
 
-    return <div className="overlay w-screen h-screen backdrop-blur-sm bg-opacity-50 bg-gray-500 top-0 left-0 z-[9999] fixed popup "> 
+    return <div className="overlay w-screen h-screen backdrop-blur-sm bg-opacity-50 bg-gray-500 top-0 left-0 z-[9999] absolute popup "> 
 
         <div id="default-modal" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
         justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex">
@@ -45,9 +45,11 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
                 </button>
             </div>
             <div className="p-4 md:p-5 space-y-4 border-4 border-black rounded-md">
-            {props.item.type == ContentType.Video && <video src={props.item.url} />}
+            {props.item.type == ContentType.Video && <video src={props.item.url} controls />}
             {props.item.type == ContentType.Text && <p>{props.item.description}</p>}
             {props.item.type == ContentType.Image && <img src={props.item.url} />}
+            {props.item.type == ContentType.Audio && <audio src={props.item.url} controls />}
+            {props.item.type == ContentType.PDF && <embed src={props.item.url} type="application/pdf" />}
             </div>
             <div className="flex justify-around items-center w-ful p-2 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <a download href={props.item.url} className="visited:text-white hover:text-white text-white bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Herunterladen</a>

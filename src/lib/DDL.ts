@@ -288,31 +288,31 @@ export namespace DDL {
         name: string;
     }
 
-    export function GetTopics(onSuccess: (topics: Topic[]) => void, onRejected?: () => void, onError?: (err: Error) => void) {
-        fetch(API_DOMAIN + "/topics", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include"
-            }).then(res => {
-                if (res.ok) {
-                    res.json().then(json => {
-                        if (onSuccess) {
-                            const topics: Topic[] = json.topics;
-                            onSuccess(topics);
-                        }
-                    })
-                } else {
-                    if (onRejected) 
-                    onRejected()
-                }
-            }).catch(err => { 
-                if (onError) {
-                    onError(err)
-                }
-            })
-    }
+    // export function GetTopics(onSuccess: (topics: Topic[]) => void, onRejected?: () => void, onError?: (err: Error) => void) {
+    //     fetch(API_DOMAIN + "/topics", {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             credentials: "include"
+    //         }).then(res => {
+    //             if (res.ok) {
+    //                 res.json().then(json => {
+    //                     if (onSuccess) {
+    //                         const topics: Topic[] = json.topics;
+    //                         onSuccess(topics);
+    //                     }
+    //                 })
+    //             } else {
+    //                 if (onRejected) 
+    //                 onRejected()
+    //             }
+    //         }).catch(err => { 
+    //             if (onError) {
+    //                 onError(err)
+    //             }
+    //         })
+    // }
 
 
 

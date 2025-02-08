@@ -1,29 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import Select from 'react-select';
-import { API_DOMAIN } from '../../config.ts';
 import React from 'react';
+import { TOPICS } from '../../config';
 
 export default function Topics(props: {SelectedTopicsCallback: (topics: string[]) => void}) {
 
-    const [topics, setTopics] = React.useState<string[]>([])
+    const topics = TOPICS;
 
-    React.useEffect(() => {
-        getTopics();
-    }, [])
-
-    const getTopics = () => {
-        fetch(`${API_DOMAIN}/topics`).then(res => {
-            if (res.ok) {
-                res.json().then(json => {
-                    console.log(json)
-                    setTopics(json.topics)
-                })
-            }
-        }).catch(err => {
-            console.error(err)
-        })
-    }
 
     return <Select
     isMulti

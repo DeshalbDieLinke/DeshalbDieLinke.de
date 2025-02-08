@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.744.0",
     "@clerk/localizations": "^3.10.4",
     "@clerk/nextjs": "^6.11.0",
     "@kbox-labs/react-echarts": "^1.4.2",

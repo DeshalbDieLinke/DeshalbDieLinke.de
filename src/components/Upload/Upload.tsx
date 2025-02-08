@@ -25,36 +25,36 @@ function Upload() {
 
     async function submit(formdata: FormData): Promise<void | Response> { 
         console.log("Formdata:", formdata.get("title"))
-        return UploadServer(formdata).then((res) => {
-                if (!res) {
-                    showError("No Response", "error")
-                    setUploadStatus("idle")
-                }
-                if (res) {
-                    setUploadStatus("success")
-                } else {
-                    console.log(res)
-                    showError("Bad response: " + res, "error")
-                    setUploadStatus("idle") }},
-            ).catch((err) => {
-                showError("404: " + err, "error")
-                setUploadStatus("idle")
-            })
+            // return UploadServer(formdata).then((res) => {
+            //         if (!res) {
+            //             showError("No Response", "error")
+            //             setUploadStatus("idle")
+            //         }
+            //         if (res) {
+            //             setUploadStatus("success")
+            //         } else {
+            //             console.log(res)
+            //             showError("Bad response: " + res, "error")
+            //             setUploadStatus("idle") }},
+            //     ).catch((err) => {
+            //         showError("404: " + err, "error")
+            //         setUploadStatus("idle")
+            //     })
     } 
-    const onSubmit = useCallback(
-        async (formdata: FormData) => {
-            const promise = submit(formdata);
+    // const onSubmit = useCallback(
+    //     async (formdata: FormData) => {
+    //         const promise = submit(formdata);
     
-            if (!promise) {
-            return;
-        }
-        },
-        [submit] // Dependencies for useCallback
-    );
+    //         if (!promise) {
+    //         return;
+    //     }
+    //     },
+    //     [submit] // Dependencies for useCallback
+    // );
     
 
     return <div className="py-8 mt-4" >
-        <UploadComponent submit={onSubmit} />
+        <UploadComponent  />
         <div>
             {uploadStatus !== "idle" && 
             <UploadLoading status={uploadStatus} />} 
