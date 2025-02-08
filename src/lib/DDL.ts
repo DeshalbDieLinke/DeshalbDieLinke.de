@@ -327,7 +327,7 @@ export namespace DDL {
         }
 
         console.log(item)
-        const ID = item.ID
+        const ID = item.id
         const title = item.Title
         const type = item.Type || "image"
         const altText = item.AltText 

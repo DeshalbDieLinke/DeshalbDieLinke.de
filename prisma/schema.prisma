@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Content {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  official  Boolean @default(false) 
-  authorId  String?
-  alt       String?
-  type      String?
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  published   Boolean @default(false)
+  official    Boolean @default(false) 
+  authorId    String?
+  alt         String?
+  type        String?
+  topics      String?
 }

@@ -13,14 +13,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import React, {useEffect} from "react"
 import Topics from "./Topics";
-import {API_DOMAIN} from "../../config";
 import {DDL} from "../lib/DDL";
 import ContentItemComponent from "../components/NewContentComponent.tsx";
 import {type ContentItem, ContentType} from "../types/ContentItem.ts";
-import { useAuth } from "@clerk/nextjs";
 import useShowError from "./Error/setError.ts";
 import DeleteItemFromServer from "./ItemComponent/DeleteItem.ts";
 import { getContentById, updateContent } from "@/lib/db.ts";
@@ -38,6 +35,7 @@ export default function ContentEditor() {
         }
         
         getContentById(searchQuery.id).then((res) => {
+            res.id = searchQuery.id
             setContentItem(res)    
         })}, [])
     // Check if user is logged in)
@@ -66,7 +64,6 @@ export default function ContentEditor() {
         }
     }
 
-    const { getToken } = useAuth()
     const setError = useShowError()
     
     async function handleDelete() {
@@ -84,16 +81,27 @@ export default function ContentEditor() {
             setError("No file selected", "warning")
         }
 
-        formdata.append("topics", JSON.stringify(selectedTops))
-        formdata.append("id", contentItem!.id.toString())
-
-        console.log("Formdata:", formdata.get("title"))
-        const result = updateContent(DDL.ParseToContentItem(formdata), file)
-        if (result instanceof Error) {
-            setError("Failed to update content", "error")
-        } else {
-            setError("Content updated", "success")
+        console.log("Editing: " + contentItem?.id)
+        if (!contentItem) {
+            setError("No content found", "error")
+            return
         }
+        const newContent: ContentItem = {
+            id: contentItem.id,
+            title: formdata.get("title") as string,
+            description: formdata.get("description") as string,
+            official: formdata.get("official") == "on",
+            type: file.type.split("/")[0] as ContentType,
+            altText: formdata.get("altText") as string,
+            autherID: contentItem.autherID,
+            topics: selectedTops
+        }
+        const result = await updateContent(newContent, file)
+        if (result != true) {
+            setError("Error: " + result, "error")
+        } 
+        if (result == true)
+        location.reload()
         
     }
 
