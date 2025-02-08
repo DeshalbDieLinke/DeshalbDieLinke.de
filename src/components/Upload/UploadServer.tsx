@@ -12,7 +12,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 export async function UploadServer(state: any, payload: FormData): Promise<{error: string, message: string, status: number}>
 {   
     const formdata = payload
-    const {userId, } = await auth()
+    const {userId } = await auth()
 
     if (!userId) {
         return {error: "Not authenticated", message: "You must be logged in to upload content", status: 401}
