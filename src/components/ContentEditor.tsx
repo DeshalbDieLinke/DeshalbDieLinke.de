@@ -35,8 +35,13 @@ export default function ContentEditor() {
         }
         
         getContentById(searchQuery.id).then((res) => {
-            res.id = searchQuery.id
-            setContentItem(res)    
+            if (!(res instanceof Error)) {
+                res.id = searchQuery.id
+                setContentItem(res)
+                setSelectedTops(res.topics)
+            } else {
+                setError("Error fetching content", "error")
+            }
         })}, [])
     // Check if user is logged in)
 
@@ -132,7 +137,7 @@ export default function ContentEditor() {
                                         placeholder="Alt-Text Bild" defaultValue={contentItem?.altText}/>
                                 </div>}
                             <div className="w-[20rem] flex justify-between">
-                                <Topics SelectedTopicsCallback={setSelectedTops}/>
+                                <Topics selectedTopics={selectedTops} SelectedTopicsCallback={setSelectedTops}/>
                                 <div className="flex flex-col items-center w-8">
                                     <label className="text-[0.7rem]" htmlFor="official">Official</label>
                                     <input name="official" id="official" type="checkbox"

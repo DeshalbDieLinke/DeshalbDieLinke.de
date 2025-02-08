@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { MIMEType } from "util"
 import { BUCKET_CDN_ENDPOINT, BUCKET_ENDPOINT } from "../../config"
 
 export function cn(...inputs: ClassValue[]) {

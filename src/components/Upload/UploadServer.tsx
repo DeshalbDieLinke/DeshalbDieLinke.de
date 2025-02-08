@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+
 "use server"
 
 import { UploadToBucket } from "@/lib/bucket";
@@ -5,7 +9,7 @@ import { UploadItem, uploadToDB } from "@/lib/db";
 import { ContentItem, ContentType } from "@/types/ContentItem";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
-export async function UploadServer(state: {}, payload: FormData): Promise<{error: string, message: string, status: number}>
+export async function UploadServer(state: any, payload: FormData): Promise<{error: string, message: string, status: number}>
 {   
     const formdata = payload
     const {userId, } = await auth()
@@ -18,7 +22,7 @@ export async function UploadServer(state: {}, payload: FormData): Promise<{error
 
     const user = await client.users.getUser(userId)
 
-    let file = formdata.get("file") as File
+    const file = formdata.get("file") as File
     if (!file) {
         return {error: "No file", message: "You must upload a file", status: 400}
     }   
@@ -35,7 +39,7 @@ export async function UploadServer(state: {}, payload: FormData): Promise<{error
     catch (e) {
         return {error: "Invalid file type", message: "Invalid file type", status: 400}
     }
-    let item: UploadItem = {
+    const item: UploadItem = {
         title: formdata.get("title") as string,
         description: formdata.get("description") as string,
         official: formdata.get("official") == "on",

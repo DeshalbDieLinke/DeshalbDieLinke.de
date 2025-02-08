@@ -1,12 +1,11 @@
 
 
-import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import { Suspense } from "react";
 import GridWrapper from "../NewContentDisplay";
 import { ContentItem } from "@/types/ContentItem";
-import { DDL } from "@/lib/DDL";
-import { auth, currentUser, User } from "@clerk/nextjs/server";
+import {  currentUser } from "@clerk/nextjs/server";
 import { getContentByUserId } from "@/lib/db";
 
 
@@ -14,6 +13,7 @@ import { getContentByUserId } from "@/lib/db";
 /* If not provided, the profile of the currently signed in user will be displayed.
 */
 async function Profile(props: { id?: string }) {
+    console.log("Profile id", props.id);
     // const [user, setUser] = useState<User | null>(null);
     const user = await currentUser();
     if (!user) {

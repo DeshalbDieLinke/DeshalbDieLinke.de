@@ -1,17 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 import { useAuth } from "@clerk/nextjs"
 import useShowError from "../Error/setError"
-import { API_DOMAIN } from "../../../config"
 import UploadComponent from "./UploadComponent"
 import UploadLoading from "./UploadLoading"
-import React, { useCallback } from "react"
-import { UploadServer } from "./UploadServer";
+import React from "react"
 
 
 function Upload() {
+    
     const [uploadStatus, setUploadStatus] = React.useState<"idle" | "uploading" | "success">("idle")
-    const { getToken } = useAuth()
-    const showError = useShowError()
     
     // fetch( API_DOMAIN + "/auth/upload", {
     //     method: "POST",

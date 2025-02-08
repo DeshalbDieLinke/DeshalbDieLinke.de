@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use server"
 
 import { ContentItem, ContentType } from '@/types/ContentItem';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
-import { Description } from '@radix-ui/react-dialog';
-import { time } from 'console';
 
 export interface UploadItem {
     title: string;
@@ -66,7 +66,7 @@ export async function getContent(): Promise<ContentItem[] | undefined> {
         id: post.id,
         topics: post.topics ? post.topics.split(',') : [],
         title: post.title,
-        description: post.Description ?? undefined,
+        description: post.description ?? undefined,
         altText: post.alt ?? undefined,
         url: "", // Assuming you need to set this manually or fetch it from somewhere
         type: post.type as ContentType,
@@ -115,7 +115,7 @@ export async function updateContent(content: ContentItem, file: File, id?: numbe
         //TODO ONLY update the fields provided in the content object
         data: {
             title: content.title ?? oldItem.title,
-            description: content.description ?? oldItem.Description,
+            description: content.description ?? oldItem.description,
             published: content.official ?? oldItem.official,
             type: content.type as ContentType ?? oldItem.type,
             authorId: content.autherID ?? oldItem.authorId,
@@ -141,7 +141,21 @@ export async function getContentById(id: number) {
     });
     console.log(`Retrieved a specific post: ${JSON.stringify(post)}`);
     prisma.$disconnect();
-    return post;
+    if (!post) {
+        return new Error("No post found with the provided ID");
+    }
+    return {
+        id: post.id,
+        topics: post.topics ? post.topics.split(',') : [],
+        title: post.title,
+        description: post.description ?? undefined,
+        altText: post.alt ?? undefined,
+        url: "", // Assuming you need to set this manually or fetch it from somewhere
+        type: post.type as ContentType,
+        official: post.official,
+        autherID: post.authorId ?? "",
+        broken: false // Assuming a default value
+    };
 }
 
 export async function getContentByUserId(userId: string): Promise<ContentItem[] | Error> {
@@ -163,7 +177,7 @@ export async function getContentByUserId(userId: string): Promise<ContentItem[] 
         id: post.id,
         topics: post.topics ? post.topics.split(',') : [],
         title: post.title,
-        description: post.Description ?? undefined,
+        description: post.description ?? undefined,
         altText: post.alt ?? undefined,
         url: "", // Assuming you need to set this manually or fetch it from somewhere
         type: post.type as ContentType,

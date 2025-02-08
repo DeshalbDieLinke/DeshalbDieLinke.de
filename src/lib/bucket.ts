@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use server"
 import { PutObjectCommand, S3Client, ObjectCannedACL, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { createReadStream } from 'fs';
 import { BUCKET_CDN_ENDPOINT, BUCKET_ENDPOINT } from '../../config';
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 
