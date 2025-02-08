@@ -124,7 +124,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
                     <button
                         key={number}
                         onClick={() => setCurrentPage(number)}
-                        className={`join-item btn border-2 border-black ${currentPage === number ? "btn-active" : ""}`}
+                        className={`join-item btn bg-white border-2 border-black ${currentPage === number ? "btn-active border-red-600" : ""}`}
                     >
                         <p className="text-black">{number}</p>
                     </button>

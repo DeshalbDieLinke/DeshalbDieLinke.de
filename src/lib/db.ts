@@ -15,6 +15,7 @@ export interface UploadItem {
     type: ContentType;
     autherId: string;
     alt: string;
+    topics: string[];
 }
 
 function initPrisma() {

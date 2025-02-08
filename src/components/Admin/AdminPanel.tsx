@@ -3,9 +3,8 @@
 import React from "react"
 
 // import NewUserDialog from "../NewUserDialog.tsx"
-import UserTable from "./UserTable.tsx"
-import {columns } from "./UserColumn.tsx"
-
+// import UserTable from "./UserTable.tsx"
+// import {columns } from "./UserColumn.tsx"
 
 export default function AdminPanel() {
     
@@ -19,7 +18,8 @@ export default function AdminPanel() {
                 <h1 className="text-4xl">Admin Panel</h1>
                 {/* <NewUserDialog onSubmitToken={handleNewUserTokenRequest}/> */}
             </div>
-            <UserTable columns={columns} data={[]}/>
+            {/* <UserTable columns={columns} data={[]}/> */}
+        
 
         </div>
     </>

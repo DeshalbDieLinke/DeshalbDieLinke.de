@@ -45,7 +45,8 @@ export async function UploadServer(state: any, payload: FormData): Promise<{erro
         official: formdata.get("official") == "on",
         type: type as ContentType,
         alt: formdata.get("altText") as string,
-        autherId: userId
+        autherId: userId,
+        topics: (formdata.get("topics") as string).split(",")
     }
     const res = await uploadToDB(item)
     if (res instanceof Error) {
