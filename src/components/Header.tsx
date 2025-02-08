@@ -77,7 +77,7 @@ export default function Header() {
     
     <SignedIn>
       <li><a href="/upload">Hochladen</a></li>
-      <li><a href="/profile">Profil</a></li>
+      <li><Link href="/profile">Profil</Link></li>
       <li><SignOutButton /></li>
     </SignedIn>
   </ul>
