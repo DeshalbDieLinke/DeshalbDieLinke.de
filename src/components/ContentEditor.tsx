@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import React, {useEffect} from "react"
 import Topics from "./Topics";
-import {DDL} from "../lib/DDL";
 import ContentItemComponent from "../components/NewContentComponent.tsx";
 import {type ContentItem, ContentType} from "../types/ContentItem.ts";
 import useShowError from "./Error/setError.ts";
