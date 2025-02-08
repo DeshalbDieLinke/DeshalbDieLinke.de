@@ -13,19 +13,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import React, {useEffect} from "react"
 import Topics from "./Topics";
-import {API_DOMAIN} from "../../config";
 import {DDL} from "../lib/DDL";
 import ContentItemComponent from "../components/NewContentComponent.tsx";
 import {type ContentItem, ContentType} from "../types/ContentItem.ts";
-import { useAuth } from "@clerk/nextjs";
 import useShowError from "./Error/setError.ts";
+import DeleteItemFromServer from "./ItemComponent/DeleteItem.ts";
+import { getContentById, updateContent } from "@/lib/db.ts";
 
 export default function ContentEditor() {
     const [contentItem, setContentItem] = React.useState<ContentItem | null>(null)
-    const [showAlert, setShowAlert] = React.useState(false)
     const [preview, setPreview] = React.useState<ContentItem | null>(null);
     const [selectedTops, setSelectedTops] = React.useState<string[]>([])
 
@@ -36,18 +34,15 @@ export default function ContentEditor() {
             id: parseInt(id)
         }
         
-        DDL.GetContentItems((items) => {
-            const item = items[0]
-            setContentItem(item)
-            setSelectedTops(item.topics)
-            setPreview(item.url ? item : null)
-        },
-        searchQuery,
-        (err) => {
-                console.error(err)
-            })
-    
-    }, [])
+        getContentById(searchQuery.id).then((res) => {
+            if (!(res instanceof Error)) {
+                res.id = searchQuery.id
+                setContentItem(res)
+                setSelectedTops(res.topics)
+            } else {
+                setError("Error fetching content", "error")
+            }
+        })}, [])
     // Check if user is logged in)
 
     function onFileAdded(e: any) {
@@ -74,83 +69,52 @@ export default function ContentEditor() {
         }
     }
 
-    const { getToken } = useAuth()
     const setError = useShowError()
     
     async function handleDelete() {
-        fetch( API_DOMAIN + "/auth/delete-content?id=" + contentItem?.id.toString(), {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${await getToken()}`,
-            },
-            credentials: "include",
-    }).then(res => { 
-        if (res.ok) {
-            setError("Deleted successfully!", "success")
-            location.href = "/profile"
-        } else {
-            // Extract error message 
-            res.json().then(json => {
-                setError("Response: " + json.message, "error")
-            }).catch(err => {
-                setError("An error occurred", "error")
-                console.error(err)
-            })
+        if (contentItem) {
+            DeleteItemFromServer(contentItem)
         }
-    }).catch(err => { 
-        setError("A client error occurred", "error")
-    })
     }
 
     async function handleSubmit(e: any) {
         e.preventDefault()
         const form = e.target 
         const formdata = new FormData(form)
-        if (!formdata.get("file") ) {
+        const file = formdata.get("file") as File
+        if (!file ) {
             setError("No file selected", "warning")
         }
 
-        formdata.append("topics", JSON.stringify(selectedTops))
-        formdata.append("id", contentItem!.id.toString())
-
-        console.log("Formdata:", formdata.get("title"))
-        fetch( API_DOMAIN + "/auth/update-content?id=" + contentItem?.id.toString(), {
-            method: "POST",
-            headers: {
-                    "Authorization": `Bearer ${await getToken()}`,
-            },
-            credentials: "include",
-            body: formdata
-        }).then(res => {
-            if (res.ok) {
-                setError("Updated successfully!", "success")
-                location.href = "/profile"
-            } else {
-                // Extract error message 
-                res.json().then(json => {
-                    setError("Response: " + json.message, "error")
-                }).catch(err => {
-                    setError("An error occurred", "error")
-                    console.error(err)
-                })
-            }
-        }).catch(err => { 
-            setError("A client error occurred", "error")
-            console.error(err)
-        })}
-
-    // Optionally hide the alert after a timeout
-    React.useEffect(() => {
-        if (showAlert) {
-            const timer = setTimeout(() => setShowAlert(false), 5000)
-            return () => clearTimeout(timer)
+        console.log("Editing: " + contentItem?.id)
+        if (!contentItem) {
+            setError("No content found", "error")
+            return
         }
-    }, [showAlert])
+        const newContent: ContentItem = {
+            id: contentItem.id,
+            title: formdata.get("title") as string,
+            description: formdata.get("description") as string,
+            official: formdata.get("official") == "on",
+            type: file.type.split("/")[0] as ContentType,
+            altText: formdata.get("altText") as string,
+            autherID: contentItem.autherID,
+            topics: selectedTops
+        }
+        const result = await updateContent(newContent, file)
+        if (result != true) {
+            setError("Error: " + result, "error")
+        } 
+        if (result == true) {
+            location.reload()
+        }
+        
+    }
 
 
     return <>
         <div className="w-full h-full flex flex-col items-center justify-center">
-            <form  onSubmit={handleSubmit} className="h-[80%] lg:w-[60%] flex flex-col items-center justify-center [&>*]:m-2 border p-8 border-black rounded-md">
+            {(contentItem && <form  onSubmit={handleSubmit} className="h-[80%] lg:w-[60%] flex flex-col items-center justify-center [&>*]:m-2 border p-8 border-black rounded-md">
                 <div className="flex justify-around items-center max-h-full m-4">
                     <div className="form flex-shrink mr-20">
                         <div className=" ">
@@ -174,7 +138,7 @@ export default function ContentEditor() {
                                         placeholder="Alt-Text Bild" defaultValue={contentItem?.altText}/>
                                 </div>}
                             <div className="w-[20rem] flex justify-between">
-                                <Topics SelectedTopicsCallback={setSelectedTops}/>
+                                <Topics selectedTopics={selectedTops} SelectedTopicsCallback={setSelectedTops}/>
                                 <div className="flex flex-col items-center w-8">
                                     <label className="text-[0.7rem]" htmlFor="official">Official</label>
                                     <input name="official" id="official" type="checkbox"
@@ -212,7 +176,7 @@ export default function ContentEditor() {
                 
             </div>
 
-            </form>
+            </form>) ?? <div>Kein Inhalt gefunden</div>}
         </div>
     </>
 

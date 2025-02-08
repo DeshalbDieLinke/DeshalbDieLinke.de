@@ -1,9 +1,12 @@
+"use client"
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {type ContentItem} from "../types/ContentItem.ts";
 import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
 import NewContentComponent from "./NewContentComponent.tsx";
+import ItemComponent from "./ItemComponent/ItemComponent.tsx";
 
 export default function GridWrapper(props: { contentItems: ContentItem[] }) {
     const contentItems = props.contentItems;
@@ -92,8 +95,10 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
                 Offizielle
                 <img src="/images/icons/verified.svg" alt="Offizelle" width="20" height="20" />
             </button>
-            {allTopics.map(topic => (
-                
+            {allTopics.map(topic => {
+                if (!topic) return null;
+                console.log(topic);
+                return (
                 <button
                     key={topic}
                     onClick={() => toggleTopic(topic)}
@@ -105,7 +110,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
                 >
                     {topic.charAt(0).toUpperCase() + topic.slice(1)}
                 </button>
-            ))}
+            )})}
             
         </div>
     );
@@ -149,11 +154,13 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4 flex-wrap">
                 {filteredItems.length > 0 ? (
                     paginatedItems.map(item => (
-                        <NewContentComponent
+                        // <NewContentComponent
+                        <ItemComponent
                             key={item.id}
                             item={item}
                             clickCallback={openPopup}
                         />
+                        
                     ))
                 ) : (
                     <div className="col-span-full h-full text-center text-gray-500">

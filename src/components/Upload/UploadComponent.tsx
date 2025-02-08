@@ -6,11 +6,13 @@
 import Topics from "@/components/Topics";
 import ContentItemComponent from "@/components/NewContentComponent.tsx";
 import useShowError from "../Error/setError";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useActionState, useEffect } from "react";
 import { ContentItem } from "@/types/ContentItem";
 import { Skeleton } from "../ui/skeleton";
 import FileUpload from "./FileUpload";
 import Image from "next/image";
+import { UploadServer } from "./UploadServer";
+import { useFormState, useFormStatus } from "react-dom";
 
 
 interface Preview {
@@ -18,7 +20,7 @@ interface Preview {
     type: string;
 }
 
-export default function UploadComponent(props: {submit: (formdata: FormData) => Promise<void>}) {
+export default function UploadComponent() {
     const [selectedTops, setSelectedTops] = React.useState<string[]>([])
     const [preview, setPreview] = React.useState<Preview | null>(null);
     const showError = useShowError()
@@ -41,7 +43,7 @@ export default function UploadComponent(props: {submit: (formdata: FormData) => 
                 return;
             }
             console.log("Selected File:", file); // Debug: Ensure file exists
-            if (file.type.startsWith("image/") || file.type.startsWith("video/") || file.type === "application/pdf") {
+            if (file.type.startsWith("image/") || file.type.startsWith("video/") || file.type === "application/pdf" || file.type.startsWith("audio/")) {
                 const previewURL = URL.createObjectURL(file);
 
                 setPreview({url: previewURL, type: file.type});
@@ -69,16 +71,27 @@ export default function UploadComponent(props: {submit: (formdata: FormData) => 
     
             formdata.append("topics", JSON.stringify(selectedTops))
         
-        props.submit(formdata)
+        // props.submit(formdata)
 
     }
     const follower = useRef<HTMLDivElement>(null);
     const bound = useRef<HTMLDivElement>(null);
 
 
+    const [formState, uploadAction ] = useActionState(UploadServer, {"error": "", "message": "", "status": 0})
+
+    useEffect(() => {
+        if (formState.status === 200 || formState.status === 201) {
+            showError(formState.message + "success", "success")
+        } else if ( formState.status != 0){
+            showError("Upload failed: " + formState.message, "error")
+        }
+    }, [formState])
+
+
     return <>
         <div className="h-full w-full flex flex-col items-center justify-center overflow-y-scroll ">
-            <form  onSubmit={handleSubmit} className="relative h-full md:h-[90%] lg:w-[65%] w-full flex-col  items-center justify-center  md:border md:p-8 border-black rounded-md">
+            <form action={uploadAction}  className="relative h-full md:h-[90%] lg:w-[65%] w-full flex-col  items-center justify-center  md:border md:p-8 border-black rounded-md">
                 <div className="flex justify-around w-full items-start flex-wrap max-h-full md:m-4 gap-3">
                     <div className="w-3/4 md:w-fit ">
                         <div className="h-full relative rounded-md md:w-100 md:h-100 w-full border-2  flex flex-col p-4 items-center justify-around">
@@ -137,9 +150,11 @@ export default function UploadComponent(props: {submit: (formdata: FormData) => 
                                     />
                                 ) : preview.type.startsWith("video/") ? (
                                     <video className="w-full h-full" controls src={preview.url} />
-                                ) : (
+                                ) : preview.type === "application/pdf" ? 
+                                (
                                     <iframe src={preview.url} className="w-full h-full" />
-                                )
+                                ) : preview.type.startsWith("audio/") ? (
+                                    <audio src={preview.url} controls />) : <div>Unsupported file type</div>
                             ) : (
                                 <Skeleton className="rounded-md md:w-100 md:h-100 w-full aspect-square z-4 bg-red-200 border-2 border-red-400/40 " />
                             )}

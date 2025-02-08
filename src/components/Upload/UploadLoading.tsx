@@ -3,12 +3,7 @@ interface UploadLoadingProps {
     status: "idle" | "uploading" | "success" | "error"
 }
 
-
 function UploadLoading({status}: UploadLoadingProps) {
-
-
-
-
     return (
     <div >
 
@@ -24,6 +19,12 @@ function UploadLoading({status}: UploadLoadingProps) {
                 Upload Successful! 🎉
             </div>
             
+        )}
+
+        {status == "error" && (
+            <div className="animate-feedback w-20 h-5 bg-red-600 absolute text-white p-4 rounded-m ">
+                Upload Failed! 😢
+            </div>
         )}
     </div>
     );
