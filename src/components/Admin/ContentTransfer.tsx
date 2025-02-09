@@ -1,7 +1,5 @@
 "use client";
-import { DDL } from "@/lib/DDL";
-import React, { useEffect } from "react";
-import { transferItems } from "./transferItems";
+    import React, { useEffect } from "react";
 import { ContentItem } from "@/types/ContentItem";
 import { getContent } from "@/lib/db";
 
@@ -40,7 +38,7 @@ function TransferContent() {
                 <td>{item.autherID}</td>
                 <td>{item.url ? "true" : "false"}</td>
                 <td>
-                    <button onClick={() => {}}></button>
+                    <button className="btn" onClick={() => {}}></button>
                 </td>
             </tr>
         ))}

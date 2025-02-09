@@ -16,10 +16,8 @@ export default function ItemComponent({ item, clickCallback }: { item: ContentIt
 
     }, [item]);
 
-    const isBroken = item.broken;
-
     return (
-        <button className={"contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden" + (isBroken ? " bg-red-300" : "")} 
+        <button className={"contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden"} 
             onClick={() => { clickCallback(item); }}>
             {item.official && (
                 <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded shadow-md z-9">
