@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/alert-dialog"
 import React, {useEffect} from "react"
 import Topics from "./Topics";
-import ContentItemComponent from "../components/NewContentComponent.tsx";
 import {type ContentItem, ContentType} from "../types/ContentItem.ts";
 import useShowError from "./Error/setError.ts";
 import DeleteItemFromServer from "./ItemComponent/DeleteItem.ts";
 import { getContentById, updateContent } from "@/lib/db.ts";
+import ItemComponent from "./ItemComponent/ItemComponent.tsx";
 
 export default function ContentEditor() {
     const [contentItem, setContentItem] = React.useState<ContentItem | null>(null)
@@ -148,7 +148,7 @@ export default function ContentEditor() {
                     </div>
                 <div className="grid h-full">
                     {preview &&<> <label className="text-lg">Vorschau:</label>
-                        <ContentItemComponent item={preview} clickCallback={() =>{} } /> </>}
+                        <ItemComponent item={preview} clickCallback={() =>{} } /> </>}
                 </div>
             </div>
             <div className="flex justify-around items-center relative bottom-0 w-full">

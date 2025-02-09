@@ -1,40 +1,51 @@
-    // "use client";
-    // import { DDL } from "@/lib/DDL";
-    // import React, { useEffect } from "react";
-    // import { transferItems } from "./transferItems";
+"use client";
+    import React, { useEffect } from "react";
+import { ContentItem } from "@/types/ContentItem";
+import { getContent } from "@/lib/db";
 
-    // function TransferContent() {
+function TransferContent() {
+   const [contentItems, setContentItems] = React.useState<ContentItem[]>([]); 
 
-    //     const [successfullyTransferred, setSuccessfullyTransferred] = React.useState(false);
-    //     const [failedToTransfer, setFailedToTransfer] = React.useState(false);
-    //     useEffect(() => {
-    //         DDL.GetContentItems((materials) => {
-    //             materials.forEach((item) => {
-    //                 transferItems(item).then((res) => {
-    //                     if (res) {
-    //                         setSuccessfullyTransferred(true);
-    //                     } else {
-    //                         setFailedToTransfer(true);
-    //                     }
-    //                 });
+    useEffect(() => {
+        getContent().then((res) => {
+            if (res) {
+                setContentItems(res);
+            }
+        });
+    }, []);
 
-    //             });});
-            
-    //         }, 
-            
-    //         []);
+    return (
+        <div>
+            <h1>Mass edit Content</h1>
+           
+            <table className="max-w-9/10">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Topics</th>
+            <th>Alt Text</th>
+            <th>Author ID</th>
+            <th>URL</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {contentItems.map((item) => (
+            <tr key={item.id} className="*:text-sm *:overflow-hidden *:max-w-screen">
+                <td>{item.title}</td>
+                <td>{item.topics.join(", ")}</td>
+                <td>{item.altText}</td>
+                <td>{item.autherID}</td>
+                <td>{item.url ? "true" : "false"}</td>
+                <td>
+                    <button className="btn" onClick={() => {}}></button>
+                </td>
+            </tr>
+        ))}
+            </tbody>
+        </table>
+        </div>
+    );
+}
 
-        
-    //     return ( 
-    //         <div>
-    //             <h1>Transfer Content</h1>
-    //             <p>Transfer from old db to new </p>
-    //             {successfullyTransferred && <p>Successfully transferred: {successfullyTransferred}</p>}
-    //             {failedToTransfer && <p>Failed to transfer: {failedToTransfer}</p>}
-            
-    //         </div>
-
-    //     );
-    // }
-
-    // export default TransferContent;
+export default TransferContent;

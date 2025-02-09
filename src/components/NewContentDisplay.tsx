@@ -5,10 +5,10 @@
 import {type ContentItem} from "../types/ContentItem.ts";
 import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
-import NewContentComponent from "./NewContentComponent.tsx";
 import ItemComponent from "./ItemComponent/ItemComponent.tsx";
+import Topics from "./Topics.tsx";
 
-export default function GridWrapper(props: { contentItems: ContentItem[] }) {
+export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
     const contentItems = props.contentItems;
 
     const [Popup, setPopup] = useState(<div></div>);
@@ -119,7 +119,7 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
         const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     
         return (
-            <div className="pagination-controls gap-2 flex justify-center items-center my-4 join">
+            <div className="pagination-controls gap-2 flex w-full items-center my-4 max-w-screen overflow-x-scroll join">
                 {pageNumbers.map(number => (
                     <button
                         key={number}
@@ -137,6 +137,8 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
     const initialized = useRef(false);
 
     useEffect(() => {
+        console.log("useEffect for hash topic triggered");
+
         if (!initialized.current) {
             const hashTopic = window.location.hash.slice(1);
             if (hashTopic && allTopics.includes(hashTopic)) {
@@ -147,9 +149,18 @@ export default function GridWrapper(props: { contentItems: ContentItem[] }) {
     }, []);
 
     return (
-        <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full h-full z-50 p-1 md:p-8">
-            {contentItems.length > 0 && (
-            <SelectionPills /> )}
+        <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full max-w-screen h-full z-50 p-1 md:p-8">
+            {contentItems.length > 0 && <div className="flex flex-col sm:flex-row justify-around sm:gap-4 p-2">
+                <Topics selectedTopics={selectedTopics} SelectedTopicsCallback={setSelectedTopics} /> 
+                <div className="flex md:flex-col  items-center">
+                <label htmlFor="official">Nur Offizielle inhalte Anzeigen</label>
+                <input id="official" type="checkbox" placeholder="Offizell" className=" w-5 h-5 m-4 rounded-full " onChange={
+                    (e: any) => setShowVerifiedOnly(e.target.checked)
+                }/>
+                </div>
+                </div>
+            }
+            
             <PaginationControls />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4 h-fit z-10 m-1 md:m-4 flex-wrap">
                 {filteredItems.length > 0 ? (
