@@ -3,45 +3,23 @@ import { DDL } from "@/lib/DDL";
 import React, { useEffect } from "react";
 import { transferItems } from "./transferItems";
 import { ContentItem } from "@/types/ContentItem";
+import { getContent } from "@/lib/db";
 
 function TransferContent() {
-    const [successfullyTransferred, setSuccessfullyTransferred] = React.useState(0);
-    const [failedToTransfer, setFailedToTransfer] = React.useState(0);
-    const [itemsToTransfer, setItemsToTransfer] = React.useState<ContentItem[]>([]);
-    const [failedItems, setFailedItems] = React.useState<ContentItem[]>([]);
+   const [contentItems, setContentItems] = React.useState<ContentItem[]>([]); 
 
     useEffect(() => {
-        DDL.GetContentItems((materials) => {
-            setItemsToTransfer(materials);
+        getContent().then((res) => {
+            if (res) {
+                setContentItems(res);
+            }
         });
     }, []);
 
-    const transferItem = (item: ContentItem) => {
-        transferItems(item).then((res) => {
-            if (res?.error) {
-                console.error(res.error);
-                setFailedItems((prev) => [...prev, item]);
-                setFailedToTransfer((prev) => prev + 1);
-            } else {
-                console.log("Successfully transferred item");
-                setSuccessfullyTransferred((prev) => prev + 1);
-            }
-            // Update itemsToTransfer without mutating the state directly
-            setItemsToTransfer((prev) => prev.filter((i) => i.id !== item.id));
-        });
-    };
-
-    const transferAllItems = () => {
-        itemsToTransfer.forEach((item) => transferItem(item));
-    };
-
     return (
         <div>
-            <h1>Transfer Content</h1>
-            <p>
-                Transfer from old db to new:{" "}
-                <button onClick={transferAllItems}>Transfer ALL</button>
-            </p>
+            <h1>Mass edit Content</h1>
+           
             <table className="max-w-9/10">
     <thead>
         <tr>
@@ -54,7 +32,7 @@ function TransferContent() {
         </tr>
     </thead>
     <tbody>
-        {itemsToTransfer.map((item) => (
+        {contentItems.map((item) => (
             <tr key={item.id} className="*:text-sm *:overflow-hidden *:max-w-screen">
                 <td>{item.title}</td>
                 <td>{item.topics.join(", ")}</td>
@@ -62,7 +40,7 @@ function TransferContent() {
                 <td>{item.autherID}</td>
                 <td>{item.url ? "true" : "false"}</td>
                 <td>
-                    <button onClick={() => transferItem(item)}>Transfer</button>
+                    <button onClick={() => {}}></button>
                 </td>
             </tr>
         ))}
