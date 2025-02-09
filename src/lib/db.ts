@@ -44,6 +44,7 @@ export async function uploadToDB(content: UploadItem): Promise<unknown> {
             official: content.official ?? false,
             type: content.type ?? "image" as ContentType,
             authorId: content.autherId,
+            topics: content.topics.join(),
             alt: content.alt ?? "",
         },
         });

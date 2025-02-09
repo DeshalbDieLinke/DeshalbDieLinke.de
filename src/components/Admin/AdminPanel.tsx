@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import TransferContent from "./ContentTransfer"
 
 // import NewUserDialog from "../NewUserDialog.tsx"
 // import UserTable from "./UserTable.tsx"
@@ -19,7 +20,7 @@ export default function AdminPanel() {
                 {/* <NewUserDialog onSubmitToken={handleNewUserTokenRequest}/> */}
             </div>
             {/* <UserTable columns={columns} data={[]}/> */}
-        
+            <TransferContent />
 
         </div>
     </>
