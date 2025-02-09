@@ -4,7 +4,6 @@
 "use client"
 
 import Topics from "@/components/Topics";
-import ContentItemComponent from "@/components/NewContentComponent.tsx";
 import useShowError from "../Error/setError";
 import React, { useRef, useState, useActionState, useEffect } from "react";
 import { ContentItem } from "@/types/ContentItem";
