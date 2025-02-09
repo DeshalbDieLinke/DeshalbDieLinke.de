@@ -129,10 +129,9 @@ export async function updateContent(content: ContentItem, file: File, id?: numbe
         data: {
             title: content.title ?? oldItem.title,
             description: content.description ?? oldItem.description,
-            // published: content.official ?? oldItem.official,
             published: true,
-            type: content.type as ContentType ?? oldItem.type,
-            authorId: content.autherID ?? oldItem.authorId,
+            type: oldItem.type, // content.type ist application, leck eier
+            authorId: oldItem.authorId,
             alt: content.altText ?? oldItem.alt,
             topics: topics,
         },
