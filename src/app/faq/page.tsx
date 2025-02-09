@@ -1,10 +1,22 @@
+import DDLMarkdown from '@/components/DDLMarkdown';
+import fs from 'fs';
+import path from 'path';
 
 
-export default function material() {
+function datenschutz(){
+
+    const filePath = path.join(process.cwd(), 'public/data/faq.md');
+    let markdownContent: string;
+
+    try {
+        markdownContent = fs.readFileSync(filePath, 'utf-8');
+    } catch (error) {
+        console.error('Error reading Markdown file:', error);
+      markdownContent = 'Error loading Datenschutz.'; // Provide a default value
+    }
     return (
-		<main className="w-full h-full text-center p-10 font-bold text-2xl">
-				<p>Diese Seite ist noch im Aufbau. Sendet uns Gr&uuml;nde Die Linke zu w&auml;hlen!</p>
-				<p>Sendet uns gern was zu! Ideen, Anregungen, Fragen an eric.stehr@dielinke-lsa.de</p>
-		</main>
-    )
-}
+    <DDLMarkdown markdown={markdownContent} />
+    );
+};
+
+export default datenschutz;
