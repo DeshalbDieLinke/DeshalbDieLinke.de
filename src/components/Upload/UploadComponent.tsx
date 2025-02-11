@@ -60,6 +60,7 @@ export default function UploadComponent() {
         fileInputRef.current.click()
     }
     
+    // DEPRIECATED
     function handleSubmit(e: any) { 
         e.preventDefault()
         const form = e.target 
@@ -109,6 +110,10 @@ export default function UploadComponent() {
                                 </div>}
                             <div className="w-full flex justify-between py-2">
                                 <Topics SelectedTopicsCallback={setSelectedTops}/>
+                                <div className="flex flex-col w-full hidden">
+                                    <label htmlFor="topics" className="text-md font-bold">Topics, mit kommata getrennt</label>
+                                    <input readOnly className="p-2 " type="text" name="topics" id="topics" placeholder="Topics" value={selectedTops}/>
+                                </div>
                                 <div className="flex flex-col items-center w-8">
                                     <label className="text-sm font-bold" htmlFor="official">Official</label>
                                     <input name="official" id="official" type="checkbox"
