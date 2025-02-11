@@ -82,7 +82,7 @@ export default function UploadComponent() {
 
     useEffect(() => {
         if (formState.status === 200 || formState.status === 201) {
-            showError(formState.message + "success", "success")
+            showError(formState.message, "success")
         } else if ( formState.status != 0){
             showError("Upload failed: " + formState.message, "error")
         }
