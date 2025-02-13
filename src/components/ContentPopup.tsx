@@ -1,13 +1,17 @@
-
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* esling-disable @typescript-eslint/no-unused-vars */
 
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import {ContentType, type ContentItem} from "../types/ContentItem";
 import {useEffect, useState} from "react";
+import { motion } from "framer-motion";
+import { getCachedItemData } from "@/lib/itemCache";
+import Image from "next/image";
 
 export default function ContentPopup(props: {item: ContentItem, deleteCallback: (_: any) => void}) { 
+    const [url, setUrl] = useState<string | null>(null);
+    const { item } = props;
+    
     const del = () => {
         props.deleteCallback(null);
     };
@@ -15,22 +19,32 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
     
     const [canEdit, setCanEdit] = useState(false);
     const { userId } = useAuth();
-
-
-
+    
+    useEffect(() => {
+        getCachedItemData(item.id, item.type).then(setUrl);
+    }, [item]);
 
     useEffect(() => {
         setCanEdit(userId === props.item.autherID);
-    }, []);
+    }, [userId, props.item.autherID]);
 
     useEffect(() => {
         console.log("Can edit: " + canEdit);
     }, [canEdit]);
 
-    return <div className=" backdrop-blur-sm bg-gray-500/50 z-99 h-screen w-screen fixed top-0 left-0"> 
-
-        <div id="default-modal" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
-        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex">
+    return <motion.div className=" backdrop-blur-sm bg-gray-500/50 z-99 h-screen w-screen fixed top-0 left-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+    > 
+        <motion.div id="default-modal" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        >
         <div className="relative p-4 w-full max-w-2xl max-h-full">
         <div className="relative bg-white rounded-lg shadow bg-frey-300">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
@@ -44,12 +58,12 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
                     <span className="sr-only">Close modal</span>
                 </button>
             </div>
-            <div className="p-4 md:p-5 space-y-4  rounded-md">
-            {props.item.type == ContentType.Video && <video src={props.item.url} controls />}
+            <div className="p-4 md:p-5 space-y-4  rounded-md flex justify-center items-center">
+            {props.item.type == ContentType.Video && <video src={url ?? props.item.url} controls />}
             {props.item.type == ContentType.Text && <p>{props.item.description}</p>}
-            {props.item.type == ContentType.Image && <img src={props.item.url} />}
-            {props.item.type == ContentType.Audio && <audio src={props.item.url} controls />}
-            {props.item.type == ContentType.PDF && <embed src={props.item.url} type="application/pdf" />}
+            {props.item.type == ContentType.Image && <Image src={url ?? props.item.url ?? ""} alt={props.item.altText ?? ""} width={1080} height={100} />}
+            {props.item.type == ContentType.Audio && <audio src={url ?? props.item.url} controls />}
+            {props.item.type == ContentType.PDF && <embed src={url ?? props.item.url} type="application/pdf" />}
             </div>
             <div className="flex justify-around items-center w-ful p-2 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <a download href={props.item.url} className="visited:text-white hover:[&>*]:text-black bg-[var(--primary)] hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
@@ -60,7 +74,7 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
                 </SignedIn>
                 <button onClick={ () => {
                     try {
-                        shareFile(props.item);
+                        shareFile(url ?? props.item.url ?? "", props.item);
                     }
                     catch (e) {
                         alert("Fehler beim Teilen: " + e);
@@ -69,35 +83,37 @@ export default function ContentPopup(props: {item: ContentItem, deleteCallback: 
             </div>
         </div>
     </div>
-</div>
-</div>
+</motion.div>
+</motion.div>
 }
 
-async function shareFile(item: ContentItem) {
+async function shareFile(url: string, item: ContentItem) {
     try {
-      // Fetch the file from the server
-      const response = await fetch(item.url!); // Replace with your server file path
-    if (!response.ok) throw new Error('Failed to fetch file');
+        if (!url) throw new Error('No URL available');
 
-      // Convert the response to a Blob
-    const blob = await response.blob();
-    const filename = item.url!.split("/").pop() ?? "sharepic.png";
-      // Create a File object
-    const file = new File([blob], filename, { type: blob.type });
-
-      // Check if navigator.share is supported
-    if (navigator.share && navigator.canShare({ files: [file] })) {
-        // Use navigator.share
-        await navigator.share({
-        title: file.name,
-        text: '#DeshalbDieLinke',
-        files: [file],
-        });
-        console.log('File shared successfully!');
-    } else {
-        alert('Sharing not supported or file type not shareable.');
-    }
+        // Create a download link as fallback
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = item.title ?? 'shared-content';
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: item.title ?? 'Shared Content',
+                    text: item.description ?? '#DeshalbDieLinke',
+                    url: url
+                });
+            } catch (error) {
+                // Fallback to download if sharing fails
+                console.error('Fehler beim Teilen:', error);
+                a.click();
+            }
+        } else {
+            // Fallback for browsers without share API
+            a.click();
+        }
     } catch (error) {
-        alert('Error sharing file:' + error);
+        console.error('Share failed:', error);
+        alert('Fehler beim Teilen: ' + error);
     }
 }

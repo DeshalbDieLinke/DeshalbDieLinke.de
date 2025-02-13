@@ -78,7 +78,7 @@ export default function Banner() {
         <p className='text-white'>Organisiert durch ehrenamtliche Basis-Mitglieder. Hier findet ihr eine breite Auswahl An Sharepics, die ihr gerne mit dem Hashtag #DeshalbDieLinke teilem könnt, um Werbung f&uuml;r eine starke linke Partei zu machen.</p> 
         <p className='text-white'> Am 23. Februar: <strong>#DeshalbDieLinke</strong></p>
         <div className='size-auto content-center self-center'>
-            <div className='flex flex-wrap  justify-evenly '>
+            <div className='flex flex-wrap items-center gap-1 '>
                 <a download href="https://ddl.fra1.cdn.digitaloceanspaces.com/DDL_Logos_und_Vorlagen.zip" className="btn border-none my-1 bg-white ">
                     <p className="translate-y-2">Logos & Vorlagen herunterladen</p></a>
                 <a href="/register" className="btn border-none bg-white my-2">

@@ -7,6 +7,7 @@ import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
 import ItemComponent from "./ItemComponent/ItemComponent.tsx";
 import Topics from "./Topics.tsx";
+import { prefetchItems } from "@/lib/itemCache.ts";
 
 export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
     const contentItems = props.contentItems;
@@ -136,27 +137,33 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
 
     const initialized = useRef(false);
 
-    useEffect(() => {
-        console.log("useEffect for hash topic triggered");
+    // useEffect(() => {
+    //     console.log("useEffect for hash topic triggered");
 
-        if (!initialized.current) {
-            const hashTopic = window.location.hash.slice(1);
-            if (hashTopic && allTopics.includes(hashTopic)) {
-                setSelectedTopics([hashTopic]);
-            }
-            initialized.current = true;
-        }
-    }, []);
+    //     if (!initialized.current) {
+    //         const hashTopic = window.location.hash.slice(1);
+    //         if (hashTopic && allTopics.includes(hashTopic)) {
+    //             setSelectedTopics([hashTopic]);
+    //         }
+    //         initialized.current = true;
+    //     }
+    // }, []);
+
+    useEffect(() => {
+        // Clear the cache when filters change
+        prefetchItems(paginatedItems);
+    }, [paginatedItems, selectedTopics, showVerifiedOnly]);
 
     return (
         <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full max-w-screen h-full z-50 p-1 md:p-8">
             {contentItems.length > 0 && <div className="flex flex-col sm:flex-row justify-around sm:gap-4 p-2">
                 <Topics selectedTopics={selectedTopics} SelectedTopicsCallback={setSelectedTopics} /> 
-                <div className="flex md:flex-col  items-center">
-                <label htmlFor="official">Nur Offizielle inhalte Anzeigen</label>
-                <input id="official" type="checkbox" placeholder="Offizell" className=" w-5 h-5 m-4 rounded-full " onChange={
-                    (e: any) => setShowVerifiedOnly(e.target.checked)
-                }/>
+                <div className="flex md:flex-col items-center tooltip tooltip-primary tooltip-left" data-tip="Offizielle Inhalte sind von der Bundespartei selbst erstellt und werden von uns nur zur Verfügung bereitgestellt.">
+                    <label htmlFor="official text-sm"> 
+                        <p className="text-sm">Nur Offizielle Inhalte</p>   </label> 
+                    <input id="official" type="checkbox" placeholder="Offizell" className=" w-5 h-5 mx-4 md:mx-0 rounded-full " onChange={
+                        (e: any) => setShowVerifiedOnly(e.target.checked)
+                    }/>
                 </div>
                 </div>
             }
@@ -181,6 +188,8 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
             </div>
             <PaginationControls />
             {Popup}
+            <p className="text-center text-sm">Wieso Brauchen Bilder so lange zum laden?</p>
+            
         </div>
     );
     

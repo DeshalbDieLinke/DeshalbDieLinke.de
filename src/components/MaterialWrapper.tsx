@@ -11,9 +11,9 @@ export default function MaterialWrapper() {
         gcTime: 1000 * 60 * 10,
         refetchOnWindowFocus: false
      });
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div><p>Error: {error.message}</p></div>;
-    if (!contentItems) return <div>No content found</div>;
+    if (isLoading) return <div className='flex justify-center items-center h-full p-8'><div className='loading loading-dots loading-lg'></div></div>;
+    if (error) return <div><p>Fehler beim Laden des Materials: {error.message}</p></div>;
+    if (!contentItems) return <div>Kein Material gefunden</div>;
     return (
         <ContentDisplay contentItems={contentItems} />
     );
