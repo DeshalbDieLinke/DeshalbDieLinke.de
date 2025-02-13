@@ -5,6 +5,8 @@ import {ErrorProvider} from "./Error/ErrorContext"
 import {ErrorBoundary} from "react-error-boundary"
 import ErrorAlert from "./Error/ErrorAlert"
 import { deDE } from "@clerk/localizations"
+import { AnimatePresence } from 'framer-motion'
+
 
 export default function Globals({ children, className }: { children: React.ReactNode, className?: string }) {
     
@@ -27,10 +29,11 @@ export default function Globals({ children, className }: { children: React.React
                     </div>
                 )}>
                     <ClerkProvider  dynamic publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"} localization={deDE} >
-                        <div className={className}>
-                            {children}
-                        </div>
-                    
+                        <AnimatePresence mode="wait">
+                            <div className={className}>
+                                {children}
+                            </div>
+                        </AnimatePresence>
                     </ClerkProvider>
                 </ErrorBoundary>
                 <ErrorAlert />
