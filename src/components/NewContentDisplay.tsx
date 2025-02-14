@@ -7,7 +7,6 @@ import ContentPopup from "./ContentPopup.tsx";
 import { useState, useEffect, useRef } from "react";
 import ItemComponent from "./ItemComponent/ItemComponent.tsx";
 import Topics from "./Topics.tsx";
-import { prefetchItems } from "@/lib/itemCache.ts";
 
 export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
     const contentItems = props.contentItems;
@@ -137,22 +136,19 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
 
     const initialized = useRef(false);
 
-    // useEffect(() => {
-    //     console.log("useEffect for hash topic triggered");
-
-    //     if (!initialized.current) {
-    //         const hashTopic = window.location.hash.slice(1);
-    //         if (hashTopic && allTopics.includes(hashTopic)) {
-    //             setSelectedTopics([hashTopic]);
-    //         }
-    //         initialized.current = true;
-    //     }
-    // }, []);
-
+    // this is needed. Idk why. Please fix.
     useEffect(() => {
-        // Clear the cache when filters change
-        prefetchItems(paginatedItems);
-    }, [paginatedItems, selectedTopics, showVerifiedOnly]);
+        console.log("useEffect for hash topic triggered");
+
+        if (!initialized.current) {
+            const hashTopic = window.location.hash.slice(1);
+            if (hashTopic && allTopics.includes(hashTopic)) {
+                setSelectedTopics([hashTopic]);
+            }
+            initialized.current = true;
+        }
+    }, []);
+
 
     return (
         <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full max-w-screen h-full z-50 p-1 md:p-8">
@@ -188,8 +184,6 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
             </div>
             <PaginationControls />
             {Popup}
-            <p className="text-center text-sm">Wieso Brauchen Bilder so lange zum laden?</p>
-            
         </div>
     );
     

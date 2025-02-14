@@ -3,14 +3,40 @@
 import { type ContentItem, ContentType } from "@/types/ContentItem";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getCachedItemData } from "@/lib/itemCache";
+import { BUCKET_CDN_ENDPOINT } from "../../../config";
 
 export default function ItemComponent({ item, clickCallback }: { item: ContentItem, clickCallback: (item: ContentItem) => void }) {
-    const [url, setUrl] = useState<string | null>(null);
+    const [url, setUrl] = useState<string>("");
 
+    // add a state for the url and display loading spinner while fetching the contents
+    const fetchContents = async () => {
+        const dir = `content/${item.type}s/${item.id}`;
+        const url = `https://ddl.fra1.cdn.digitaloceanspaces.com/?list-type=2&prefix=${encodeURIComponent(dir)}`;
+        
+        try {
+            // Gets a list of keys in the specified directory
+            //TODO cache this
+            const response = await fetch(url);
+            const xmlText = await response.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+            const keys = Array.from(xmlDoc.getElementsByTagName('Key'))
+                .map(key => key.textContent)
+                .filter(key => key !== null) as string[];
+            // Set the first key as the URL. Supports multiple files in the future.
+            setUrl(BUCKET_CDN_ENDPOINT + "/" + keys[0]);
+        } catch (err) {
+            console.log('Error:', err);
+        }
+    };
+    
     useEffect(() => {
-        getCachedItemData(item.id, item.type).then(setUrl)
-    }, [item])
+        fetchContents();
+    }, []);
+    // Update item url when it changes. ContentPopup requires this.
+    useEffect(() => {
+        item.url = url;
+    }, [url]);
 
     return (
         <button className={"relative contentItem rounded-md border border-black border-outset p-4 bg-white no-underline overflow-hidden"} 

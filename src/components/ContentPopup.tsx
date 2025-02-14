@@ -5,24 +5,21 @@ import { SignedIn, useAuth } from "@clerk/nextjs";
 import {ContentType, type ContentItem} from "../types/ContentItem";
 import {useEffect, useState} from "react";
 import { motion } from "framer-motion";
-import { getCachedItemData } from "@/lib/itemCache";
 import Image from "next/image";
 
 export default function ContentPopup(props: {item: ContentItem, deleteCallback: (_: any) => void}) { 
-    const [url, setUrl] = useState<string | null>(null);
-    const { item } = props;
-    
+   
     const del = () => {
         props.deleteCallback(null);
     };
+
+    const url = props.item.url;
 
     
     const [canEdit, setCanEdit] = useState(false);
     const { userId } = useAuth();
     
-    useEffect(() => {
-        getCachedItemData(item.id, item.type).then(setUrl);
-    }, [item]);
+
 
     useEffect(() => {
         setCanEdit(userId === props.item.autherID);
