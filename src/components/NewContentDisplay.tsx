@@ -55,6 +55,11 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
         setCurrentPage(1);
     };
 
+    const setTopics = (topics: string[]) => {
+        setSelectedTopics(topics);
+        setCurrentPage(1);
+    };
+
     const clearSelection = () => {
         setSelectedTopics([]);
         setShowVerifiedOnly(false);
@@ -132,28 +137,12 @@ export default function ContentDisplay(props: { contentItems: ContentItem[] }) {
             </div>
         );
     };
-    
-
-    const initialized = useRef(false);
-
-    // this is needed. Idk why. Please fix.
-    useEffect(() => {
-        console.log("useEffect for hash topic triggered");
-
-        if (!initialized.current) {
-            const hashTopic = window.location.hash.slice(1);
-            if (hashTopic && allTopics.includes(hashTopic)) {
-                setSelectedTopics([hashTopic]);
-            }
-            initialized.current = true;
-        }
-    }, []);
 
 
     return (
         <div id="ContentDisplay" className="ContentWrapper bg-gray-100 w-full max-w-screen h-full z-50 p-1 md:p-8">
             {contentItems.length > 0 && <div className="flex flex-col sm:flex-row justify-around sm:gap-4 p-2">
-                <Topics selectedTopics={selectedTopics} SelectedTopicsCallback={setSelectedTopics} /> 
+                <Topics selectedTopics={selectedTopics} SelectedTopicsCallback={setTopics} /> 
                 <div className="flex md:flex-col items-center tooltip tooltip-primary tooltip-left" data-tip="Offizielle Inhalte sind von der Bundespartei selbst erstellt und werden von uns nur zur Verfügung bereitgestellt.">
                     <label htmlFor="official text-sm"> 
                         <p className="text-sm">Nur Offizielle Inhalte</p>   </label> 
